@@ -18,4 +18,6 @@ public interface AnimationConstants {
 
     public int getAnimationHeight(int playerAction);
 
+    public int getAnimationSpeed();
+
 }

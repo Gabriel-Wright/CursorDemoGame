@@ -1,6 +1,9 @@
 package main;
 
+import entities.player.Player;
+import entities.player.PlayerConstants;
 import inputs.KeyHandler;
+import levels.LevelManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,32 +12,45 @@ public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
     //Unscaled pixel size of tiles, they have detail size of 32x32
-    final static int originalTileSize = 32; // 32x32 tile size
+    public final static int originalTileSize = 32; // 32x32 tile size
     //Scale tiles with monitors
-    final static int scale = 2;
-    final int FPS = 60;
-    final int UPS = 120;
-    public final static int tileSize = originalTileSize * scale; // 64x64
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    final static int scale = 3;
+    final static int FPS = 60;
+    public final static int UPS = 120;
+    public final static int TILE_SIZE = originalTileSize * scale; // 64x64
+    final static int maxScreenCol = 16;
+    final static int maxScreenRow = 12;
+    public final static int SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
+    public final static int SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
 
-    //Set player's default position
-    int playerX = 100;
-    int playerY = 100;
+
+    private Player player;
+    private PlayerConstants playerConstants;
+    private LevelManager levelManager;
 
     public GamePanel() {
         //Set size of window to preferred size
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         //Set background color to black
         this.setBackground(Color.black);
         this.setDoubleBuffered(true); //Can improve game rendering performance
         this.addKeyListener(keyH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
+        loadPlayerInfo();
+        loadLevelManager();
+    }
+
+    private void loadPlayerInfo() {
+        playerConstants = new PlayerConstants();
+        player = new Player(150, 150, playerConstants);
+    }
+
+    private void loadLevelManager() {
+        levelManager = new LevelManager();
+        levelManager.loadNewLevel("/tiles/testTiles.png","/levelMaps/testMap2.png");
     }
 
     /**
@@ -92,6 +108,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println("FPS: " + frames + "| UPS: " + updates);
+                System.out.println(player.getWorldX()+ "," + player.getWorldY()+"." + player.getScreenX() +"," +player.getScreenY());
                 frames = 0;
                 updates = 0;
             }
@@ -99,13 +116,13 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
+        player.update();
+        levelManager.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.WHITE);
-        g2.fillRect(playerX, playerY, tileSize, tileSize);
+        levelManager.draw(g,player.getWorldX(), player.getWorldY(), player.getScreenX(), player.getScreenY());
+        player.render(g);
     }
 }

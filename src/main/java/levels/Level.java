@@ -10,20 +10,19 @@ public class Level {
     private Tile[] levelTiles;
     private BufferedImage levelMap;
     private int[][] levelData;
-
+    private int levelWidth;
+    private int levelHeight;
     public Level(Tile[] levelTiles, String levelMapPath) {
         this.levelTiles = levelTiles;
         this.levelMap = LoadFiles.importImg(levelMapPath);
+        levelWidth = levelMap.getWidth();
+        levelHeight = levelMap.getHeight();
     }
 
     /**
      *
-     * @param x - dimension x of level map
-     * @param y - dimension y of level map
      */
     public void loadLevelData() {
-        int levelWidth = levelMap.getWidth();
-        int levelHeight = levelMap.getHeight();
         levelData = new int[levelWidth][levelHeight];
         for(int i=0; i<levelWidth; i++) {
             for(int j=0; j<levelHeight; j++) {
@@ -52,6 +51,14 @@ public class Level {
 
     public Tile[] getLevelTiles() {
         return levelTiles;
+    }
+
+    public int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public int getLevelHeight() {
+        return levelHeight;
     }
 
 }

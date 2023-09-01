@@ -2,54 +2,84 @@ package entities.player;
 
 import entities.constants.EntityConstants;
 
+import static main.GamePanel.TILE_SIZE;
+import static main.GamePanel.UPS;
 public class PlayerConstants extends EntityConstants {
+
+    public static final int IDLE = 0;
+    public static final int WALKING = 1;
+
+    @Override
+    public float getSpeed() {
+        return 20.f;
+    }
+
     @Override
     public String getAnimationPath() {
-        return null;
+        return "/entities/playerIdleMove.png";
     }
 
     @Override
     public int[] getAnimationFlags() {
-        return new int[0];
+        int[] animationFlags = {IDLE, WALKING};
+        return animationFlags;
     }
 
     @Override
     public int getNumAnimationFrames(int playerAction) {
+        switch(playerAction) {
+            case IDLE:
+                return 2;
+            case WALKING:
+                return 3;
+        }
         return 0;
     }
 
     @Override
     public int getMaxNumAnimationFrames() {
-        return 0;
+        return 3;
     }
 
     @Override
     public int getAnimationStartXDimension(int playerAction) {
-        return 0;
+        return 1;
     }
 
     @Override
     public int getAnimationStartYDimension(int playerAction) {
-        return 0;
+        switch(playerAction){
+            case IDLE:
+                return 1;
+            case WALKING:
+                return 66;
+        }
+        return 1;
     }
 
     @Override
     public int getAnimationWidth(int playerAction) {
-        return 0;
+        return 32;
     }
 
     @Override
     public int getAnimationHeight(int playerAction) {
-        return 0;
+        return 64;
+    }
+
+    @Override
+    public int getAnimationSpeed() {
+        return UPS/3;
     }
 
     @Override
     public int getEntityWidth() {
-        return 0;
+        return TILE_SIZE;
     }
 
     @Override
     public int getEntityHeight() {
-        return 0;
+        return TILE_SIZE*2;
     }
+
 }
