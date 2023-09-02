@@ -12,20 +12,22 @@ public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
     //Unscaled pixel size of tiles, they have detail size of 32x32
-    public final static int originalTileSize = 32; // 32x32 tile size
+    public final static int originalTileSize = 16; // 32x32 tile size
     //Scale tiles with monitors
     final static int scale = 3;
     final static int FPS = 60;
     public final static int UPS = 120;
     public final static int TILE_SIZE = originalTileSize * scale; // 64x64
-    final static int maxScreenCol = 16;
-    final static int maxScreenRow = 12;
+    final static int maxScreenCol = 30;
+    final static int maxScreenRow = 20;
     public final static int SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
     public final static int SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
 
+    private int startX = 35*TILE_SIZE;
+    private int startY = 29*TILE_SIZE;
 
     private Player player;
     private PlayerConstants playerConstants;
@@ -39,13 +41,13 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); //Can improve game rendering performance
         this.addKeyListener(keyH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
-        loadPlayerInfo();
         loadLevelManager();
+        loadPlayerInfo();
     }
 
     private void loadPlayerInfo() {
         playerConstants = new PlayerConstants();
-        player = new Player(150, 150, playerConstants);
+        player = new Player(startX, startY, playerConstants,levelManager.getLevel());
     }
 
     private void loadLevelManager() {
@@ -117,6 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         player.update();
+        //CollisionChecker.checkCornerCollision(player,levelManager.getLevel());
         levelManager.update();
     }
 

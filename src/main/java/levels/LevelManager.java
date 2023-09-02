@@ -59,4 +59,7 @@ public class LevelManager {
 
     }
 
+    public Level getLevel() {
+        return level;
+    }
 }

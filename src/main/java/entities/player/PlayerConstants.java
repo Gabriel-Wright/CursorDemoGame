@@ -10,8 +10,8 @@ public class PlayerConstants extends EntityConstants {
     public static final int WALKING = 1;
 
     @Override
-    public float getSpeed() {
-        return 20.f;
+    public int getSpeed() {
+        return 5;
     }
 
     @Override
@@ -80,6 +80,26 @@ public class PlayerConstants extends EntityConstants {
     @Override
     public int getEntityHeight() {
         return TILE_SIZE*2;
+    }
+
+    @Override
+    public int getHitboxXoffset() {
+        return 10;
+    }
+
+    @Override
+    public int getHitboxYoffset() {
+        return 20;
+    }
+
+    @Override
+    public int getHitboxWidth() {
+        return TILE_SIZE/2;
+    }
+
+    @Override
+    public int getHitboxHeight() {
+        return TILE_SIZE;
     }
 
 }

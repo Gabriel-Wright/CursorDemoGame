@@ -4,5 +4,5 @@ package entities.constants;
 //into an Entities object.
 public abstract class EntityConstants implements AnimationConstants, HitboxConstants{
 
-    public abstract float getSpeed();
+    public abstract int getSpeed();
 }

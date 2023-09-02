@@ -5,6 +5,7 @@ import utils.LoadFiles;
 
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+
 public class Level {
 
     private Tile[] levelTiles;
@@ -12,6 +13,7 @@ public class Level {
     private int[][] levelData;
     private int levelWidth;
     private int levelHeight;
+
     public Level(Tile[] levelTiles, String levelMapPath) {
         this.levelTiles = levelTiles;
         this.levelMap = LoadFiles.importImg(levelMapPath);
@@ -24,13 +26,13 @@ public class Level {
      */
     public void loadLevelData() {
         levelData = new int[levelWidth][levelHeight];
-        for(int i=0; i<levelWidth; i++) {
-            for(int j=0; j<levelHeight; j++) {
-                Color color = new Color(levelMap.getRGB(i,j));
+        for (int i = 0; i < levelWidth; i++) {
+            for (int j = 0; j < levelHeight; j++) {
+                Color color = new Color(levelMap.getRGB(i, j));
                 int tileIndex = color.getRed();
                 //If invalid tileIndex - then set the tile to failed tile
-                if(tileIndex > levelTiles.length) {
-                    tileIndex = levelTiles.length-1;
+                if (tileIndex > levelTiles.length) {
+                    tileIndex = levelTiles.length - 1;
                 }
                 levelData[i][j] = tileIndex;
             }
@@ -45,6 +47,7 @@ public class Level {
         return levelData[x][y];
     }
 
+    //Have to update to handle out of map tiles
     public Tile getTile(int x, int y) {
         return levelTiles[levelData[x][y]];
     }
@@ -61,4 +64,7 @@ public class Level {
         return levelHeight;
     }
 
+    public boolean isSolidTile(int x, int y) {
+        return getTile(x, y).isSolid();
+    }
 }
