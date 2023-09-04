@@ -10,8 +10,8 @@ public class PlayerConstants extends EntityConstants {
     public static final int WALKING = 1;
 
     @Override
-    public int getSpeed() {
-        return 5;
+    public float getSpeed() {
+        return 5.0f;
     }
 
     @Override

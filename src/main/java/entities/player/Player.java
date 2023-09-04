@@ -12,10 +12,6 @@ import static main.GamePanel.TILE_SIZE;
 
 public class Player extends Entity {
 
-    //Position that entity is placed on the screen.
-    private int screenX = SCREEN_WIDTH / 2 - (TILE_SIZE / 2);
-    private int screenY = SCREEN_HEIGHT / 2 - (TILE_SIZE / 2);
-
     public Player(int x, int y, PlayerConstants playerConstants, Level level) {
         super(x, y, playerConstants, level);
     }
@@ -59,19 +55,13 @@ public class Player extends Entity {
         }
     }
 
-    public int getScreenX() {
-        return screenX;
-    }
-
-    public int getScreenY() {
-        return screenY;
-    }
-
     @Override
     public void render(Graphics g) {
-        animations.drawImage(g, action, aniIndex, screenX, screenY, entityWidth, entityHeight);
+        int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
+        int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
+        animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);
         g.setColor(Color.WHITE);
-        g.fillRect(screenX + bounds.x, screenY + bounds.y, bounds.width, bounds.height);
+        g.fillRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);
     }
 
 }

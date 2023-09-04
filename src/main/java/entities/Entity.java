@@ -19,20 +19,20 @@ public abstract class Entity {
     protected EntityConstants entityConstants;
 
     //Entity Position related variables
-    protected int worldX, worldY;
+    protected float x, y;
     protected int newWorldX, newWorldY;
 
-    protected int speed;
-    protected int xMove;
-    protected int yMove;
+    protected float speed;
+    protected float xMove;
+    protected float yMove;
     protected boolean moving = false;
     protected int action;
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
 
     public Entity(int x, int y, EntityConstants entityConstants, Level level) {
         this.level = level;
-        this.worldX = x;
-        this.worldY = y;
+        this.x = x;
+        this.y = y;
         this.entityConstants = entityConstants;
         bounds = new Rectangle(0, 0, entityWidth, entityHeight);
         loadClassValuesFromConstants();
@@ -61,40 +61,41 @@ public abstract class Entity {
     protected void move() {
         moveX();
         moveY();
+        level.getLevelCamera().centerOnPos(x, y);
     }
 
     private void moveX() {
         if (xMove > 0) {//Moving right
-            int tx = (worldX + xMove + bounds.x + bounds.width) / TILE_SIZE;
-            if (!level.isSolidTile(tx, (worldY + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (worldY + bounds.y + bounds.height) / TILE_SIZE)) {
-                worldX += xMove;
+            int tx = (int)((x + xMove + bounds.x + bounds.width) / TILE_SIZE);
+            if (!level.isSolidTile(tx, (int)(y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int)(y + bounds.y + bounds.height) / TILE_SIZE)) {
+                x += xMove;
             } else {
-                worldX = tx *TILE_SIZE - bounds.x - bounds.width - 1;
+                x = tx *TILE_SIZE - bounds.x - bounds.width - 1;
             }
         } else if (xMove < 0) {
-            int tx = (worldX + xMove + bounds.x) / TILE_SIZE;
-            if (!level.isSolidTile(tx, (worldY + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (worldY + bounds.y + bounds.height) / TILE_SIZE)) {
-                worldX += xMove;
+            int tx = (int) (x + xMove + bounds.x) / TILE_SIZE;
+            if (!level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
+                x += xMove;
             } else {
-                worldX = tx * TILE_SIZE +TILE_SIZE - bounds.x;
+                x = tx * TILE_SIZE +TILE_SIZE - bounds.x;
             }
         }
     }
 
     private void moveY() {
         if (yMove < 0) { //up
-            int ty = (worldY + yMove + bounds.y) / TILE_SIZE;
-            if (!level.isSolidTile((worldX + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((worldX + bounds.x + bounds.width) / TILE_SIZE, ty)) {
-                worldY += yMove;
+            int ty = (int) (y + yMove + bounds.y) / TILE_SIZE;
+            if (!level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
+                y += yMove;
             } else {
-                worldY = ty * TILE_SIZE+ TILE_SIZE - bounds.y;
+                y = ty * TILE_SIZE+ TILE_SIZE - bounds.y;
             }
         } else if (yMove > 0) { // down
-            int ty = (worldY + yMove + bounds.y + bounds.height) / TILE_SIZE;
-            if (!level.isSolidTile((worldX + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((worldX + bounds.x + bounds.width) / TILE_SIZE, ty)) {
-                worldY += yMove;
+            int ty = (int) (y + yMove + bounds.y + bounds.height) / TILE_SIZE;
+            if (!level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
+                y += yMove;
             } else {
-                worldY = ty * TILE_SIZE -bounds.y -bounds.height - 1;
+                y = ty * TILE_SIZE -bounds.y -bounds.height - 1;
             }
 
         }
@@ -140,15 +141,15 @@ public abstract class Entity {
     }
 
     public void render(Graphics g) {
-        animations.drawImage(g, action, aniIndex, (int) worldX, (int) worldY, entityWidth, entityHeight);
+        animations.drawImage(g, action, aniIndex, (int) x, (int) y, entityWidth, entityHeight);
     }
 
     public float getWorldX() {
-        return worldX;
+        return x;
     }
 
-    public float getWorldY() {
-        return worldY;
+    public float getY() {
+        return y;
     }
 
     public int getNewWorldX() {
@@ -160,10 +161,10 @@ public abstract class Entity {
     }
 
     public void setWorldX(int worldX) {
-        this.worldX = worldX;
+        this.x = worldX;
     }
 
-    public void setWorldY(int worldY) {
-        this.worldY = worldY;
+    public void setY(int y) {
+        this.y = y;
     }
 }

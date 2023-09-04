@@ -13,12 +13,15 @@ public class Level {
     private int[][] levelData;
     private int levelWidth;
     private int levelHeight;
+    private LevelCamera levelCamera;
+
 
     public Level(Tile[] levelTiles, String levelMapPath) {
         this.levelTiles = levelTiles;
         this.levelMap = LoadFiles.importImg(levelMapPath);
         levelWidth = levelMap.getWidth();
         levelHeight = levelMap.getHeight();
+        levelCamera = new LevelCamera(0, 0, levelWidth, levelHeight);
     }
 
     /**
@@ -62,6 +65,11 @@ public class Level {
 
     public int getLevelHeight() {
         return levelHeight;
+    }
+
+
+    public LevelCamera getLevelCamera() {
+        return levelCamera;
     }
 
     public boolean isSolidTile(int x, int y) {

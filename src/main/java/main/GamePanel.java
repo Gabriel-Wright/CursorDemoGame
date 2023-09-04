@@ -4,6 +4,8 @@ import entities.player.Player;
 import entities.player.PlayerConstants;
 import inputs.KeyHandler;
 import levels.LevelManager;
+import states.GameState;
+import states.State;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,14 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-
-    private int startX = 35*TILE_SIZE;
-    private int startY = 29*TILE_SIZE;
-
-    private Player player;
-    private PlayerConstants playerConstants;
-    private LevelManager levelManager;
-
+    private GameState gameState;
     public GamePanel() {
         //Set size of window to preferred size
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -41,19 +36,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); //Can improve game rendering performance
         this.addKeyListener(keyH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
-        loadLevelManager();
-        loadPlayerInfo();
+        gameState = new GameState();
+        State.setState(gameState);
+        gameState.loadTestGame();
     }
 
-    private void loadPlayerInfo() {
-        playerConstants = new PlayerConstants();
-        player = new Player(startX, startY, playerConstants,levelManager.getLevel());
-    }
-
-    private void loadLevelManager() {
-        levelManager = new LevelManager();
-        levelManager.loadNewLevel("/tiles/testTiles.png","/levelMaps/testMap2.png");
-    }
 
     /**
      * Initialises startGameThread which creates begins run method, which implements our game loop
@@ -110,7 +97,6 @@ public class GamePanel extends JPanel implements Runnable {
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println("FPS: " + frames + "| UPS: " + updates);
-                System.out.println(player.getWorldX()+ "," + player.getWorldY()+"." + player.getScreenX() +"," +player.getScreenY());
                 frames = 0;
                 updates = 0;
             }
@@ -118,14 +104,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
-        //CollisionChecker.checkCornerCollision(player,levelManager.getLevel());
-        levelManager.update();
+        gameState.update();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        levelManager.draw(g,player.getWorldX(), player.getWorldY(), player.getScreenX(), player.getScreenY());
-        player.render(g);
+        gameState.render(g);
     }
 }

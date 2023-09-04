@@ -5,7 +5,7 @@ import tile.TileManager;
 
 import java.awt.*;
 
-import static main.GamePanel.TILE_SIZE;
+import static main.GamePanel.*;
 
 public class LevelManager {
 
@@ -27,30 +27,21 @@ public class LevelManager {
         level.loadLevelData();
     }
 
-    public void draw(Graphics g, float playerWorldX, float playerWorldY, float playerScreenX, float playerScreenY) {
-        int maxWorldRow = level.getLevelHeight();
-        int maxWorldCol = level.getLevelWidth();
+    public void draw(Graphics g) {
+        int levelHeight = level.getLevelHeight();
+        int levelWidth = level.getLevelWidth();
 
-        int worldRow = 0;
-        int worldCol = 0;
-
-        while (worldCol < maxWorldCol && worldRow < maxWorldRow) {
-            int worldX = worldCol * TILE_SIZE;
-            int worldY = worldRow * TILE_SIZE;
-            int screenX = (int) (worldX - playerWorldX + playerScreenX);
-            int screenY = (int) (worldY - playerWorldY + playerScreenY);
-
-            //Not rendering all of map outside of view
-            if (screenX + TILE_SIZE > 0 && screenX < GamePanel.SCREEN_WIDTH &&
-                    screenY + TILE_SIZE > 0 && screenY < GamePanel.SCREEN_HEIGHT) {
-                int tileIndex = level.getTileIndex(worldCol, worldRow);
-                g.drawImage(level.getLevelTiles()[tileIndex].getTileImage(), screenX, screenY, TILE_SIZE, TILE_SIZE, null);
-            }
-            worldCol++;
-
-            if(worldCol == maxWorldCol) {
-                worldCol = 0;
-                worldRow++;
+        int xStart = (int) Math.max(0, level.getLevelCamera().getxOffset() / TILE_SIZE);
+        int yStart = (int) Math.max(0, level.getLevelCamera().getyOffset() / TILE_SIZE);
+        int xEnd = (int) Math.min(levelWidth, (level.getLevelCamera().getxOffset() + level.getLevelCamera().getxOffset() + SCREEN_WIDTH)/TILE_SIZE +1);
+        int yEnd = (int) Math.min(levelHeight, (level.getLevelCamera().getyOffset() + SCREEN_HEIGHT)/TILE_SIZE +1);
+        for (int y = yStart; y < yEnd; y++) {
+            for (int x = xStart; x < xEnd; x++) {
+                int tileIndex = level.getTileIndex(x, y);
+                g.drawImage(level.getLevelTiles()[tileIndex].getTileImage(),
+                        (int) (x * TILE_SIZE - level.getLevelCamera().getxOffset()),
+                        (int) (y * TILE_SIZE - level.getLevelCamera().getyOffset()),
+                        TILE_SIZE, TILE_SIZE, null);
             }
         }
     }
