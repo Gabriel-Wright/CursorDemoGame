@@ -10,8 +10,8 @@ import static main.GamePanel.TILE_SIZE;
 
 public class GameState extends State{
 
-    private int startX = 35*TILE_SIZE;
-    private int startY = 29*TILE_SIZE;
+    private int startX = 23*TILE_SIZE;
+    private int startY = 40*TILE_SIZE;
 
     private Player player;
     private PlayerConstants playerConstants;
@@ -28,7 +28,7 @@ public class GameState extends State{
 
     private void loadLevelManager() {
         levelManager = new LevelManager();
-        levelManager.loadNewLevel("/tiles/testTiles.png","/levelMaps/testMap2.png");
+        levelManager.loadNewLevel("/tiles/testTiles.png","/objects/testObjects.png","/levelMaps/testMap2.png");
     }
 
     @Override

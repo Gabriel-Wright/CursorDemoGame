@@ -1,4 +1,11 @@
-//package utils;
+package utils;
+
+import entities.Entity;
+
+import java.awt.*;
+
+import static main.GamePanel.TILE_SIZE;
+
 //
 //import entities.Entity;
 //
@@ -8,8 +15,25 @@
 //
 //import java.awt.*;
 //
-//public class FindOvelapTiles {
-//
+public class FindOvelapTiles {
+
+    public static Point[] FindOverlapTiles(Rectangle collisionBox) {
+        int startX = collisionBox.x / TILE_SIZE;
+        int startY = collisionBox.y / TILE_SIZE;
+        int endX = (collisionBox.x + collisionBox.width) / TILE_SIZE;
+        int endY = (collisionBox.y + collisionBox.height) / TILE_SIZE;
+
+        int numTiles = (endX - startX + 1) * (endY - startY + 1);
+        Point[] tileIndexes = new Point[numTiles];
+        int i = 0;
+        for (int x = startX; x <= endX; x++) {
+            for (int y = startY; y <= endY; y++) {
+                tileIndexes[i] = new Point(x, y);
+                i++;
+            }
+        }
+        return tileIndexes;
+    }
 //    public static Point[] FindOverlapTilesHorizontal(Entity entity) {
 //        if(leftPressed) {
 //            return FindOverlapTilesLeftIndexes(entity);
@@ -93,8 +117,6 @@
 //        }
 //
 //        return overlapIndexes;
-//
-//    }
-//}
+}
 //
 //

@@ -1,6 +1,8 @@
 package levels;
 
 import main.GamePanel;
+import object.ObjectManager;
+import object.SuperObject;
 import tile.TileManager;
 
 import java.awt.*;
@@ -11,9 +13,11 @@ public class LevelManager {
 
     private Level level;
     private TileManager tileManager;
+    private ObjectManager objectManager;
 
-    public void loadNewLevel(String tileSpritePath, String levelMapPath) {
+    public void loadNewLevel(String tileSpritePath, String objectSpritePath, String levelMapPath) {
         loadTileManager(tileSpritePath);
+        loadObjectManager(objectSpritePath);
         loadLevel(levelMapPath);
     }
 
@@ -22,8 +26,12 @@ public class LevelManager {
         tileManager.loadTiles();
     }
 
+    private void loadObjectManager(String objectSpritePath) {
+        objectManager = new ObjectManager(objectSpritePath);
+        objectManager.loadObjects();
+    }
     private void loadLevel(String levelMapPath) {
-        level = new Level(tileManager.getTiles(), levelMapPath);
+        level = new Level(tileManager.getTiles(), objectManager.getObjects(), levelMapPath);
         level.loadLevelData();
     }
 
@@ -35,6 +43,7 @@ public class LevelManager {
         int yStart = (int) Math.max(0, level.getLevelCamera().getyOffset() / TILE_SIZE);
         int xEnd = (int) Math.min(levelWidth, (level.getLevelCamera().getxOffset() + level.getLevelCamera().getxOffset() + SCREEN_WIDTH)/TILE_SIZE +1);
         int yEnd = (int) Math.min(levelHeight, (level.getLevelCamera().getyOffset() + SCREEN_HEIGHT)/TILE_SIZE +1);
+        //Level tiles
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
                 int tileIndex = level.getTileIndex(x, y);
@@ -42,6 +51,12 @@ public class LevelManager {
                         (int) (x * TILE_SIZE - level.getLevelCamera().getxOffset()),
                         (int) (y * TILE_SIZE - level.getLevelCamera().getyOffset()),
                         TILE_SIZE, TILE_SIZE, null);
+                if(level.getLevelObjects()[x][y] !=null) {
+                    g.drawImage(level.getLevelObjects()[x][y].getObjectImage(),
+                            (int)(level.getLevelObjects()[x][y].getX()*TILE_SIZE-level.getLevelCamera().getxOffset()),
+                            (int)(level.getLevelObjects()[x][y].getY()*TILE_SIZE-level.getLevelCamera().getyOffset()),
+                            TILE_SIZE,TILE_SIZE,null);
+                }
             }
         }
     }

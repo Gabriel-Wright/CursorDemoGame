@@ -3,10 +3,12 @@ package entities;
 import animations.EntityAnimations;
 import entities.constants.EntityConstants;
 import levels.Level;
+import object.SuperObject;
 
 import java.awt.*;
 
 import static main.GamePanel.TILE_SIZE;
+import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public abstract class Entity {
 
@@ -66,18 +68,18 @@ public abstract class Entity {
 
     private void moveX() {
         if (xMove > 0) {//Moving right
-            int tx = (int)((x + xMove + bounds.x + bounds.width) / TILE_SIZE);
-            if (!level.isSolidTile(tx, (int)(y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int)(y + bounds.y + bounds.height) / TILE_SIZE)) {
+            int tx = (int) ((x + xMove + bounds.x + bounds.width) / TILE_SIZE);
+            if (!level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
                 x += xMove;
             } else {
-                x = tx *TILE_SIZE - bounds.x - bounds.width - 1;
+                x = tx * TILE_SIZE - bounds.x - bounds.width - 1;
             }
         } else if (xMove < 0) {
             int tx = (int) (x + xMove + bounds.x) / TILE_SIZE;
             if (!level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
                 x += xMove;
             } else {
-                x = tx * TILE_SIZE +TILE_SIZE - bounds.x;
+                x = tx * TILE_SIZE + TILE_SIZE - bounds.x;
             }
         }
     }
@@ -88,18 +90,29 @@ public abstract class Entity {
             if (!level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
                 y += yMove;
             } else {
-                y = ty * TILE_SIZE+ TILE_SIZE - bounds.y;
+                y = ty * TILE_SIZE + TILE_SIZE - bounds.y;
             }
         } else if (yMove > 0) { // down
             int ty = (int) (y + yMove + bounds.y + bounds.height) / TILE_SIZE;
             if (!level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
                 y += yMove;
             } else {
-                y = ty * TILE_SIZE -bounds.y -bounds.height - 1;
+                y = ty * TILE_SIZE - bounds.y - bounds.height - 1;
             }
 
         }
     }
+
+    //This should be improved
+    protected void checkObjectCollide() {
+        Point[] overlapTiles = FindOverlapTiles(getCollisionBounds(0, 0));
+        for (Point objectIndexes : overlapTiles) {
+            if (level.getLevelObjects()[objectIndexes.x][objectIndexes.y] != null) {
+                level.getLevelObjects()[objectIndexes.x][objectIndexes.y].CollideWithEntity(this, level);
+            }
+        }
+    }
+
 
     public void update() {
         updatePos();
@@ -142,6 +155,10 @@ public abstract class Entity {
 
     public void render(Graphics g) {
         animations.drawImage(g, action, aniIndex, (int) x, (int) y, entityWidth, entityHeight);
+    }
+
+    public Rectangle getCollisionBounds(float xOffset, float yOffset) {
+        return new Rectangle((int) +(x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
     }
 
     public float getWorldX() {

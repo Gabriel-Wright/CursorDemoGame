@@ -9,6 +9,7 @@ import static inputs.KeyHandler.*;
 import static main.GamePanel.SCREEN_WIDTH;
 import static main.GamePanel.SCREEN_HEIGHT;
 import static main.GamePanel.TILE_SIZE;
+import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class Player extends Entity {
 
@@ -39,8 +40,18 @@ public class Player extends Entity {
         }
 
         move();
+        checkObjectCollide();
     }
 
+    @Override
+    protected void checkObjectCollide() {
+        Point[] overlapTiles = FindOverlapTiles(getCollisionBounds(0, 0));
+        for (Point objectIndexes : overlapTiles) {
+            if (level.getLevelObjects()[objectIndexes.x][objectIndexes.y] != null) {
+                level.getLevelObjects()[objectIndexes.x][objectIndexes.y].CollideWithEntity(this, level);
+            }
+        }
+    }
 
     @Override
     //May need to make some changes to this e.g. if changed action make sure that animationIndex is reset to 0, or something like that.
