@@ -3,7 +3,6 @@ package entities;
 import animations.EntityAnimations;
 import entities.constants.EntityConstants;
 import levels.Level;
-import object.SuperObject;
 
 import java.awt.*;
 
@@ -161,7 +160,7 @@ public abstract class Entity {
         return new Rectangle((int) +(x + bounds.x + xOffset), (int) (y + bounds.y + yOffset), bounds.width, bounds.height);
     }
 
-    public float getWorldX() {
+    public float getX() {
         return x;
     }
 
@@ -169,19 +168,10 @@ public abstract class Entity {
         return y;
     }
 
-    public int getNewWorldX() {
-        return newWorldX;
+    public void setX(float x) {
+        this. x = x;
     }
-
-    public int getNewWorldY() {
-        return newWorldY;
-    }
-
-    public void setWorldX(int worldX) {
-        this.x = worldX;
-    }
-
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 }

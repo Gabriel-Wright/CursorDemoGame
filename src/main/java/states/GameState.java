@@ -3,6 +3,7 @@ package states;
 import entities.player.Player;
 import entities.player.PlayerConstants;
 import levels.LevelManager;
+import utils.UI;
 
 import java.awt.*;
 
@@ -16,11 +17,16 @@ public class GameState extends State{
     private Player player;
     private PlayerConstants playerConstants;
     private LevelManager levelManager;
-
+    private UI gameUI;
     public void loadTestGame() {
         loadLevelManager();
         loadPlayerInfo();
+        loadUI();
     }
+    private void loadUI() {
+        gameUI = new UI(player, levelManager);
+    }
+
     private void loadPlayerInfo() {
         playerConstants = new PlayerConstants();
         player = new Player(startX, startY, playerConstants,levelManager.getLevel());
@@ -42,5 +48,6 @@ public class GameState extends State{
     public void render(Graphics g) {
         levelManager.draw(g);
         player.render(g);
+        gameUI.render(g);
     }
 }

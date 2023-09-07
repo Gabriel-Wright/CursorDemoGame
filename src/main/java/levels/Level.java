@@ -1,6 +1,6 @@
 package levels;
 
-import object.Object;
+import object.CollectableObject;
 import object.SuperObject;
 import tile.Tile;
 import utils.LoadFiles;
@@ -46,7 +46,7 @@ public class Level {
                 }
                 levelTileData[i][j] = tileIndex;
                 if(objectIndex < templateLevelObjects.length) {
-                    Object tempObj = new Object(i,j,templateLevelObjects[objectIndex].getObjectImage(),templateLevelObjects[objectIndex].hasCollided());
+                    CollectableObject tempObj = new CollectableObject(i,j,templateLevelObjects[objectIndex].getObjectImage(),templateLevelObjects[objectIndex].hasCollided());
                     levelObjects[i][j] = tempObj;
                 } else {
                     levelObjects[i][j] = null;

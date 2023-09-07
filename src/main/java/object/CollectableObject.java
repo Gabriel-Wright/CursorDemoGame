@@ -3,12 +3,17 @@ package object;
 import entities.Entity;
 import entities.player.Player;
 import levels.Level;
+import utils.UI;
 
 import java.awt.image.BufferedImage;
 
-public class Object extends SuperObject{
+import static utils.UI.addMessage;
 
-    public Object(int x, int y, BufferedImage objectImage, boolean collided) {
+public class CollectableObject extends SuperObject{
+
+    private String name;
+
+    public CollectableObject(int x, int y, BufferedImage objectImage, boolean collided) {
         super(x, y, objectImage, collided);
     }
 
@@ -21,7 +26,16 @@ public class Object extends SuperObject{
 
     public void CollideWithEntity(Player player, Level level) {
         level.getLevelObjects()[x][y] = null;
-        System.out.println("Deleted brah");
+        addMessage("Collected object!");
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
 

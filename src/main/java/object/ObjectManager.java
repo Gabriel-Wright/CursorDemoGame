@@ -26,7 +26,7 @@ public class ObjectManager {
         objects = new SuperObject[numObjects];
         for(int i=0; i<numObjects; i++) {
             int y=i*32;
-            objects[i] = new Object(0,0,objectSprites.getSubimage(0,y,32,32), false);
+            objects[i] = new CollectableObject(0,0,objectSprites.getSubimage(0,y,32,32), false);
         }
     }
 }

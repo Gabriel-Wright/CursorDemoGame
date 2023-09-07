@@ -2,6 +2,7 @@ package entities.player;
 
 import entities.Entity;
 import levels.Level;
+import utils.UI;
 
 import java.awt.*;
 
