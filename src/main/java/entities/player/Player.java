@@ -2,14 +2,10 @@ package entities.player;
 
 import entities.Entity;
 import levels.Level;
-import utils.UI;
 
 import java.awt.*;
 
 import static inputs.KeyHandler.*;
-import static main.GamePanel.SCREEN_WIDTH;
-import static main.GamePanel.SCREEN_HEIGHT;
-import static main.GamePanel.TILE_SIZE;
 import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class Player extends Entity {

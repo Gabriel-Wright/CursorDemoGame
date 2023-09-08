@@ -1,7 +1,8 @@
-package utils;
+package ui;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import entities.player.Player;
 import levels.LevelManager;
@@ -14,8 +15,10 @@ public class UI {
     private Player player;
     private LevelManager levelManager;
 
-    private final Font arial_40 = new Font("Arial", Font.PLAIN, 32);
+    private final Font arial_tileSize = new Font("Arial", Font.PLAIN, TILE_SIZE/2);
     private final int halfScreenHeight = SCREEN_HEIGHT/2;
+    private static ArrayList<UITag> UITagMessages = new ArrayList<>();
+    private static boolean UITagMessagesOn = false;
     private static boolean collectMessageOn = false;
     private static ArrayList<String> messages = new ArrayList<>();
     private static ArrayList<Integer> messageTicks = new ArrayList<>();
@@ -26,11 +29,18 @@ public class UI {
         this.player = player;
         this.levelManager = levelManager;
     }
-//    public static void collectMessage(String text) {
-//        collectMessage = text;
-//        collectMessageOn = true;
-//        numCollections++;
-//    }
+
+    public static void addUITag(UITag uiTag) {
+        for(UITag tag: UITagMessages) {
+           tag.updatePos();
+        }
+        UITagMessages.add(uiTag);
+        UITagMessagesOn = true;
+    }
+
+    public static void removeUITag(UITag uiTag) {
+        UITagMessages.remove(uiTag);
+    }
 
     public static void addMessage(String text) {
         messages.add(text);
@@ -43,19 +53,31 @@ public class UI {
             draw£ntityDebugInfo(g, player.getX(), player.getY());
         }
 
-        if(collectMessageOn) {
-            drawMessage(g);
+        if(UITagMessagesOn) {
+            drawUITags(g);
         }
     }
     public void draw£ntityDebugInfo(Graphics g, float x, float y) {
-        g.setFont(arial_40);
+        g.setFont(arial_tileSize);
         g.setColor(Color.WHITE);
         g.drawString(String.format("Pos:(%f, %f)\n. Row: %f. \n Column: %f)",x,y,x/TILE_SIZE,y/TILE_SIZE), 25, 25);
     }
 
+    public void drawUITags(Graphics g) {
+        Iterator<UITag> iterator = UITagMessages.iterator();
+        while (iterator.hasNext()) {
+            UITag uiTag = iterator.next();
+
+            // If some condition is met, you can remove the item
+            if (uiTag.drawTag(g, arial_tileSize)) {
+                iterator.remove(); // This removes the item safely
+            }
+        }
+    }
+
     public void drawMessage(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(arial_40);
+        g2d.setFont(arial_tileSize);
         g2d.setColor(Color.WHITE);
         String message = messages.get(messageIndex);
         int messageTick = messageTicks.get(messageIndex);

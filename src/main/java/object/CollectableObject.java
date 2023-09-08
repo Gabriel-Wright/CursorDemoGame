@@ -3,11 +3,13 @@ package object;
 import entities.Entity;
 import entities.player.Player;
 import levels.Level;
-import utils.UI;
+import ui.UI;
+import ui.UITag;
 
 import java.awt.image.BufferedImage;
 
-import static utils.UI.addMessage;
+import static ui.UI.addMessage;
+import static ui.UI.addUITag;
 
 public class CollectableObject extends SuperObject{
 
@@ -26,7 +28,8 @@ public class CollectableObject extends SuperObject{
 
     public void CollideWithEntity(Player player, Level level) {
         level.getLevelObjects()[x][y] = null;
-        addMessage("Collected object!");
+        UITag uiTag = new UITag("test","bla");
+        addUITag(uiTag);
     }
 
     public String getName() {

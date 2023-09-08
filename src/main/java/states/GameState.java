@@ -3,7 +3,7 @@ package states;
 import entities.player.Player;
 import entities.player.PlayerConstants;
 import levels.LevelManager;
-import utils.UI;
+import ui.UI;
 
 import java.awt.*;
 

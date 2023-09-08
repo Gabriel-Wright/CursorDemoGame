@@ -24,7 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
     final static int maxScreenRow = 20;
     public final static int SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
     public final static int SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;
-
+    public final static Toolkit toolkit = Toolkit.getDefaultToolkit();
+    public final static int SCREEN_DPI = toolkit.getScreenResolution();
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     private GameState gameState;
