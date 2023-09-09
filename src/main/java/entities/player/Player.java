@@ -1,6 +1,7 @@
 package entities.player;
 
 import entities.Entity;
+import entities.Inventory;
 import levels.Level;
 
 import java.awt.*;
@@ -10,8 +11,14 @@ import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class Player extends Entity {
 
+    private Inventory playerInventory = new Inventory();
+
     public Player(int x, int y, PlayerConstants playerConstants, Level level) {
         super(x, y, playerConstants, level);
+    }
+
+    public Inventory getPlayerInventory() {
+        return playerInventory;
     }
 
     @Override

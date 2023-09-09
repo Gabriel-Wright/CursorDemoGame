@@ -11,7 +11,7 @@ import java.awt.Color;
 public class Level {
 
     private Tile[] levelTiles;
-    private SuperObject[] templateLevelObjects;
+    private CollectableObject[] templateLevelObjects;
     private BufferedImage levelMap;
     private SuperObject[][] levelObjects;
     private int[][] levelTileData;
@@ -20,7 +20,7 @@ public class Level {
     private LevelCamera levelCamera;
 
 
-    public Level(Tile[] levelTiles, SuperObject[] templateLevelObjects, String levelMapPath) {
+    public Level(Tile[] levelTiles, CollectableObject[] templateLevelObjects, String levelMapPath) {
         this.levelTiles = levelTiles;
         this.templateLevelObjects = templateLevelObjects;
         this.levelMap = LoadFiles.importImg(levelMapPath);
@@ -34,7 +34,7 @@ public class Level {
      */
     public void loadLevelData() {
         levelTileData = new int[levelWidth][levelHeight];
-        levelObjects = new SuperObject[levelWidth][levelHeight];
+        levelObjects = new CollectableObject[levelWidth][levelHeight];
         for (int i = 0; i < levelWidth; i++) {
             for (int j = 0; j < levelHeight; j++) {
                 Color color = new Color(levelMap.getRGB(i, j));
@@ -46,7 +46,7 @@ public class Level {
                 }
                 levelTileData[i][j] = tileIndex;
                 if(objectIndex < templateLevelObjects.length) {
-                    CollectableObject tempObj = new CollectableObject(i,j,templateLevelObjects[objectIndex].getObjectImage(),templateLevelObjects[objectIndex].hasCollided());
+                    CollectableObject tempObj = new CollectableObject(i,j,templateLevelObjects[objectIndex].getObjectImage(),templateLevelObjects[objectIndex].hasCollided(),templateLevelObjects[objectIndex].getName());
                     levelObjects[i][j] = tempObj;
                 } else {
                     levelObjects[i][j] = null;

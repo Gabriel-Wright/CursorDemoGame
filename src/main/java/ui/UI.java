@@ -7,7 +7,8 @@ import java.util.Iterator;
 import entities.player.Player;
 import levels.LevelManager;
 
-import static inputs.KeyHandler.playerDebugInfo;
+import static inputs.KeyHandler.playerInventoryInfo;
+import static inputs.KeyHandler.playerPosInfo;
 import static main.GamePanel.*;
 
 
@@ -16,15 +17,8 @@ public class UI {
     private LevelManager levelManager;
 
     private final Font arial_tileSize = new Font("Arial", Font.PLAIN, TILE_SIZE/2);
-    private final int halfScreenHeight = SCREEN_HEIGHT/2;
     private static ArrayList<UITag> UITagMessages = new ArrayList<>();
     private static boolean UITagMessagesOn = false;
-    private static boolean collectMessageOn = false;
-    private static ArrayList<String> messages = new ArrayList<>();
-    private static ArrayList<Integer> messageTicks = new ArrayList<>();
-    private static int messageIndex = 0;
-    private final int numSecondsMessage = 3;
-    private final int messageTotalFrames = FPS*numSecondsMessage;
     public UI(Player player, LevelManager levelManager) {
         this.player = player;
         this.levelManager = levelManager;
@@ -32,37 +26,23 @@ public class UI {
 
     public static void addUITag(UITag uiTag) {
         for(UITag tag: UITagMessages) {
-           tag.updatePos();
+           tag.updateDestY();
         }
         UITagMessages.add(uiTag);
         UITagMessagesOn = true;
     }
 
-    public static void removeUITag(UITag uiTag) {
-        UITagMessages.remove(uiTag);
-    }
-
-    public static void addMessage(String text) {
-        messages.add(text);
-        messageTicks.add(0);
-        collectMessageOn = true;
-    }
-
-    public void render(Graphics g) {
-        if(playerDebugInfo) {
-            draw£ntityDebugInfo(g, player.getX(), player.getY());
-        }
-
-        if(UITagMessagesOn) {
-            drawUITags(g);
-        }
-    }
-    public void draw£ntityDebugInfo(Graphics g, float x, float y) {
+    public void draw£ntityPosInfo(Graphics g, float x, float y) {
         g.setFont(arial_tileSize);
         g.setColor(Color.WHITE);
         g.drawString(String.format("Pos:(%f, %f)\n. Row: %f. \n Column: %f)",x,y,x/TILE_SIZE,y/TILE_SIZE), 25, 25);
     }
 
+    public void drawEntityInventoryInfo(Graphics g, float x, float y) {
+        g.setFont(arial_tileSize);
+        g.setColor(Color.WHITE);
+        g.drawString(player.getPlayerInventory().toString(),TILE_SIZE,SCREEN_HEIGHT-TILE_SIZE);
+    }
     public void drawUITags(Graphics g) {
         Iterator<UITag> iterator = UITagMessages.iterator();
         while (iterator.hasNext()) {
@@ -75,47 +55,16 @@ public class UI {
         }
     }
 
-    public void drawMessage(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(arial_tileSize);
-        g2d.setColor(Color.WHITE);
-        String message = messages.get(messageIndex);
-        int messageTick = messageTicks.get(messageIndex);
-        int messageX = TILE_SIZE;
-        int messageY = halfScreenHeight;
-        float transparency = 1.0f;
-        if (messageTick > FPS) {
-            int scaledMessageTick = messageTick - FPS; //resets back to 0 to account
-            messageY = (halfScreenHeight) + (((scaledMessageTick) * halfScreenHeight) / messageTotalFrames); //Scale to go down screen as time passes
-            transparency = 1 - (float) (scaledMessageTick) / messageTotalFrames;
+    public void render(Graphics g) {
+        if(playerPosInfo) {
+            draw£ntityPosInfo(g, player.getX(), player.getY());
         }
-        AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, transparency);
-        g2d.setComposite(alphaComposite);
-
-        g2d.drawString(message, messageX, messageY);
-        tickCollectionMessage(g2d, messageTick);
-    }
-
-    private void tickCollectionMessage(Graphics g,int messageTick) {
-        messageTick++;
-        messageTicks.set(messageIndex,messageTick);
-        if(messageTick > messageTotalFrames) {
-            messages.remove(messageIndex);
-            messageTicks.remove(messageIndex);
-            if(messages.size() > messageIndex) {
-                drawMessage(g);
-            } else {
-                collectMessageOn = false;
-            }
+        if(playerInventoryInfo) {
+            drawEntityInventoryInfo(g, player.getX(), player.getY());
         }
-
-        if(messageTick > 1.2*FPS) {
-            messageIndex++;
-            if(messages.size()>messageIndex) {
-                drawMessage(g);
-            }
+        if(UITagMessagesOn) {
+            drawUITags(g);
         }
-        messageIndex = 0;
     }
 
 }

@@ -8,15 +8,19 @@ import ui.UITag;
 
 import java.awt.image.BufferedImage;
 
-import static ui.UI.addMessage;
 import static ui.UI.addUITag;
 
 public class CollectableObject extends SuperObject{
 
     private String name;
 
-    public CollectableObject(int x, int y, BufferedImage objectImage, boolean collided) {
+    public CollectableObject(int x, int y, BufferedImage objectImage, boolean collided, String name) {
         super(x, y, objectImage, collided);
+        this.name = name;
+    }
+
+    public CollectableObject(int x, int y, BufferedImage objectImage, boolean collided) {
+        super(x,y, objectImage, collided);
     }
 
     @Override
@@ -28,7 +32,8 @@ public class CollectableObject extends SuperObject{
 
     public void CollideWithEntity(Player player, Level level) {
         level.getLevelObjects()[x][y] = null;
-        UITag uiTag = new UITag("test","bla");
+        UITag uiTag = new UITag("Collected object:"+name,"bla");
+        player.getPlayerInventory().addCollectable(this);
         addUITag(uiTag);
     }
 

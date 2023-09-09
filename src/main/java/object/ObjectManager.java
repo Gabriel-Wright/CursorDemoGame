@@ -8,14 +8,14 @@ public class ObjectManager {
 
     public String objectSpritesPath;
     private BufferedImage objectSprites;
-    private SuperObject[] objects;
+    private CollectableObject[] objects;
 
     public ObjectManager(String objectSpritesPath) {
         this.objectSpritesPath = objectSpritesPath;
         this.objectSprites = LoadFiles.importImg(objectSpritesPath);
     }
 
-    public SuperObject[] getObjects() {
+    public CollectableObject[] getCollectableObjects() {
         return objects;
     }
 
@@ -23,11 +23,14 @@ public class ObjectManager {
     public void loadObjects() {
         int totalHeight = objectSprites.getHeight();
         int numObjects = totalHeight/32;
-        objects = new SuperObject[numObjects];
+        objects = new CollectableObject[numObjects];
         for(int i=0; i<numObjects; i++) {
             int y=i*32;
             objects[i] = new CollectableObject(0,0,objectSprites.getSubimage(0,y,32,32), false);
         }
+        objects[0].setName("Poop");
+        objects[1].setName("Apple");
+        objects[2].setName("Gun");
     }
 }
 

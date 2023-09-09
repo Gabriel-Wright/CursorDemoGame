@@ -31,7 +31,7 @@ public class LevelManager {
         objectManager.loadObjects();
     }
     private void loadLevel(String levelMapPath) {
-        level = new Level(tileManager.getTiles(), objectManager.getObjects(), levelMapPath);
+        level = new Level(tileManager.getTiles(), objectManager.getCollectableObjects(), levelMapPath);
         level.loadLevelData();
     }
 
