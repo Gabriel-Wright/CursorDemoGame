@@ -2,13 +2,16 @@ package inputs;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 
 public class KeyHandler implements KeyListener {
 
     public static boolean upPressed, downPressed, leftPressed, rightPressed;
+    public static boolean isPaused;
     //Debug toggles
     public static boolean playerPosInfo = false, playerInventoryInfo = false;
+
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -18,7 +21,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        switch(code) {
+        switch (code) {
             case KeyEvent.VK_W:
                 upPressed = true;
                 break;
@@ -31,6 +34,11 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D:
                 rightPressed = true;
                 break;
+            //Pause the game
+            case KeyEvent.VK_P, KeyEvent.VK_ESCAPE:
+                isPaused = !isPaused;
+                break;
+            //Debug info
             case KeyEvent.VK_F3:
                 playerPosInfo = !playerPosInfo;
                 break;
@@ -43,7 +51,7 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
-        switch(code) {
+        switch (code) {
             case KeyEvent.VK_W:
                 upPressed = false;
                 break;

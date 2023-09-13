@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     private GameState gameState;
+    private static State currentState;
     public GamePanel() {
         //Set size of window to preferred size
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -38,10 +39,14 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
         gameState = new GameState();
-        State.setState(gameState);
-        gameState.loadTestGame();
+        setCurrentState(gameState);
+
     }
 
+    public static void setCurrentState(State state) {
+        currentState = state;
+        currentState.initialiseState();
+    }
 
     /**
      * Initialises startGameThread which creates begins run method, which implements our game loop
@@ -105,11 +110,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        gameState.update();
+        currentState.update();;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        gameState.render(g);
+        currentState.render(g);
     }
 }
