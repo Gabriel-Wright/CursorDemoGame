@@ -1,26 +1,39 @@
 package states;
 
+import sound.SoundManager;
+
 import static main.GamePanel.SCREEN_HEIGHT;
 import static main.GamePanel.SCREEN_WIDTH;
-
+import static sound.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
 
 public class PauseState extends State{
 
     private GameState gameState;
+    private SoundManager pauseSounds;
+    private int[] soundConstants = {PAUSE_RESUME};
     public PauseState(GameState gameState) {
         this.gameState = gameState;
+        pauseSounds = new SoundManager(soundConstants);
     }
 
     //Unsure what is needed
     public void initialiseState() {
-
+        //play sound - load menus?
+        playPauseSound();
     }
 
-    //Logic needed for menus. Pause State does not calculate any internal logic of the game - as it is not running.
+    public void endState() {
+        //play sound & close menus, reset menu data
+        playPauseSound();
+    }
+
+    private void playPauseSound() {
+        pauseSounds.play(PAUSE_RESUME);
+    }
+
     @Override
     public void update() {
-
     }
 
     //This renders the background image expected from the gameData that we have, this image will not update as there

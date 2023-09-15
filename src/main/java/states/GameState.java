@@ -14,6 +14,7 @@ public class GameState extends State{
     private int startX = 23*TILE_SIZE;
     private int startY = 40*TILE_SIZE;
     private PauseState pauseState;
+    private boolean inPauseState = false;
     private Player player;
     private PlayerConstants playerConstants;
     private LevelManager levelManager;
@@ -26,11 +27,11 @@ public class GameState extends State{
     }
 
     public void pauseGame() {
-        isPaused = true;
+        pauseState.initialiseState();
     }
 
     public void resumeGame() {
-        isPaused = false;
+        pauseState.endState();
     }
     private void loadUI() {
         gameUI = new UI(player, levelManager);
@@ -51,6 +52,13 @@ public class GameState extends State{
     }
     @Override
     public void update() {
+        if(hasSwitchedPauseState()) {
+            if(inPauseState) {
+                pauseGame();
+            } else {
+                resumeGame();
+            }
+        }
         if(!isPaused) {
             player.update();
             //CollisionChecker.checkCornerCollision(player,levelManager.getLevel());
@@ -80,4 +88,10 @@ public class GameState extends State{
             pauseState.render(g);
         }
     }
+    private boolean hasSwitchedPauseState() {
+        boolean hasSwitched = isPaused != inPauseState;
+        inPauseState = isPaused;
+        return hasSwitched;
+    }
+
 }
