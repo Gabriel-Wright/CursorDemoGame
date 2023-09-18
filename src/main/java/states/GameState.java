@@ -50,6 +50,9 @@ public class GameState extends State{
     public void initialiseState() {
         loadTestGame();
     }
+
+    //This update method checks whether a pause state has changed -> this is important because
+    //in this case resumeGame() or pauseGame() is ran when a change occurs.
     @Override
     public void update() {
         if(hasSwitchedPauseState()) {

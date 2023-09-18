@@ -12,37 +12,21 @@ import static ui.UI.addUITag;
 
 public class CollectableObject extends SuperObject{
 
-    private String name;
-
-    public CollectableObject(int x, int y, BufferedImage objectImage, boolean collided, String name) {
-        super(x, y, objectImage, collided);
-        this.name = name;
-    }
-
-    public CollectableObject(int x, int y, BufferedImage objectImage, boolean collided) {
-        super(x,y, objectImage, collided);
+    public CollectableObject(int x, int y, int objectID, ObjectConstants objectConstants) {
+        super(x, y, objectID, objectConstants);
     }
 
     @Override
     public void CollideWithEntity(Entity entity, Level level) {
         //Object vanishes
-
         System.out.println("Entity");
     }
 
     public void CollideWithEntity(Player player, Level level) {
         level.getLevelObjects()[x][y] = null;
-        UITag uiTag = new UITag("Collected object:"+name,"bla");
+        UITag uiTag = new UITag("Collected object:"+objectName,"bla");
         player.getPlayerInventory().addCollectable(this);
         addUITag(uiTag);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class LoadFiles {
 
@@ -52,5 +54,26 @@ public class LoadFiles {
             }
         }
         return soundClip;
+    }
+
+    public static int[][] readJsonTiles(String path, String matrixName) {
+        JSONObject json = new JSONObject(path);
+
+        // Access the labeled grid
+        JSONArray myGrid = json.getJSONArray(matrixName);
+
+        // Convert the JSONArray into a 2D int array
+        int numRows = myGrid.length();
+        int numCols = myGrid.getJSONArray(0).length();
+        int[][] gridArray = new int[numRows][numCols];
+
+        for (int i = 0; i < numRows; i++) {
+            JSONArray row = myGrid.getJSONArray(i);
+            for (int j = 0; j < numCols; j++) {
+                gridArray[i][j] = row.getInt(j);
+            }
+        }
+
+        return gridArray;
     }
 }
