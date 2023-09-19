@@ -12,10 +12,10 @@ public class CollectObjectEvent implements Event{
     private CollectableObject object;
     public CollectObjectEvent(CollectableObject object) {
         this.object = object;
-        collectObjectSounds = new SoundManager(SoundConstants.getSoundFilePath(object.getName()));
+//        collectObjectSounds = new SoundManager(SoundConstants.getSoundFilePath(object.getName()));
     };
 
-    public void load
+//    public void load
     @Override
     public void runEvent() {
 

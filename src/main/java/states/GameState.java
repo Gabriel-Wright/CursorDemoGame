@@ -2,6 +2,7 @@ package states;
 
 import entities.player.Player;
 import entities.player.PlayerConstants;
+import levels.LevelConstants;
 import levels.LevelManager;
 import ui.UI;
 import static inputs.KeyHandler.isPaused;
@@ -11,8 +12,8 @@ import static main.GamePanel.TILE_SIZE;
 
 public class GameState extends State{
 
-    private int startX = 23*TILE_SIZE;
-    private int startY = 40*TILE_SIZE;
+    private int startX = 5*TILE_SIZE;
+    private int startY = 5*TILE_SIZE;
     private PauseState pauseState;
     private boolean inPauseState = false;
     private Player player;
@@ -44,7 +45,7 @@ public class GameState extends State{
 
     private void loadLevelManager() {
         levelManager = new LevelManager();
-        levelManager.loadNewLevel("/tiles/testTiles.png","/objects/testObjects.png","/levelMaps/testMap2.png");
+        levelManager.loadNewLevel(LevelConstants.TEST_LEVEL);
     }
     @Override
     public void initialiseState() {

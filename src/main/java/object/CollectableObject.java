@@ -23,10 +23,10 @@ public class CollectableObject extends SuperObject{
     }
 
     public void CollideWithEntity(Player player, Level level) {
-        level.getLevelObjects()[x][y] = null;
-        UITag uiTag = new UITag("Collected object:"+objectName,"bla");
-        player.getPlayerInventory().addCollectable(this);
-        addUITag(uiTag);
+//        level.getLevelObjects()[x][y] = null;
+//        UITag uiTag = new UITag("Collected object:"+objectName,"bla");
+//        player.getPlayerInventory().addCollectable(this);
+//        addUITag(uiTag);
     }
 
 }

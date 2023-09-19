@@ -20,16 +20,16 @@ public class PauseState extends State{
     //Unsure what is needed
     public void initialiseState() {
         //play sound - load menus?
-        playPauseSound();
+        playPauseSound(PAUSE_RESUME);
     }
 
     public void endState() {
         //play sound & close menus, reset menu data
-        playPauseSound();
+        playPauseSound(PAUSE_RESUME);
     }
 
-    private void playPauseSound() {
-        pauseSounds.play(PAUSE_RESUME);
+    private void playPauseSound(int i) {
+        pauseSounds.play(i);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class Inventory {
     }
 
     public void addCollectable(CollectableObject collectableObject) {
-        String collectableName = collectableObject.getName();
+        String collectableName = collectableObject.getObjectName();
 
         // Check if the collectable name is already in the map
         if (collectables.containsKey(collectableName)) {

@@ -104,12 +104,12 @@ public abstract class Entity {
 
     //This should be improved
     protected void checkObjectCollide() {
-        Point[] overlapTiles = FindOverlapTiles(getCollisionBounds(0, 0));
-        for (Point objectIndexes : overlapTiles) {
-            if (level.getLevelObjects()[objectIndexes.x][objectIndexes.y] != null) {
-                level.getLevelObjects()[objectIndexes.x][objectIndexes.y].CollideWithEntity(this, level);
-            }
-        }
+//        Point[] overlapTiles = FindOverlapTiles(getCollisionBounds(0, 0));
+//        for (Point objectIndexes : overlapTiles) {
+//            if (level.getLevelObjects()[objectIndexes.x][objectIndexes.y] != null) {
+//                level.getLevelObjects()[objectIndexes.x][objectIndexes.y].CollideWithEntity(this, level);
+//            }
+//        }
     }
 
 

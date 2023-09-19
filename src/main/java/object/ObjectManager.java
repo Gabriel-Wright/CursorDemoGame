@@ -8,6 +8,7 @@ public class ObjectManager {
 
     public String objectSpritesPath;
     private BufferedImage objectSprites;
+    private ObjectConstants objectConstants;
     private CollectableObject[] objects;
 
     public ObjectManager(String objectSpritesPath) {
@@ -15,22 +16,34 @@ public class ObjectManager {
         this.objectSprites = LoadFiles.importImg(objectSpritesPath);
     }
 
+    public ObjectManager(ObjectConstants objectConstants) {
+        this.objectConstants = objectConstants;
+    }
+
     public CollectableObject[] getCollectableObjects() {
         return objects;
     }
 
     //This is only for if objects all in one png, which is p stupid
-    public void loadObjects() {
-        int totalHeight = objectSprites.getHeight();
-        int numObjects = totalHeight/32;
-        objects = new CollectableObject[numObjects];
-        for(int i=0; i<numObjects; i++) {
-            int y=i*32;
-            objects[i] = new CollectableObject(0,0,objectSprites.getSubimage(0,y,32,32), false);
-        }
-        objects[0].setName("Poop");
-        objects[1].setName("Apple");
-        objects[2].setName("Gun");
+//    public void loadObjects() {
+//        int totalHeight = objectSprites.getHeight();
+//        int numObjects = totalHeight/32;
+//        objects = new CollectableObject[numObjects];
+//        for(int i=0; i<numObjects; i++) {
+//            int y=i*32;
+//            objects[i] = new CollectableObject(0,0,objectSprites.getSubimage(0,y,32,32), false);
+//        }
+//        objects[0].setName("Poop");
+//        objects[1].setName("Apple");
+//        objects[2].setName("Gun");
+//    }
+
+    public void loadCollectableObjects() {
+
+    }
+
+    public void loadObjects(int[] objectReferences) {
+
     }
 }
 

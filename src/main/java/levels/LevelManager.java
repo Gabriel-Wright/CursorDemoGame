@@ -1,8 +1,10 @@
 package levels;
 
 import main.GamePanel;
+import object.ObjectConstants;
 import object.ObjectManager;
 import object.SuperObject;
+import tile.TileConstants;
 import tile.TileManager;
 
 import java.awt.*;
@@ -12,27 +14,40 @@ import static main.GamePanel.*;
 public class LevelManager {
 
     private Level level;
+    private int levelRef;
+    private LevelConstants levelConstants;
     private TileManager tileManager;
     private ObjectManager objectManager;
 
-    public void loadNewLevel(String tileSpritePath, String objectSpritePath, String levelMapPath) {
-        loadTileManager(tileSpritePath);
-        loadObjectManager(objectSpritePath);
-        loadLevel(levelMapPath);
+//    public void loadNewLevel(String tileSpritePath, String objectSpritePath, String levelMapPath) {
+//        loadTileManager(tileSpritePath);
+//        loadObjectManager(objectSpritePath);
+//        loadLevel(levelMapPath);
+//    }
+
+    //Load new level from LevelConstants class
+    public void loadNewLevel(int i) {
+        //Create new instance here - unsure whether is better to avoid this. But we want to reset the value of levelConstants.
+        levelRef = i;
+        levelConstants = new LevelConstants();
+        levelConstants.loadLevelConstants(i);
+        loadTileManager();
+        loadObjectManager();
+        loadLevel();
     }
 
-    private void loadTileManager(String tileSpritePath) {
-        tileManager = new TileManager(tileSpritePath);
-        tileManager.loadTiles();
+    private void loadTileManager() {
+        tileManager = new TileManager(levelConstants.getTileConstants());
+        tileManager.loadTiles(levelConstants.getTileReferences(levelRef));
     }
 
-    private void loadObjectManager(String objectSpritePath) {
-        objectManager = new ObjectManager(objectSpritePath);
-        objectManager.loadObjects();
+    private void loadObjectManager() {
+        objectManager = new ObjectManager(levelConstants.getObjectConstants());
+        objectManager.loadObjects(levelConstants.getObjectReferences(levelRef));
     }
-    private void loadLevel(String levelMapPath) {
-        level = new Level(tileManager.getTiles(), objectManager.getCollectableObjects(), levelMapPath);
-        level.loadLevelData();
+
+    private void loadLevel() {
+        level = new Level(levelConstants.getLevelJsonData(levelRef), tileManager.getTiles(), objectManager.getCollectableObjects());
     }
 
     public void draw(Graphics g) {
@@ -46,17 +61,16 @@ public class LevelManager {
         //Level tiles
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
-                int tileIndex = level.getTileIndex(x, y);
-                g.drawImage(level.getLevelTiles()[tileIndex].getTileImage(),
+                g.drawImage(level.getTile(x,y).getTileImage(),
                         (int) (x * TILE_SIZE - level.getLevelCamera().getxOffset()),
                         (int) (y * TILE_SIZE - level.getLevelCamera().getyOffset()),
                         TILE_SIZE, TILE_SIZE, null);
-                if(level.getLevelObjects()[x][y] !=null) {
-                    g.drawImage(level.getLevelObjects()[x][y].getObjectImage(),
-                            (int)(level.getLevelObjects()[x][y].getX()*TILE_SIZE-level.getLevelCamera().getxOffset()),
-                            (int)(level.getLevelObjects()[x][y].getY()*TILE_SIZE-level.getLevelCamera().getyOffset()),
-                            TILE_SIZE,TILE_SIZE,null);
-                }
+//                if(level.get()[x][y] !=null) {
+//                    g.drawImage(level.getLevelObjects()[x][y].getObjectImage(),
+//                            (int)(level.getLevelObjects()[x][y].getX()*TILE_SIZE-level.getLevelCamera().getxOffset()),
+//                            (int)(level.getLevelObjects()[x][y].getY()*TILE_SIZE-level.getLevelCamera().getyOffset()),
+//                            TILE_SIZE,TILE_SIZE,null);
+//                }
             }
         }
     }
@@ -68,4 +82,16 @@ public class LevelManager {
     public Level getLevel() {
         return level;
     }
+
+    //    private void loadTileManager(String tileSpritePath) {
+//        tileManager = new TileManager(tileSpritePath);
+//        tileManager.loadTiles();
+//    }
+
+    //    private void loadObjectManager(String objectSpritePath) {
+//        objectManager = new ObjectManager(objectSpritePath);
+//        objectManager.loadObjects();
+//    }
+
+
 }

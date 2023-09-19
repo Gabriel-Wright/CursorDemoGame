@@ -67,4 +67,8 @@ public abstract class SuperObject {
     public boolean hasCollided() {
         return collided;
     }
+
+    public String getObjectName() {
+        return objectName;
+    }
 }
