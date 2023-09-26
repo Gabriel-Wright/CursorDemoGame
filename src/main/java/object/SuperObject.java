@@ -1,7 +1,7 @@
 package object;
 
-import entities.Entity;
-import entities.player.Player;
+import gameObjects.entities.Entity;
+import gameObjects.entities.player.Player;
 import levels.Level;
 
 import java.awt.*;

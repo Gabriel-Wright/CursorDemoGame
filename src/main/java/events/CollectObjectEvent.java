@@ -1,9 +1,8 @@
 package events;
 
-import entities.player.Player;
+import gameObjects.entities.player.Player;
 import levels.Level;
 import object.CollectableObject;
-import sound.SoundConstants;
 import sound.SoundManager;
 
 public class CollectObjectEvent implements Event{

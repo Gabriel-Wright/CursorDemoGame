@@ -1,14 +1,8 @@
 package object;
 
-import entities.Entity;
-import entities.player.Player;
+import gameObjects.entities.Entity;
+import gameObjects.entities.player.Player;
 import levels.Level;
-import ui.UI;
-import ui.UITag;
-
-import java.awt.image.BufferedImage;
-
-import static ui.UI.addUITag;
 
 public class CollectableObject extends SuperObject{
 

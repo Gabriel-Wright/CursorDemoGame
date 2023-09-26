@@ -1,4 +1,4 @@
-package entities.constants;
+package gameObjects.entities.constants;
 
 public interface AnimationConstants {
 

@@ -1,9 +1,6 @@
 package main;
 
-import entities.player.Player;
-import entities.player.PlayerConstants;
 import inputs.KeyHandler;
-import levels.LevelManager;
 import states.GameState;
 import states.State;
 

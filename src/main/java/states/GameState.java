@@ -1,7 +1,7 @@
 package states;
 
-import entities.player.Player;
-import entities.player.PlayerConstants;
+import gameObjects.entities.player.Player;
+import gameObjects.entities.player.PlayerConstants;
 import levels.LevelConstants;
 import levels.LevelManager;
 import ui.UI;
@@ -64,6 +64,7 @@ public class GameState extends State{
             }
         }
         if(!isPaused) {
+            //Need to update this so that levelManager updates the entities too
             player.update();
             //CollisionChecker.checkCornerCollision(player,levelManager.getLevel());
             levelManager.update();

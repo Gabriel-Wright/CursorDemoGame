@@ -1,13 +1,12 @@
-package entities;
+package gameObjects.entities;
 
 import animations.EntityAnimations;
-import entities.constants.EntityConstants;
+import gameObjects.entities.constants.EntityConstants;
 import levels.Level;
 
 import java.awt.*;
 
 import static main.GamePanel.TILE_SIZE;
-import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public abstract class Entity {
 

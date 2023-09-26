@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import entities.player.Player;
+import gameObjects.entities.player.Player;
 import levels.LevelManager;
 
 import static inputs.KeyHandler.playerInventoryInfo;

@@ -1,7 +1,5 @@
 package utils;
 
-import entities.Entity;
-
 import java.awt.*;
 
 import static main.GamePanel.TILE_SIZE;

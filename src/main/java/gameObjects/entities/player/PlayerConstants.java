@@ -1,6 +1,6 @@
-package entities.player;
+package gameObjects.entities.player;
 
-import entities.constants.EntityConstants;
+import gameObjects.entities.constants.EntityConstants;
 
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;

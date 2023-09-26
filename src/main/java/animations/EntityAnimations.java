@@ -1,6 +1,6 @@
 package animations;
 
-import entities.constants.AnimationConstants;
+import gameObjects.entities.constants.AnimationConstants;
 import utils.LoadFiles;
 
 import java.awt.*;

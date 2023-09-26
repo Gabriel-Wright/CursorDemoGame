@@ -1,4 +1,4 @@
-package entities;
+package gameObjects.entities;
 
 import object.CollectableObject;
 

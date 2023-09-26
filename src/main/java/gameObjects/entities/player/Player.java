@@ -1,13 +1,12 @@
-package entities.player;
+package gameObjects.entities.player;
 
-import entities.Entity;
-import entities.Inventory;
+import gameObjects.entities.Entity;
+import gameObjects.entities.Inventory;
 import levels.Level;
 
 import java.awt.*;
 
 import static inputs.KeyHandler.*;
-import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class Player extends Entity {
 
