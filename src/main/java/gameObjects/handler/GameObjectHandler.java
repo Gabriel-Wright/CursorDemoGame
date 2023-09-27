@@ -27,7 +27,9 @@ public class GameObjectHandler {
 
     //Pass level as argument for logic calculations with tile collisions
     public void update(Level level) {
-
+        for(Entity entity: entities) {
+            entity.update();
+        }
         //For loop for entity updates - movement and tile collision
         //Within same for loop do collisions with object grid
     }

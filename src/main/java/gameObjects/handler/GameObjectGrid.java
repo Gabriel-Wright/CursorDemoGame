@@ -3,12 +3,14 @@ package gameObjects.handler;
 import gameObjects.entities.Entity;
 import object.SuperObject;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import static main.GamePanel.TILE_SIZE;
+import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class GameObjectGrid {
     private Map<Integer, Map<Integer,Cell>> cells;
@@ -17,37 +19,44 @@ public class GameObjectGrid {
     public GameObjectGrid(int numRows, int numCols) {
         this.numRows = numRows;
         this.numCols = numCols;
-    }
-
-    public void initialiseGrid(List<Entity> entities, List<SuperObject> objects) {
         cells = new HashMap<>();
     }
 
+    public void initialiseGrid(List<Entity> entities, List<SuperObject> objects) {
+        addEntitiesToCells(entities);
+    }
+
+    private void addObjectsToCells(List<Entity> entities) {
+
+    }
     private void addEntitiesToCells(List<Entity> entities) {
         for(Entity entity: entities) {
             //Find corner positions of entity and add it to all of the overlapping tiles
-            int rowX = (int) entity.getX() / TILE_SIZE;
-            int colY = (int) entity.getY() / TILE_SIZE;
-
-            addEntityToCell(rowX, colY, entity);
+            Point[] cellIndexes = FindOverlapTiles(entity.getBounds());
+            for(Point cellIndex: cellIndexes) {
+                addEntityToCell(cellIndex.x, cellIndex.y, entity);
+            }
         }
     }
 
 
-    private void addEntityToCell(int x, int y, Entity entity) {
+    public void addEntityToCell(int x, int y, Entity entity) {
         // Initialize inside map if it does not exist (i.e. map between y and Cell)
         if (!cells.containsKey(x)) {
             cells.put(x, new HashMap<>());
             addCell(x,y);
         }
 
+        if(!cells.get(x).containsKey((y))) {
+            cells.get(x).put(y, new Cell());
+        }
         getCell(x, y).addEntity(entity);
     }
 
     private void addCell(int x, int y) {
         cells.get(x).put(y, new Cell());
     }
-    private Cell getCell(int x, int y) {
+    public Cell getCell(int x, int y) {
         //Check if row (x exists within grid
         if(cells.containsKey(x)) {
             if(cells.get(x).containsKey(y)) {

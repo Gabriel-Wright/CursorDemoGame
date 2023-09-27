@@ -35,8 +35,10 @@ public abstract class Entity {
         this.y = y;
         this.entityConstants = entityConstants;
         bounds = new Rectangle(0, 0, entityWidth, entityHeight);
-        loadClassValuesFromConstants();
-        loadAnimations();
+        if(entityConstants!=null) {
+            loadClassValuesFromConstants();
+            loadAnimations();
+        }
         //Default bounds
     }
 
@@ -166,11 +168,18 @@ public abstract class Entity {
     public float getY() {
         return y;
     }
+    public Rectangle getBounds() {
+        return bounds;
+    }
 
     public void setX(float x) {
         this. x = x;
     }
     public void setY(float y) {
         this.y = y;
+    }
+
+    public void setBounds(Rectangle bounds) {
+        this.bounds = bounds;
     }
 }

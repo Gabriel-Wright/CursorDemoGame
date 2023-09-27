@@ -1,5 +1,6 @@
 package levels;
 
+import gameObjects.handler.GameObjectHandler;
 import main.GamePanel;
 import object.ObjectConstants;
 import object.ObjectManager;
@@ -18,7 +19,7 @@ public class LevelManager {
     private LevelConstants levelConstants;
     private TileManager tileManager;
     private ObjectManager objectManager;
-
+    private GameObjectHandler gameObjectHandler;
 //    public void loadNewLevel(String tileSpritePath, String objectSpritePath, String levelMapPath) {
 //        loadTileManager(tileSpritePath);
 //        loadObjectManager(objectSpritePath);
@@ -76,7 +77,7 @@ public class LevelManager {
     }
 
     public void update() {
-
+        gameObjectHandler.update(level);
     }
 
     public Level getLevel() {
