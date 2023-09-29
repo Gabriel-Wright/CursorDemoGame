@@ -2,6 +2,7 @@ package gameObjects.entities;
 
 import animations.EntityAnimations;
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.handler.GameObjectGrid;
 import levels.Level;
 
 import java.awt.*;
@@ -10,7 +11,6 @@ import static main.GamePanel.TILE_SIZE;
 
 public abstract class Entity {
 
-    protected Level level;
 
     protected EntityAnimations animations;
     protected int aniTick = 0, aniIndex = 0, aniSpeed;
@@ -29,8 +29,7 @@ public abstract class Entity {
     protected int action;
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
 
-    public Entity(int x, int y, EntityConstants entityConstants, Level level) {
-        this.level = level;
+    public Entity(int x, int y, EntityConstants entityConstants) {
         this.x = x;
         this.y = y;
         this.entityConstants = entityConstants;
@@ -60,81 +59,84 @@ public abstract class Entity {
         animations.loadAnimations();
     }
 
-    protected void move() {
-        moveX();
-        moveY();
+
+
+    //Centres the camera on the entities position
+    private void centerCamera(Level level) {
         level.getLevelCamera().centerOnPos(x, y);
     }
 
-    private void moveX() {
+    protected void move(Level level) {
+        checkLevelCollisions(level);
+        x +=xMove;
+        y +=yMove;
+        centerCamera(level);
+    }
+
+    private void checkLevelCollisions(Level level) {
+        checkLevelCollisionXMove(level);
+        checkLevelCollisionYMove(level);
+    }
+
+    private void checkLevelCollisionXMove(Level level) {
         if (xMove > 0) {//Moving right
+            //Check right bound of entity
             int tx = (int) ((x + xMove + bounds.x + bounds.width) / TILE_SIZE);
-            if (!level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
-                x += xMove;
-            } else {
-                x = tx * TILE_SIZE - bounds.x - bounds.width - 1;
+            //If tile overlapping the right bound of the entity is solid then change the xMove value so that the player lines up
+            //Maybe adjust this so that the xValue is set here?
+            if (level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) || level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
+                xMove = x - (tx * TILE_SIZE - bounds.x - bounds.width - 1);
             }
-        } else if (xMove < 0) {
+        } else if (xMove < 0) { //Moving left
+            //Check left bound of entity
             int tx = (int) (x + xMove + bounds.x) / TILE_SIZE;
-            if (!level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) && !level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
-                x += xMove;
-            } else {
-                x = tx * TILE_SIZE + TILE_SIZE - bounds.x;
+            //If tile overlapping the left bound of the entity is solid then change the xMove value so that the player lines up
+            if (level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) || level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
+                xMove = x - (tx * TILE_SIZE + TILE_SIZE - bounds.x);
             }
         }
+
     }
 
-    private void moveY() {
-        if (yMove < 0) { //up
+    private void checkLevelCollisionYMove(Level level) {
+        if (yMove < 0) { //Moving up
+            //Check upper bound of entity
             int ty = (int) (y + yMove + bounds.y) / TILE_SIZE;
-            if (!level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
-                y += yMove;
-            } else {
-                y = ty * TILE_SIZE + TILE_SIZE - bounds.y;
+            //If tile overlapping the upper bound of the entity is solid then change the yMove value so that the player lines up with that tile
+            if (level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) || level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
+                yMove = y - (ty * TILE_SIZE + TILE_SIZE - bounds.y);
             }
-        } else if (yMove > 0) { // down
+        } else if (yMove > 0) { // Moving down
+            //Check lower bound of entity
             int ty = (int) (y + yMove + bounds.y + bounds.height) / TILE_SIZE;
-            if (!level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) && !level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
-                y += yMove;
-            } else {
-                y = ty * TILE_SIZE - bounds.y - bounds.height - 1;
+            //If tile overlapping the lower bound of the entity is solid then change the yMove value so that hte player lines up with that tile
+            if (level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) || level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
+                yMove = y - (ty * TILE_SIZE - bounds.y - bounds.height - 1);
             }
-
         }
     }
-
     //This should be improved
-    protected void checkObjectCollide() {
-//        Point[] overlapTiles = FindOverlapTiles(getCollisionBounds(0, 0));
-//        for (Point objectIndexes : overlapTiles) {
-//            if (level.getLevelObjects()[objectIndexes.x][objectIndexes.y] != null) {
-//                level.getLevelObjects()[objectIndexes.x][objectIndexes.y].CollideWithEntity(this, level);
-//            }
-//        }
-    }
 
-
-    public void update() {
+    public void update(Level level, GameObjectGrid gameObjectGrid) {
+        //Update position calculations
         updatePos();
+        //Verify states/positions based on collisions within level post movement
+        move(level);
+        //Update action state of the entity
         updateAction();
+        //Adjust the entity animation based on its action state
         updateAnimationTick();
+
+        //If entity has moved in this update - reassign its grid position
+        if(xMove> 0 || yMove >0) {
+            gameObjectGrid.reassignEntityCells(this, xMove, yMove);
+        }
     }
 
     protected abstract void updatePos();
 
     protected abstract void updateAction();
 
-    //    protected void moveX() {
-//        if (xMove > 0) { // Moving right
-//            int tx = (xMove + hitbox.x + hitbox.width) / TILE_SIZE; //Tile X index
-//            if(!level.isSolidTile(tx, hitbox.y / TILE_SIZE) && !level.isSolidTile(tx, (hitbox.y + hitbox.height)/ TILE_SIZE)) {
-//                worldX += xMove;
-//            }
-//        } else if (xMove <0) { // Moving left
-//            worldX += xMove;
-//        }
-//        updateHitboxX();
-//    }
     protected void checkActionChangeAniIndexAniTick(int action) {
         if (this.action != action) {
             aniIndex = 0;
@@ -153,7 +155,7 @@ public abstract class Entity {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g, Level level) {
         animations.drawImage(g, action, aniIndex, (int) x, (int) y, entityWidth, entityHeight);
     }
 
@@ -182,4 +184,5 @@ public abstract class Entity {
     public void setBounds(Rectangle bounds) {
         this.bounds = bounds;
     }
+
 }

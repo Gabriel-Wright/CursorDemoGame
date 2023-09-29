@@ -70,7 +70,7 @@ public class GameObjectGridTest {
     // Define a test entity class that extends Entity for testing purposes
     private static class TestEntity extends Entity {
         public TestEntity() {
-            super(0, 0, null, null); // Provide appropriate values for constructor
+            super(0, 0, null); // Provide appropriate values for constructor
         }
 
         @Override

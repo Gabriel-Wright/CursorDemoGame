@@ -12,8 +12,8 @@ public class Player extends Entity {
 
     private Inventory playerInventory = new Inventory();
 
-    public Player(int x, int y, PlayerConstants playerConstants, Level level) {
-        super(x, y, playerConstants, level);
+    public Player(int x, int y, PlayerConstants playerConstants) {
+        super(x, y, playerConstants);
     }
 
     public Inventory getPlayerInventory() {
@@ -42,19 +42,10 @@ public class Player extends Entity {
             yMove -= speed;
         }
 
-        move();
-        checkObjectCollide();
+        //move();
+        //checkObjectCollide();
     }
 
-    @Override
-    protected void checkObjectCollide() {
-//        Point[] overlapTiles = FindOverlapTiles(getCollisionBounds(0, 0));
-//        for (Point objectIndexes : overlapTiles) {
-//            if (level.getLevelObjects()[objectIndexes.x][objectIndexes.y] != null) {
-//                level.getLevelObjects()[objectIndexes.x][objectIndexes.y].CollideWithEntity(this, level);
-//            }
-//        }
-    }
 
     @Override
     //May need to make some changes to this e.g. if changed action make sure that animationIndex is reset to 0, or something like that.
@@ -70,7 +61,7 @@ public class Player extends Entity {
     }
 
     @Override
-    public void render(Graphics g) {
+    public void render(Graphics g, Level level) {
         int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
         int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
         animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);

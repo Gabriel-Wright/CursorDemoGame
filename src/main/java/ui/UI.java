@@ -19,8 +19,8 @@ public class UI {
     private final Font arial_tileSize = new Font("Arial", Font.PLAIN, TILE_SIZE/2);
     private static ArrayList<UITag> UITagMessages = new ArrayList<>();
     private static boolean UITagMessagesOn = false;
-    public UI(Player player, LevelManager levelManager) {
-        this.player = player;
+    public UI(LevelManager levelManager) {
+        this.player = levelManager.getGameObjectHandler().getPlayer();
         this.levelManager = levelManager;
     }
 

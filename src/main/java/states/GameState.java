@@ -12,17 +12,12 @@ import static main.GamePanel.TILE_SIZE;
 
 public class GameState extends State{
 
-    private int startX = 5*TILE_SIZE;
-    private int startY = 5*TILE_SIZE;
     private PauseState pauseState;
     private boolean inPauseState = false;
-    private Player player;
-    private PlayerConstants playerConstants;
     private LevelManager levelManager;
     private UI gameUI;
     public void loadTestGame() {
         loadLevelManager();
-        loadPlayerInfo();
         loadUI();
         pauseState = new PauseState(this);
     }
@@ -35,12 +30,7 @@ public class GameState extends State{
         pauseState.endState();
     }
     private void loadUI() {
-        gameUI = new UI(player, levelManager);
-    }
-
-    private void loadPlayerInfo() {
-        playerConstants = new PlayerConstants();
-        player = new Player(startX, startY, playerConstants,levelManager.getLevel());
+        gameUI = new UI(levelManager);
     }
 
     private void loadLevelManager() {
@@ -64,18 +54,11 @@ public class GameState extends State{
             }
         }
         if(!isPaused) {
-            //Need to update this so that levelManager updates the entities too
-            player.update();
-            //CollisionChecker.checkCornerCollision(player,levelManager.getLevel());
             levelManager.update();
         }
         if(isPaused) {
             pauseState.update();
         }
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     public LevelManager getLevelManager() {
@@ -86,7 +69,6 @@ public class GameState extends State{
     public void render(Graphics g) {
         if(!isPaused) {
             levelManager.draw(g);
-            player.render(g);
             gameUI.render(g);
         }
         if(isPaused) {

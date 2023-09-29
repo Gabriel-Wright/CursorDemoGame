@@ -20,11 +20,6 @@ public class LevelManager {
     private TileManager tileManager;
     private ObjectManager objectManager;
     private GameObjectHandler gameObjectHandler;
-//    public void loadNewLevel(String tileSpritePath, String objectSpritePath, String levelMapPath) {
-//        loadTileManager(tileSpritePath);
-//        loadObjectManager(objectSpritePath);
-//        loadLevel(levelMapPath);
-//    }
 
     //Load new level from LevelConstants class
     public void loadNewLevel(int i) {
@@ -35,8 +30,13 @@ public class LevelManager {
         loadTileManager();
         loadObjectManager();
         loadLevel();
+        loadGameObjectHandler();
     }
 
+    private void loadGameObjectHandler() {
+        gameObjectHandler = new GameObjectHandler(level.getLevelWidth(), level.getLevelHeight(), null, null);
+        gameObjectHandler.loadGameObjectHandler();
+    }
     private void loadTileManager() {
         tileManager = new TileManager(levelConstants.getTileConstants());
         tileManager.loadTiles(levelConstants.getTileReferences(levelRef));
@@ -52,6 +52,7 @@ public class LevelManager {
     }
 
     public void draw(Graphics g) {
+        //Draw tiles
         int levelHeight = level.getLevelHeight();
         int levelWidth = level.getLevelWidth();
 
@@ -74,6 +75,9 @@ public class LevelManager {
 //                }
             }
         }
+
+        //Draw entities and objects - should do check to see whether they are within camera range also
+        gameObjectHandler.render(g,level);
     }
 
     public void update() {
@@ -84,15 +88,8 @@ public class LevelManager {
         return level;
     }
 
-    //    private void loadTileManager(String tileSpritePath) {
-//        tileManager = new TileManager(tileSpritePath);
-//        tileManager.loadTiles();
-//    }
-
-    //    private void loadObjectManager(String objectSpritePath) {
-//        objectManager = new ObjectManager(objectSpritePath);
-//        objectManager.loadObjects();
-//    }
-
+    public GameObjectHandler getGameObjectHandler() {
+        return gameObjectHandler;
+    }
 
 }

@@ -47,7 +47,6 @@ public class PauseState extends State{
 
     private void renderGameStateBackground(Graphics g) {
         gameState.getLevelManager().draw(g);
-        gameState.getPlayer().render(g);
     }
 
     //This may become a static utils method?
