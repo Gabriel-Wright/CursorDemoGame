@@ -78,6 +78,8 @@ public abstract class Entity {
         checkLevelCollisionYMove(level);
     }
 
+
+    //Adjusting these to change position immediately - we will see how this affects
     private void checkLevelCollisionXMove(Level level) {
         if (xMove > 0) {//Moving right
             //Check right bound of entity
@@ -85,14 +87,14 @@ public abstract class Entity {
             //If tile overlapping the right bound of the entity is solid then change the xMove value so that the player lines up
             //Maybe adjust this so that the xValue is set here?
             if (level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) || level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
-                xMove = x - (tx * TILE_SIZE - bounds.x - bounds.width - 1);
+                xMove = tx * TILE_SIZE - bounds.x - bounds.width - 1 - x;
             }
         } else if (xMove < 0) { //Moving left
             //Check left bound of entity
             int tx = (int) (x + xMove + bounds.x) / TILE_SIZE;
             //If tile overlapping the left bound of the entity is solid then change the xMove value so that the player lines up
             if (level.isSolidTile(tx, (int) (y + bounds.y) / TILE_SIZE) || level.isSolidTile(tx, (int) (y + bounds.y + bounds.height) / TILE_SIZE)) {
-                xMove = x - (tx * TILE_SIZE + TILE_SIZE - bounds.x);
+                xMove = tx * TILE_SIZE + TILE_SIZE - bounds.x - x;
             }
         }
 
@@ -104,14 +106,14 @@ public abstract class Entity {
             int ty = (int) (y + yMove + bounds.y) / TILE_SIZE;
             //If tile overlapping the upper bound of the entity is solid then change the yMove value so that the player lines up with that tile
             if (level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) || level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
-                yMove = y - (ty * TILE_SIZE + TILE_SIZE - bounds.y);
+                yMove = ty * TILE_SIZE + TILE_SIZE - bounds.y - y;
             }
         } else if (yMove > 0) { // Moving down
             //Check lower bound of entity
             int ty = (int) (y + yMove + bounds.y + bounds.height) / TILE_SIZE;
             //If tile overlapping the lower bound of the entity is solid then change the yMove value so that hte player lines up with that tile
             if (level.isSolidTile((int) (x + bounds.x) / TILE_SIZE, ty) || level.isSolidTile((int) (x + bounds.x + bounds.width) / TILE_SIZE, ty)) {
-                yMove = y - (ty * TILE_SIZE - bounds.y - bounds.height - 1);
+                yMove = ty * TILE_SIZE - bounds.y - bounds.height - 1 - y;
             }
         }
     }

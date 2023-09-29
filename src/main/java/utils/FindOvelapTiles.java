@@ -61,11 +61,11 @@ public class FindOvelapTiles {
         int endY = (int) (entity.getY() + entity.getBounds().getY() + entity.getBounds().getHeight()) / TILE_SIZE;
 
 
-        // Debug prints
-        System.out.println("startX: " + startX);
-        System.out.println("startY: " + startY);
-        System.out.println("endX: " + endX);
-        System.out.println("endY: " + endY);
+//        // Debug prints
+//        System.out.println("startX: " + startX);
+//        System.out.println("startY: " + startY);
+//        System.out.println("endX: " + endX);
+//        System.out.println("endY: " + endY);
 
         int numTiles = (endX - startX +1) * (endY - startY +1);
         Point[] tileIndexes = new Point[numTiles];
