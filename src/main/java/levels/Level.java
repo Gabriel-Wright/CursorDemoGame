@@ -4,8 +4,12 @@ import object.CollectableObject;
 import object.SuperObject;
 import tile.Tile;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
+
+import static main.GamePanel.*;
+import static main.GamePanel.TILE_SIZE;
 
 public class Level {
 
@@ -29,34 +33,6 @@ public class Level {
         levelHeight = levelTileData.length;
         levelCamera = new LevelCamera(0 ,0, levelWidth, levelHeight);
     }
-
-    /**
-     *
-     */
-//    public void loadLevelData() {
-//        levelTileData = new int[levelWidth][levelHeight];
-//        levelObjects = new CollectableObject[levelWidth][levelHeight];
-//        for (int i = 0; i < levelWidth; i++) {
-//            for (int j = 0; j < levelHeight; j++) {
-//                Color color = new Color(levelMap.getRGB(i, j));
-//                int tileIndex = color.getRed();
-//                int objectIndex = color.getGreen();
-//                //If invalid tileIndex - then set the tile to failed tile
-//                if (tileIndex > levelTiles.length) {
-//                    tileIndex = levelTiles.length - 1;
-//                }
-//                levelTileData[i][j] = tileIndex;
-//                if(objectIndex < templateLevelObjects.length) {
-//                    CollectableObject tempObj = new CollectableObject(i,j,templateLevelObjects[objectIndex].getObjectImage(),templateLevelObjects[objectIndex].hasCollided(),templateLevelObjects[objectIndex].getName());
-//                    levelObjects[i][j] = tempObj;
-//                } else {
-//                    levelObjects[i][j] = null;
-//                }
-//            }
-//        }
-//    }
-
-
 
     public int[][] getLevelTileData() {
         return levelTileData;
@@ -93,4 +69,21 @@ public class Level {
         return levelCamera;
     }
 
+    public void render(Graphics g) {
+
+        int xStart = (int) Math.max(0, levelCamera.getxOffset() / TILE_SIZE);
+        int yStart = (int) Math.max(0, levelCamera.getyOffset() / TILE_SIZE);
+        int xEnd = (int) Math.min(levelWidth, (levelCamera.getxOffset() + levelCamera.getxOffset() + SCREEN_WIDTH)/TILE_SIZE +1);
+        int yEnd = (int) Math.min(levelHeight, (levelCamera.getyOffset() + SCREEN_HEIGHT)/TILE_SIZE +1);
+        //Level tiles
+        for (int y = yStart; y < yEnd; y++) {
+            for (int x = xStart; x < xEnd; x++) {
+                g.drawImage(getTile(x,y).getTileImage(),
+                        (int) (x * TILE_SIZE - levelCamera.getxOffset()),
+                        (int) (y * TILE_SIZE - levelCamera.getyOffset()),
+                        TILE_SIZE, TILE_SIZE, null);
+            }
+        }
+
+    }
 }

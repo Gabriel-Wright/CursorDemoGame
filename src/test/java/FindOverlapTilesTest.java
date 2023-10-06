@@ -1,5 +1,6 @@
 import gameObjects.entities.Entity;
 import org.junit.jupiter.api.Test;
+import utils.FindOvelapTiles;
 
 import java.awt.*;
 
@@ -14,7 +15,7 @@ public class FindOverlapTilesTest {
         Entity entity = new TestEntity();
         entity.setX(2*TILE_SIZE+1); // Set the entity's X position
         entity.setY(3*TILE_SIZE+1); // Set the entity's Y position
-        Rectangle entityBounds = new Rectangle(TILE_SIZE/2,TILE_SIZE/2,TILE_SIZE, TILE_SIZE);
+        Rectangle entityBounds = new Rectangle(TILE_SIZE/4,TILE_SIZE/4,TILE_SIZE/2 , TILE_SIZE/2);
         entity.setBounds(entityBounds);
         // Calculate overlap tiles with offsets
         Point[] overlapTiles = FindOverlapTiles(entity, TILE_SIZE, TILE_SIZE);
@@ -24,7 +25,6 @@ public class FindOverlapTilesTest {
         }
         // Define the expected overlap tiles
         Point[] expectedTiles = {
-                new Point(2, 3), new Point(3, 3), new Point(2, 4),
                 new Point(3, 4)
         };
         System.out.println("Expected Tiles:");
@@ -51,8 +51,7 @@ public class FindOverlapTilesTest {
         }
         // Define the expected overlap tiles
         Point[] expectedTiles = {
-                new Point(2, 3), new Point(3, 3), new Point(2, 4),
-                new Point(3, 4)
+            new Point(2,3)
         };
         System.out.println("Expected Tiles:");
         for (Point point : expectedTiles) {

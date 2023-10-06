@@ -131,7 +131,7 @@ public abstract class Entity {
 
         //If entity has moved in this update - reassign its grid position
         if(xMove> 0 || yMove >0) {
-            gameObjectGrid.reassignEntityCells(this, xMove, yMove);
+            gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
         }
     }
 

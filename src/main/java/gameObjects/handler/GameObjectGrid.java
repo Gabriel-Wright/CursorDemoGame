@@ -67,7 +67,8 @@ public class GameObjectGrid {
     public void reassignEntityCells(Entity entity, float xMove, float yMove) {
         //Get current cell indexes
         Point[] cellIndexes = FindOverlapTiles(entity);
-        //Set of previous cells that entity was attached to
+        //Set of previous cells that entity was attached -> minus since entity moved by xmove and ymove, so previous
+        // cell set was xmove back ymove back
         Set<Point> prevCellSet = new HashSet<>(Arrays.asList(FindOverlapTiles(entity, xMove, yMove)));
         //Iterate through previous cell indexes to check removals
         for(Point cellIndex: cellIndexes) {
@@ -79,15 +80,38 @@ public class GameObjectGrid {
                 } else {
                     prevCellSet.remove(cellIndex);
                 }
+            } else {
+                addEntityToCell(cellIndex.x, cellIndex.y, entity);
             }
         }
 
         // Iterate through current cell indexes to check additions
         for (Point cellIndex : prevCellSet) {
-            Cell cell = getCell(cellIndex.x, cellIndex.y);
-            if (cell != null) {
-                cell.getEntities().remove(entity);
+            if (getCell(cellIndex.x, cellIndex.y) != null) {
+                getCell(cellIndex.x, cellIndex.y).getEntities().remove(entity);
             }
         }
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("GameObjectGrid Contents:\n");
+
+        for (Map.Entry<Integer, Map<Integer, Cell>> entry : cells.entrySet()) {
+            int x = entry.getKey();
+            Map<Integer, Cell> row = entry.getValue();
+
+            for (Map.Entry<Integer, Cell> cellEntry : row.entrySet()) {
+                int y = cellEntry.getKey();
+                Cell cell = cellEntry.getValue();
+
+                sb.append("Cell (x=").append(x).append(", y=").append(y).append("):\n");
+                sb.append(cell.toString()).append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
 }

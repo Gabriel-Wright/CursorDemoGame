@@ -67,6 +67,41 @@ public class GameObjectGridTest {
         assertTrue(cell2.getEntities().contains(entity2));
     }
 
+    @Test
+    public void testReassignEntityCells() {
+        //Entity moved to 2,1 1,1
+
+        //Entity starts at 0,0 1,0 0,1 1,1 and then moves to
+        Entity entity = new TestEntity();
+        entity.setX(1);
+        entity.setY(1);
+        Rectangle entityBounds = new Rectangle(1, 1, TILE_SIZE, TILE_SIZE);
+        //Entity should exist in cells 0,0 1,0 0,1 1,1.
+        entity.setBounds(entityBounds);
+        List<Entity> entities = new ArrayList<>();
+        entities.add(entity);
+
+        // Add entities to cells based on their bounds
+        grid.initialiseGrid(entities, null);
+        System.out.println(grid.toString());
+
+        //Entity moves a tile in either axis
+        entity.setX(1+TILE_SIZE);
+        entity.setY(1+TILE_SIZE);
+        // Move the entity by a small amount
+        grid.reassignEntityCells(entity, -TILE_SIZE, -TILE_SIZE);
+
+        System.out.println(grid.toString());
+        // Check if the entity is in the new cell and removed from the old cell
+        Cell oldCell = grid.getCell(0, 0);
+        Cell newCell = grid.getCell(1, 1);
+
+
+        Assertions.assertNull(oldCell);
+        Assertions.assertNotNull(newCell);
+        Assertions.assertTrue(newCell.getEntities().contains(entity));
+    }
+
     // Define a test entity class that extends Entity for testing purposes
     private static class TestEntity extends Entity {
         public TestEntity() {
