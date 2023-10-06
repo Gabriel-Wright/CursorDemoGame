@@ -7,6 +7,7 @@ import levels.Level;
 
 import java.awt.*;
 
+import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
 
 public abstract class Entity {
@@ -62,7 +63,7 @@ public abstract class Entity {
 
 
     //Centres the camera on the entities position
-    private void centerCamera(Level level) {
+    protected void centerCamera(Level level) {
         level.getLevelCamera().centerOnPos(x, y);
     }
 
@@ -70,7 +71,7 @@ public abstract class Entity {
         checkLevelCollisions(level);
         x +=xMove;
         y +=yMove;
-        centerCamera(level);
+        //centerCamera(level);
     }
 
     private void checkLevelCollisions(Level level) {
@@ -124,6 +125,9 @@ public abstract class Entity {
         updatePos();
         //Verify states/positions based on collisions within level post movement
         move(level);
+        //Check entity collisions
+
+        //Check entity
         //Update action state of the entity
         updateAction();
         //Adjust the entity animation based on its action state
@@ -158,7 +162,13 @@ public abstract class Entity {
     }
 
     public void render(Graphics g, Level level) {
-        animations.drawImage(g, action, aniIndex, (int) x, (int) y, entityWidth, entityHeight);
+        int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
+        int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
+        animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);
+        g.setColor(Color.WHITE);
+        if(hitboxToggle) {
+            g.fillRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);
+        }
     }
 
     public Rectangle getCollisionBounds(float xOffset, float yOffset) {

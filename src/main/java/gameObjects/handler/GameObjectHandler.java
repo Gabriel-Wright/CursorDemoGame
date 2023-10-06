@@ -1,6 +1,8 @@
 package gameObjects.handler;
 
 import gameObjects.entities.Entity;
+import gameObjects.entities.enemies.GreenDeath.GreenDeath;
+import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
 import levels.Level;
@@ -21,6 +23,7 @@ public class GameObjectHandler {
     private List<SuperObject> objects;
     private Player player;
     private PlayerConstants playerConstants;
+    private GreenDeathConstants greenDeathConstants;
     //Also add event triggers
     public GameObjectHandler(int numRows, int numCols, List<Entity> entities, List<SuperObject> objects) {
         gameObjectGrid = new GameObjectGrid(numRows, numCols);
@@ -47,7 +50,10 @@ public class GameObjectHandler {
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
+        greenDeathConstants = new GreenDeathConstants();
+        GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
         entities.add(player);
+        entities.add(greenDeathTest);
         objects = new ArrayList<>();
 
     }

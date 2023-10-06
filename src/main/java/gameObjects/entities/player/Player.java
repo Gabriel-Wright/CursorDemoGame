@@ -2,6 +2,7 @@ package gameObjects.entities.player;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.Inventory;
+import gameObjects.handler.GameObjectGrid;
 import levels.Level;
 
 import java.awt.*;
@@ -18,6 +19,25 @@ public class Player extends Entity {
 
     public Inventory getPlayerInventory() {
         return playerInventory;
+    }
+
+    @Override
+    public void update(Level level, GameObjectGrid gameObjectGrid) {
+        //Update position calculations
+        updatePos();
+        //Verify states/positions based on collisions within level post movement
+        move(level);
+        //Centre camera on player
+        centerCamera(level);
+        //Update action state of the entity
+        updateAction();
+        //Adjust the entity animation based on its action state
+        updateAnimationTick();
+
+        //If entity has moved in this update - reassign its grid position
+        if(xMove> 0 || yMove >0) {
+            gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
+        }
     }
 
     @Override
@@ -60,13 +80,5 @@ public class Player extends Entity {
         }
     }
 
-    @Override
-    public void render(Graphics g, Level level) {
-        int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
-        int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
-        animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);
-        g.setColor(Color.WHITE);
-        g.fillRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);
-    }
 
 }

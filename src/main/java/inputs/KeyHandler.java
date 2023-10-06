@@ -10,7 +10,7 @@ public class KeyHandler implements KeyListener {
     public static boolean upPressed, downPressed, leftPressed, rightPressed;
     public static boolean isPaused;
     //Debug toggles
-    public static boolean playerPosInfo = false, playerInventoryInfo = false;
+    public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -44,6 +44,10 @@ public class KeyHandler implements KeyListener {
                 break;
             case KeyEvent.VK_F4:
                 playerInventoryInfo = !playerInventoryInfo;
+                break;
+            case KeyEvent.VK_F5:
+                hitboxToggle = !hitboxToggle;
+                break;
         }
     }
 
