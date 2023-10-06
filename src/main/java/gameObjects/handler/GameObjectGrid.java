@@ -93,6 +93,21 @@ public class GameObjectGrid {
         }
     }
 
+    //Could be optimised to use array not arraylist
+    public List<Point> getAssignedCells(Entity entity) {
+        List<Point> assignedCells = new ArrayList<>();
+
+        Point[] cellIndexes = FindOverlapTiles(entity);
+
+        for (Point cellIndex : cellIndexes) {
+            if (getCell(cellIndex.x, cellIndex.y) != null) {
+                assignedCells.add(cellIndex);
+            }
+        }
+
+        return assignedCells;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

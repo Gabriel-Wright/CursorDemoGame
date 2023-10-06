@@ -7,9 +7,6 @@ import static main.GamePanel.UPS;
 
 
 public class GreenDeathConstants extends EntityConstants {
-
-    public static final int IDLE = 1;
-    public static final int DEAD = 0;
     @Override
     public String getAnimationPath() {
         return "/entities/greendeath.png";
@@ -17,7 +14,7 @@ public class GreenDeathConstants extends EntityConstants {
 
     @Override
     public int[] getAnimationFlags() {
-        int[] animationFlags = {IDLE, DEAD};
+        int[] animationFlags = {DEAD, IDLE};
         return animationFlags;
     }
 

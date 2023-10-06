@@ -2,6 +2,7 @@ package gameObjects.entities.player;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.Inventory;
+import gameObjects.entities.constants.EntityConstants;
 import gameObjects.handler.GameObjectGrid;
 import levels.Level;
 
@@ -27,6 +28,8 @@ public class Player extends Entity {
         updatePos();
         //Verify states/positions based on collisions within level post movement
         move(level);
+        //Check entity collisions
+        handleLocalEntityCollisions(level, gameObjectGrid);
         //Centre camera on player
         centerCamera(level);
         //Update action state of the entity
@@ -37,6 +40,14 @@ public class Player extends Entity {
         //If entity has moved in this update - reassign its grid position
         if(xMove> 0 || yMove >0) {
             gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
+        }
+    }
+
+    @Override
+    protected void handleEntityCollision(Entity entity) {
+        if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
+            System.out.println("Collision");
+            entity.checkActionChangeAniIndexAniTick(EntityConstants.DEAD);
         }
     }
 

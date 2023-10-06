@@ -6,8 +6,6 @@ import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
 public class PlayerConstants extends EntityConstants {
 
-    public static final int IDLE = 0;
-    public static final int WALKING = 1;
 
     @Override
     public float getSpeed() {

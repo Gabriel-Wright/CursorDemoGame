@@ -2,10 +2,13 @@ package gameObjects.entities;
 
 import animations.EntityAnimations;
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
 import levels.Level;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
@@ -27,7 +30,7 @@ public abstract class Entity {
     protected float xMove;
     protected float yMove;
     protected boolean moving = false;
-    protected int action;
+    protected int action = EntityConstants.IDLE;
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
 
     public Entity(int x, int y, EntityConstants entityConstants) {
@@ -126,8 +129,7 @@ public abstract class Entity {
         //Verify states/positions based on collisions within level post movement
         move(level);
         //Check entity collisions
-
-        //Check entity
+        handleLocalEntityCollisions(level, gameObjectGrid);
         //Update action state of the entity
         updateAction();
         //Adjust the entity animation based on its action state
@@ -139,17 +141,37 @@ public abstract class Entity {
         }
     }
 
+    //May need to adjust to not use set?
+    protected void handleLocalEntityCollisions(Level level, GameObjectGrid gameObjectGrid) {
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        Set<Entity> cellEntities = new HashSet<>();
+        //Retrieve all entities
+        for(Point cellIndex: cellIndexes) {
+            Cell cell = gameObjectGrid.getCell(cellIndex.x, cellIndex.y);
+            cellEntities.addAll(cell.getEntities());
+        }
+
+        //Complete collisions for those entities
+        for(Entity entity: cellEntities) {
+            //Check entity is not itself
+            if (entity != this) {
+                handleEntityCollision(entity);
+            }
+        }
+    }
+
+    protected abstract void handleEntityCollision(Entity entity);
+
     protected abstract void updatePos();
 
     protected abstract void updateAction();
 
-    protected void checkActionChangeAniIndexAniTick(int action) {
+    public void checkActionChangeAniIndexAniTick(int action) {
         if (this.action != action) {
             aniIndex = 0;
             aniTick = 0;
         }
     }
-
     protected void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
@@ -197,4 +219,11 @@ public abstract class Entity {
         this.bounds = bounds;
     }
 
+    public void setAction(int action) {
+        this.action = action;
+    }
+
+    public Rectangle getCollisionBounds() {
+        return new Rectangle((int) x+bounds.x,(int) y+bounds.y, bounds.width, bounds.height);
+    }
 }

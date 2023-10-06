@@ -6,8 +6,14 @@ public class GreenDeath extends Entity {
 
     public GreenDeath(int x, int y, GreenDeathConstants greenDeathConstants) {
         super(x, y ,greenDeathConstants);
-        action = GreenDeathConstants.IDLE;
     }
+
+    @Override
+    protected void handleEntityCollision(Entity entity) {
+//        System.out.println("Overlap??");
+
+    }
+
     @Override
     protected void updatePos() {
 

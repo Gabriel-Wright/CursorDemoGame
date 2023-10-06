@@ -4,5 +4,8 @@ package gameObjects.entities.constants;
 //into an Entities object.
 public abstract class EntityConstants implements AnimationConstants, HitboxConstants{
 
+    public static final int IDLE = 0;
+    public static final int WALKING = 1;
+    public static final int DEAD = 2;
     public abstract float getSpeed();
 }

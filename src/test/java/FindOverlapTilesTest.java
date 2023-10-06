@@ -67,6 +67,11 @@ public class FindOverlapTilesTest {
         }
 
         @Override
+        protected void handleEntityCollision(Entity entity) {
+
+        }
+
+        @Override
         protected void updatePos() {
             // Implement updatePos for testing
         }

@@ -14,6 +14,7 @@ import gameObjects.handler.GameObjectGrid;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class GameObjectGridTest {
 
@@ -102,10 +103,47 @@ public class GameObjectGridTest {
         Assertions.assertTrue(newCell.getEntities().contains(entity));
     }
 
+    @Test
+    public void testGetAssignedCells() {
+        Entity entity = new TestEntity();
+        entity.setX(1);
+        entity.setY(1);
+        Rectangle entityBounds = new Rectangle(1, 1, TILE_SIZE, TILE_SIZE);
+        //Entity should exist in 0,0 1,0 0,1 1,1
+        entity.setBounds(entityBounds);
+        List<Entity> entities = new ArrayList<>();
+        entities.add(entity);
+
+        grid.initialiseGrid(entities, null);
+
+        Point[] expectedCells = new Point[] {new Point(0,0),
+            new Point(1,0), new Point(0,1),
+            new Point(1,1)
+        };
+
+        for(Point point: expectedCells) {
+            System.out.println(point);
+        }
+
+        Point[] actualCells = grid.getAssignedCells(entity).toArray(new Point[0]);
+
+        //Switched 1 and 2 indexes because of order arrays was looped is different
+        Assertions.assertEquals(expectedCells[0], actualCells[0]);
+        Assertions.assertEquals(expectedCells[1], actualCells[2]);
+        Assertions.assertEquals(expectedCells[2], actualCells[1]);
+        Assertions.assertEquals(expectedCells[3], actualCells[3]);
+
+    }
+
     // Define a test entity class that extends Entity for testing purposes
     private static class TestEntity extends Entity {
         public TestEntity() {
             super(0, 0, null); // Provide appropriate values for constructor
+        }
+
+        @Override
+        protected void handleEntityCollision(Entity entity) {
+
         }
 
         @Override
