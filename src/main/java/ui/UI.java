@@ -7,8 +7,7 @@ import java.util.Iterator;
 import gameObjects.entities.player.Player;
 import levels.LevelManager;
 
-import static inputs.KeyHandler.playerInventoryInfo;
-import static inputs.KeyHandler.playerPosInfo;
+import static inputs.KeyHandler.*;
 import static main.GamePanel.*;
 
 
@@ -19,6 +18,11 @@ public class UI {
     private final Font arial_tileSize = new Font("Arial", Font.PLAIN, TILE_SIZE/2);
     private static ArrayList<UITag> UITagMessages = new ArrayList<>();
     private static boolean UITagMessagesOn = false;
+
+    //Static statistic values local to this class - set after every full update
+    public static int ECPULOCAL = 0;
+    public static int UPSLOCAL = 0;
+    public static int FPSLOCAL = 0;
     public UI(LevelManager levelManager) {
         this.player = levelManager.getGameObjectHandler().getPlayer();
         this.levelManager = levelManager;
@@ -35,13 +39,19 @@ public class UI {
     public void draw£ntityPosInfo(Graphics g, float x, float y) {
         g.setFont(arial_tileSize);
         g.setColor(Color.WHITE);
-        g.drawString(String.format("Pos:(%f, %f)\n. Row: %f. \n Column: %f)",x,y,x/TILE_SIZE,y/TILE_SIZE), 25, 25);
+        g.drawString(String.format("Pos:(%f, %f)\n. Row: %f. \n Column: %f)",x,y,x/TILE_SIZE,y/TILE_SIZE), TILE_SIZE, TILE_SIZE);
     }
 
     public void drawEntityInventoryInfo(Graphics g, float x, float y) {
         g.setFont(arial_tileSize);
         g.setColor(Color.WHITE);
         g.drawString(player.getPlayerInventory().toString(),TILE_SIZE,SCREEN_HEIGHT-TILE_SIZE);
+    }
+
+    public void drawPerformanceInfo(Graphics g) {
+        g.setFont(arial_tileSize);
+        g.setColor(Color.WHITE);
+        g.drawString(String.format("ECPU: %d\n. UPS: %d. FPS: %d.",ECPULOCAL, UPSLOCAL, FPSLOCAL), 7*TILE_SIZE, TILE_SIZE);
     }
     public void drawUITags(Graphics g) {
         Iterator<UITag> iterator = UITagMessages.iterator();
@@ -62,6 +72,10 @@ public class UI {
         if(playerInventoryInfo) {
             drawEntityInventoryInfo(g, player.getX(), player.getY());
         }
+        if(performanceInfo) {
+            drawPerformanceInfo(g);
+        }
+
         if(UITagMessagesOn) {
             drawUITags(g);
         }

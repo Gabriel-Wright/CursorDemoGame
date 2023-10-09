@@ -12,7 +12,7 @@ import java.util.Set;
 
 import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
-
+import static gameObjects.handler.GameObjectHandler.ECPU;
 public abstract class Entity {
 
 
@@ -155,6 +155,7 @@ public abstract class Entity {
         for(Entity entity: cellEntities) {
             //Check entity is not itself
             if (entity != this) {
+                ECPU++;
                 handleEntityCollision(entity);
             }
         }

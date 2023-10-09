@@ -3,6 +3,7 @@ package main;
 import inputs.KeyHandler;
 import states.GameState;
 import states.State;
+import ui.UI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     private GameState gameState;
     private static State currentState;
+    private static Color backGroundColor = Color.black;
     public GamePanel() {
         //Set size of window to preferred size
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -35,9 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); //Can improve game rendering performance
         this.addKeyListener(keyH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
-        gameState = new GameState();
+        gameState = new GameState(this);
         setCurrentState(gameState);
-
     }
 
     public static void setCurrentState(State state) {
@@ -100,6 +101,8 @@ public class GamePanel extends JPanel implements Runnable {
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
                 System.out.println("FPS: " + frames + "| UPS: " + updates);
+                UI.UPSLOCAL = updates;
+                UI.FPSLOCAL = frames;
                 frames = 0;
                 updates = 0;
             }
@@ -107,7 +110,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        currentState.update();;
+        currentState.update();
     }
 
     public void paintComponent(Graphics g) {

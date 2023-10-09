@@ -70,14 +70,13 @@ public class LoadFiles {
             JSONArray myGrid = json.getJSONArray(matrixName);
 
             // Convert the JSONArray into a 2D int array
-            int numRows = myGrid.length();
-            int numCols = myGrid.getJSONArray(0).length();
+            int numRows = myGrid.getJSONArray(0).length();
+            int numCols = myGrid.length();
             int[][] gridArray = new int[numRows][numCols];
 
             for (int i = 0; i < numRows; i++) {
-                JSONArray row = myGrid.getJSONArray(i);
                 for (int j = 0; j < numCols; j++) {
-                    gridArray[i][j] = row.getInt(j);
+                    gridArray[i][j] = myGrid.getJSONArray(j).getInt(i);
                 }
             }
 

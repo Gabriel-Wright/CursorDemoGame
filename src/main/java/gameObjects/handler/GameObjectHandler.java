@@ -5,8 +5,11 @@ import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
+import gameObjects.events.Event;
+import gameObjects.events.triggers.RoomChange;
 import levels.Level;
 import object.SuperObject;
+import ui.UI;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,9 +24,11 @@ public class GameObjectHandler {
     private GameObjectGrid gameObjectGrid;
     private List<Entity> entities;
     private List<SuperObject> objects;
+    private List<Event> events;
     private Player player;
     private PlayerConstants playerConstants;
     private GreenDeathConstants greenDeathConstants;
+    public static int ECPU; //Entity collision checks per update - how many checks per ingame update
     //Also add event triggers
     public GameObjectHandler(int numRows, int numCols, List<Entity> entities, List<SuperObject> objects) {
         gameObjectGrid = new GameObjectGrid(numRows, numCols);
@@ -38,7 +43,7 @@ public class GameObjectHandler {
     public void loadGameObjectHandler() {
         loadPlayerInfo();
         loadTestEntities();
-        gameObjectGrid.initialiseGrid(entities, objects);
+        gameObjectGrid.initialiseGrid(entities, objects, events);
     }
 
     private void loadPlayerInfo() {
@@ -48,10 +53,24 @@ public class GameObjectHandler {
         player = new Player(startX, startY, playerConstants);
     }
 
+    private void loadTestEvents() {
+        events = new ArrayList<>();
+        RoomChange testEvent = new RoomChange(Color.GREEN, TILE_SIZE*7, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
+        events.add(testEvent);
+    }
+
     private void loadTestEntities() {
         entities = new ArrayList<>();
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
+        int index = 0;
+        for(int i =0; i<100; i++) {
+            GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
+            entities.add(greenDeath);
+            if(index ==4) {
+                index = 0;
+            }
+        }
         entities.add(player);
         entities.add(greenDeathTest);
         objects = new ArrayList<>();
@@ -66,6 +85,8 @@ public class GameObjectHandler {
         }
         //For loop for entity updates - movement and tile collision
         //Within same for loop do collisions with object grid
+        UI.ECPULOCAL = ECPU;
+        ECPU = 0;
     }
 
     public Player getPlayer() {

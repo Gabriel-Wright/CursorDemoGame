@@ -1,6 +1,7 @@
 package gameObjects.handler;
 
 import gameObjects.entities.Entity;
+import gameObjects.events.Event;
 import object.SuperObject;
 
 import java.awt.*;
@@ -20,7 +21,7 @@ public class GameObjectGrid {
         cells = new HashMap<>();
     }
 
-    public void initialiseGrid(List<Entity> entities, List<SuperObject> objects) {
+    public void initialiseGrid(List<Entity> entities, List<SuperObject> objects, List<Event> triggerEvents) {
         addEntitiesToCells(entities);
     }
 
@@ -35,6 +36,10 @@ public class GameObjectGrid {
                 addEntityToCell(cellIndex.x, cellIndex.y, entity);
             }
         }
+    }
+
+    private void addTriggerEventsToCells(List<Event> triggerEvents) {
+
     }
 
     public void addEntityToCell(int x, int y, Entity entity) {

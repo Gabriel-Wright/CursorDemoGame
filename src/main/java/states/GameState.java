@@ -4,6 +4,7 @@ import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
 import levels.LevelConstants;
 import levels.LevelManager;
+import main.GamePanel;
 import ui.UI;
 import static inputs.KeyHandler.isPaused;
 import java.awt.*;
@@ -16,10 +17,18 @@ public class GameState extends State{
     private boolean inPauseState = false;
     private LevelManager levelManager;
     private UI gameUI;
+
+    public GameState(GamePanel gamePanel) {
+        super(gamePanel);
+    }
     public void loadTestGame() {
         loadLevelManager();
         loadUI();
         pauseState = new PauseState(this);
+    }
+
+    public static void updateGameBackground(Color color) {
+        gamePanel.setBackground(color);
     }
 
     public void pauseGame() {
