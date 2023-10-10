@@ -6,6 +6,7 @@ import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
 import gameObjects.events.Event;
+import gameObjects.events.PositionalEvent;
 import gameObjects.events.triggers.RoomChange;
 import levels.Level;
 import object.SuperObject;
@@ -24,13 +25,13 @@ public class GameObjectHandler {
     private GameObjectGrid gameObjectGrid;
     private List<Entity> entities;
     private List<SuperObject> objects;
-    private List<Event> events;
+    private List<PositionalEvent> positionalEvents;
     private Player player;
     private PlayerConstants playerConstants;
     private GreenDeathConstants greenDeathConstants;
     public static int ECPU; //Entity collision checks per update - how many checks per ingame update
     //Also add event triggers
-    public GameObjectHandler(int numRows, int numCols, List<Entity> entities, List<SuperObject> objects) {
+    public GameObjectHandler(int numRows, int numCols, Player player, List<Entity> entities, List<SuperObject> objects) {
         gameObjectGrid = new GameObjectGrid(numRows, numCols);
         this.entities = entities;
         this.objects = objects;
@@ -43,7 +44,7 @@ public class GameObjectHandler {
     public void loadGameObjectHandler() {
         loadPlayerInfo();
         loadTestEntities();
-        gameObjectGrid.initialiseGrid(entities, objects, events);
+        gameObjectGrid.initialiseGrid(player, entities, objects, positionalEvents);
     }
 
     private void loadPlayerInfo() {
@@ -54,9 +55,9 @@ public class GameObjectHandler {
     }
 
     private void loadTestEvents() {
-        events = new ArrayList<>();
-        RoomChange testEvent = new RoomChange(Color.GREEN, TILE_SIZE*7, TILE_SIZE*5, TILE_SIZE, TILE_SIZE);
-        events.add(testEvent);
+        positionalEvents = new ArrayList<>();
+        RoomChange testEvent = new RoomChange(Color.GREEN, TILE_SIZE*7, TILE_SIZE*5, TILE_SIZE, TILE_SIZE, true);
+        positionalEvents.add(testEvent);
     }
 
     private void loadTestEntities() {
@@ -71,8 +72,6 @@ public class GameObjectHandler {
                 index = 0;
             }
         }
-        entities.add(player);
-        entities.add(greenDeathTest);
         objects = new ArrayList<>();
 
     }
@@ -80,8 +79,11 @@ public class GameObjectHandler {
     //Pass level as argument for logic calculations with tile collisions
     //Need to restrict this to entities within a certain range, as with render method.
     public void update(Level level) {
+        player.update(level, gameObjectGrid);
         for(Entity entity: entities) {
-            entity.update(level, gameObjectGrid);
+            if(entity !=player) {
+                entity.update(level, gameObjectGrid);
+            }
         }
         //For loop for entity updates - movement and tile collision
         //Within same for loop do collisions with object grid
@@ -105,5 +107,6 @@ public class GameObjectHandler {
                 }
             }
         }
+        player.render(g, level);
     }
 }

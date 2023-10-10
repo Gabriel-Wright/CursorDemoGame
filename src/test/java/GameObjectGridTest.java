@@ -56,7 +56,7 @@ public class GameObjectGridTest {
         entities.add(entity2);
 
         // Add entities to cells based on their bounds
-        grid.initialiseGrid(entities, null, null);
+        grid.initialiseGrid(null, entities, null, null);
 
         // Check if both entities are in the appropriate cells
         Cell cell1 = grid.getCell(0, 0);
@@ -83,7 +83,7 @@ public class GameObjectGridTest {
         entities.add(entity);
 
         // Add entities to cells based on their bounds
-        grid.initialiseGrid(entities, null, null);
+        grid.initialiseGrid(null, entities, null, null);
         System.out.println(grid.toString());
 
         //Entity moves a tile in either axis
@@ -114,7 +114,7 @@ public class GameObjectGridTest {
         List<Entity> entities = new ArrayList<>();
         entities.add(entity);
 
-        grid.initialiseGrid(entities, null, null);
+        grid.initialiseGrid(null, entities, null, null);
 
         Point[] expectedCells = new Point[] {new Point(0,0),
             new Point(1,0), new Point(0,1),

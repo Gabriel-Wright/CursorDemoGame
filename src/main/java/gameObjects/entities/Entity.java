@@ -19,6 +19,8 @@ public abstract class Entity {
     protected EntityAnimations animations;
     protected int aniTick = 0, aniIndex = 0, aniSpeed;
     protected int[] animationFlags;
+    public boolean renderedThisFrame = false;
+
     protected int entityWidth, entityHeight;
     protected EntityConstants entityConstants;
 
@@ -136,7 +138,8 @@ public abstract class Entity {
         updateAnimationTick();
 
         //If entity has moved in this update - reassign its grid position
-        if(xMove> 0 || yMove >0) {
+        if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
+            // Do something when xMove or yMove is not close to 0
             gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
         }
     }
@@ -174,6 +177,7 @@ public abstract class Entity {
         }
     }
     protected void updateAnimationTick() {
+        renderedThisFrame = false;
         aniTick++;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
@@ -188,10 +192,12 @@ public abstract class Entity {
         int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
         int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
         animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);
-        g.setColor(Color.WHITE);
-        if(hitboxToggle) {
-            g.fillRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);
+
+        if (hitboxToggle) {
+            g.setColor(Color.WHITE);
+            g.drawRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);
         }
+        renderedThisFrame = true;
     }
 
     public Rectangle getCollisionBounds(float xOffset, float yOffset) {

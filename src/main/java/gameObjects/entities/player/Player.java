@@ -38,15 +38,16 @@ public class Player extends Entity {
         updateAnimationTick();
 
         //If entity has moved in this update - reassign its grid position
-        if(xMove> 0 || yMove >0) {
-            gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
+        if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
+            // Do something when xMove or yMove is not close to 0
+            gameObjectGrid.reassignPlayerCells(this, -xMove, -yMove);
         }
     }
 
     @Override
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-            //System.out.println("Collision");
+//            System.out.println("Collision");
             entity.checkActionChangeAniIndexAniTick(EntityConstants.DEAD);
         }
     }

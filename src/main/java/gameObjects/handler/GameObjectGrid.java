@@ -1,7 +1,9 @@
 package gameObjects.handler;
 
 import gameObjects.entities.Entity;
+import gameObjects.entities.player.Player;
 import gameObjects.events.Event;
+import gameObjects.events.PositionalEvent;
 import object.SuperObject;
 
 import java.awt.*;
@@ -21,8 +23,20 @@ public class GameObjectGrid {
         cells = new HashMap<>();
     }
 
-    public void initialiseGrid(List<Entity> entities, List<SuperObject> objects, List<Event> triggerEvents) {
+    public void initialiseGrid(Player player, List<Entity> entities, List<SuperObject> objects, List<PositionalEvent> triggerEvents) {
+        addPlayerToCells(player);
         addEntitiesToCells(entities);
+        //addTriggerEventsToCells(triggerEvents);
+    }
+
+    private void addPlayerToCells(Player player) {
+        if(player ==null) {
+            return;
+        }
+        Point[] cellIndexes = FindOverlapTiles(player);
+        for(Point cellIndex: cellIndexes) {
+            addPlayerToCell(cellIndex.x, cellIndex.y, player);
+        }
     }
 
     private void addObjectsToCells(List<Entity> entities) {
@@ -38,8 +52,39 @@ public class GameObjectGrid {
         }
     }
 
-    private void addTriggerEventsToCells(List<Event> triggerEvents) {
+    private void addTriggerEventsToCells(List<PositionalEvent> triggerEvents) {
+        for(PositionalEvent triggerEvent: triggerEvents) {
+            Point[] cellIndexes = FindOverlapTiles(triggerEvent.getTriggerBox());
+            for(Point cellIndex: cellIndexes) {
+                addTriggerEventToCell(cellIndex.x, cellIndex.y, triggerEvent);
+            }
+        }
+    }
 
+    private void addPlayerToCell(int x, int y, Player player) {
+        // Initialize inside map if it does not exist (i.e. map between y and Cell)
+        if (!cells.containsKey(x)) {
+            cells.put(x, new HashMap<>());
+            addCell(x,y);
+        }
+
+        if(!cells.get(x).containsKey((y))) {
+            cells.get(x).put(y, new Cell());
+        }
+        getCell(x,y).setPlayer(player);
+    }
+
+    private void addTriggerEventToCell(int x, int y, PositionalEvent positionalEvent) {
+        if(!cells.containsKey(x)) {
+            cells.put(x, new HashMap<>());
+            addCell(x,y);
+        }
+
+        if(!cells.get(x).containsKey((y))) {
+            cells.get(x).put(y, new Cell());
+        }
+
+        getCell(x,y).addPositionalEvent(positionalEvent);
     }
 
     public void addEntityToCell(int x, int y, Entity entity) {
@@ -93,7 +138,36 @@ public class GameObjectGrid {
         // Iterate through current cell indexes to check additions
         for (Point cellIndex : prevCellSet) {
             if (getCell(cellIndex.x, cellIndex.y) != null) {
-                getCell(cellIndex.x, cellIndex.y).getEntities().remove(entity);
+                getCell(cellIndex.x, cellIndex.y).removeEntity(entity);
+            }
+        }
+    }
+
+    public void reassignPlayerCells(Player player, float xMove, float yMove) {
+        //Get current cell indexes
+        Point[] cellIndexes = FindOverlapTiles(player);
+        //Set of previous cells that entity was attached -> minus since entity moved by xmove and ymove, so previous
+        // cell set was xmove back ymove back
+        Set<Point> prevCellSet = new HashSet<>(Arrays.asList(FindOverlapTiles(player, xMove, yMove)));
+        //Iterate through previous cell indexes to check removals
+        for(Point cellIndex: cellIndexes) {
+            //Check if cell exists within grid
+            if(getCell(cellIndex.x, cellIndex.y) !=null) {
+                //If previous cell doesn't contain current cellIndex - add entity to that cell
+                if(!prevCellSet.contains(cellIndex)) {
+                    addPlayerToCell(cellIndex.x, cellIndex.y, player);
+                } else {
+                    prevCellSet.remove(cellIndex);
+                }
+            } else {
+                addPlayerToCell(cellIndex.x, cellIndex.y, player);
+            }
+        }
+
+        // Iterate through current cell indexes to check additions
+        for (Point cellIndex : prevCellSet) {
+            if (getCell(cellIndex.x, cellIndex.y) != null) {
+                getCell(cellIndex.x, cellIndex.y).removePlayer();
             }
         }
     }

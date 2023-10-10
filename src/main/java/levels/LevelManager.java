@@ -34,7 +34,7 @@ public class LevelManager {
     }
 
     private void loadGameObjectHandler() {
-        gameObjectHandler = new GameObjectHandler(level.getLevelWidth(), level.getLevelHeight(), null, null);
+        gameObjectHandler = new GameObjectHandler(level.getLevelWidth(), level.getLevelHeight(), null, null, null);
         gameObjectHandler.loadGameObjectHandler();
     }
     private void loadTileManager() {
