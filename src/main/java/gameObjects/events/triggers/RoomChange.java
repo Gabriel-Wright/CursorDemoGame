@@ -15,6 +15,8 @@ public class RoomChange extends PositionalEvent {
     }
     @Override
     public void runEvent() {
+        System.out.println("Test");
         GameState.updateGameBackground(backgroundColor);
+        complete = true;
     }
 }

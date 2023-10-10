@@ -7,6 +7,8 @@ import gameObjects.handler.GameObjectGrid;
 import levels.Level;
 
 import java.awt.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import static inputs.KeyHandler.*;
 
@@ -28,6 +30,8 @@ public class Player extends Entity {
         updatePos();
         //Verify states/positions based on collisions within level post movement
         move(level);
+        //Handle local event triggers
+        handleLocalEventTriggers(gameObjectGrid);
         //Check entity collisions
         handleLocalEntityCollisions(level, gameObjectGrid);
         //Centre camera on player
@@ -51,6 +55,16 @@ public class Player extends Entity {
             entity.checkActionChangeAniIndexAniTick(EntityConstants.DEAD);
         }
     }
+    //This is intended for only single trigger in a small space
+    private void handleLocalEventTriggers(GameObjectGrid gameObjectGrid) {
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        for(Point cellIndex: cellIndexes) {
+            if(!gameObjectGrid.getCell(cellIndex.x, cellIndex.y).getPositionalEvents().isEmpty());{
+                gameObjectGrid.getCell(cellIndex.x, cellIndex.y).runEvents();
+            }
+        }
+    }
+
 
     @Override
     protected void updatePos() {

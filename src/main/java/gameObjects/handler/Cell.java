@@ -20,6 +20,7 @@ public class Cell {
     public Cell() {
         entities = new ArrayList<>();
         objects = new ArrayList<>();
+        positionalEvents = new ArrayList<>();
     }
 
     public void setPlayer(Player player) {
@@ -62,11 +63,28 @@ public class Cell {
         return objects;
     }
 
+    public List<PositionalEvent> getPositionalEvents() {
+        return positionalEvents;
+    }
+
+    public void runEvents() {
+        for(PositionalEvent event: positionalEvents) {
+            if(!event.isComplete()) {
+                event.runEvent();
+            }
+        }
+    }
     public void renderEntities(Graphics g, Level level) {
         for(Entity entity: entities) {
             if(!entity.renderedThisFrame) {
                 entity.render(g, level);
             }
+        }
+    }
+
+    public void renderEvents(Graphics g, Level level) {
+        for(PositionalEvent event: positionalEvents) {
+            event.render(g, level);
         }
     }
 

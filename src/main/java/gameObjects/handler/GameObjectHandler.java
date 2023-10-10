@@ -44,6 +44,7 @@ public class GameObjectHandler {
     public void loadGameObjectHandler() {
         loadPlayerInfo();
         loadTestEntities();
+        loadTestEvents();
         gameObjectGrid.initialiseGrid(player, entities, objects, positionalEvents);
     }
 
@@ -56,7 +57,7 @@ public class GameObjectHandler {
 
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
-        RoomChange testEvent = new RoomChange(Color.GREEN, TILE_SIZE*7, TILE_SIZE*5, TILE_SIZE, TILE_SIZE, true);
+        RoomChange testEvent = new RoomChange(Color.GREEN, 7, 7, 1, 1, true);
         positionalEvents.add(testEvent);
     }
 
@@ -65,13 +66,13 @@ public class GameObjectHandler {
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
         int index = 0;
-        for(int i =0; i<100; i++) {
-            GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
-            entities.add(greenDeath);
-            if(index ==4) {
-                index = 0;
-            }
-        }
+//        for(int i =0; i<100; i++) {
+//            GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
+//            entities.add(greenDeath);
+//            if(index ==4) {
+//                index = 0;
+//            }
+//        }
         objects = new ArrayList<>();
 
     }
@@ -104,6 +105,7 @@ public class GameObjectHandler {
             for (int x = xStart; x < xEnd; x++) {
                 if(gameObjectGrid.getCell(x,y)!=null) {
                     gameObjectGrid.getCell(x,y).renderEntities(g, level);
+                    gameObjectGrid.getCell(x,y).renderEvents(g,level);
                 }
             }
         }

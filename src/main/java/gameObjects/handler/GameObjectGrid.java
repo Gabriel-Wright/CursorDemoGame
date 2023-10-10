@@ -26,7 +26,7 @@ public class GameObjectGrid {
     public void initialiseGrid(Player player, List<Entity> entities, List<SuperObject> objects, List<PositionalEvent> triggerEvents) {
         addPlayerToCells(player);
         addEntitiesToCells(entities);
-        //addTriggerEventsToCells(triggerEvents);
+        addTriggerEventsToCells(triggerEvents);
     }
 
     private void addPlayerToCells(Player player) {
@@ -54,9 +54,14 @@ public class GameObjectGrid {
 
     private void addTriggerEventsToCells(List<PositionalEvent> triggerEvents) {
         for(PositionalEvent triggerEvent: triggerEvents) {
-            Point[] cellIndexes = FindOverlapTiles(triggerEvent.getTriggerBox());
-            for(Point cellIndex: cellIndexes) {
-                addTriggerEventToCell(cellIndex.x, cellIndex.y, triggerEvent);
+            int startCol = triggerEvent.getStartCol();
+            int startRow = triggerEvent.getStartRow();
+            int numCols = triggerEvent.getNumCols();
+            int numRows = triggerEvent.getNumRows();
+            for(int i =0; i<numCols; i++) {
+                for(int j=0; j<numRows; j++) {
+                    addTriggerEventToCell(startCol+i, startRow+i, triggerEvent);
+                }
             }
         }
     }
