@@ -58,7 +58,9 @@ public class GameObjectHandler {
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
         RoomChange testEvent = new RoomChange(Color.GREEN, 7, 7, 1, 1, true);
+        RoomChange testEvent2 = new RoomChange(Color.RED, 10, 10, 2, 2, true);
         positionalEvents.add(testEvent);
+        positionalEvents.add(testEvent2);
     }
 
     private void loadTestEntities() {

@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     private GameState gameState;
     private static State currentState;
-    private static Color backGroundColor = Color.black;
+    public static Color backGroundColor = Color.black;
     public GamePanel() {
         //Set size of window to preferred size
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); //Can improve game rendering performance
         this.addKeyListener(keyH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
-        gameState = new GameState(this);
+        gameState = new GameState();
         setCurrentState(gameState);
     }
 
@@ -90,6 +90,7 @@ public class GamePanel extends JPanel implements Runnable {
 
             //2 DRAW: render entities and background tiles to the screen
             if (deltaF >= 1) {
+                updateBackGroundColor();
                 repaint();
                 frames++;
                 deltaF--;
@@ -109,6 +110,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void updateBackGroundColor() {
+        setBackground(backGroundColor);
+    }
     public void update() {
         currentState.update();
     }

@@ -5,6 +5,7 @@ import gameObjects.entities.player.PlayerConstants;
 import levels.LevelConstants;
 import levels.LevelManager;
 import main.GamePanel;
+import tasks.TaskHandler;
 import ui.UI;
 import static inputs.KeyHandler.isPaused;
 import java.awt.*;
@@ -13,22 +14,26 @@ import static main.GamePanel.TILE_SIZE;
 
 public class GameState extends State{
 
+    private TaskHandler taskHandler;
     private PauseState pauseState;
     private boolean inPauseState = false;
     private LevelManager levelManager;
     private UI gameUI;
 
-    public GameState(GamePanel gamePanel) {
-        super(gamePanel);
-    }
     public void loadTestGame() {
         loadLevelManager();
         loadUI();
         pauseState = new PauseState(this);
+        taskHandler = new TaskHandler();
     }
 
+    //Need to switch these to be linked to FPS rather than updates.
     public static void updateGameBackground(Color color) {
-        gamePanel.setBackground(color);
+        GamePanel.backGroundColor = color;
+    }
+
+    public static Color getBackgroundColor() {
+        return GamePanel.backGroundColor;
     }
 
     public void pauseGame() {
@@ -68,6 +73,7 @@ public class GameState extends State{
         if(isPaused) {
             pauseState.update();
         }
+        taskHandler.updateTasks();
     }
 
     public LevelManager getLevelManager() {

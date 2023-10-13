@@ -13,7 +13,6 @@ public class PauseState extends State{
     private SoundManager pauseSounds;
     private int[] soundConstants = {PAUSE_RESUME};
     public PauseState(GameState gameState) {
-        super(GameState.gamePanel);
         this.gameState = gameState;
         pauseSounds = new SoundManager(soundConstants);
     }
