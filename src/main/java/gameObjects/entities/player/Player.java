@@ -54,8 +54,7 @@ public class Player extends Entity {
     @Override
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-//            System.out.println("Collision");
-            entity.checkActionChangeAniIndexAniTick(EntityConstants.DEAD);
+            entity.die();
         }
     }
     private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {

@@ -132,6 +132,34 @@ public class GameObjectGridTest {
 
     }
 
+    @Test
+    public void TestRemoveEntityFromCells() {
+        Entity entity = new TestEntity();
+        entity.setX(1);
+        entity.setY(1);
+        Rectangle entityBounds = new Rectangle(1, 1, TILE_SIZE, TILE_SIZE);
+        // Entity should exist in 0,0 1,0 0,1 1,1
+        entity.setBounds(entityBounds);
+        List<Entity> entities = new ArrayList<>();
+        entities.add(entity);
+
+        grid.initialiseGrid(null, entities, null, null);
+
+        // Assert that the lists are not empty before removal
+        Assertions.assertFalse(grid.getCell(0, 0).getEntities().isEmpty());
+        Assertions.assertFalse(grid.getCell(0, 1).getEntities().isEmpty());
+        Assertions.assertFalse(grid.getCell(1, 0).getEntities().isEmpty());
+        Assertions.assertFalse(grid.getCell(1, 1).getEntities().isEmpty());
+
+        grid.removeEntityFromCells(entity);
+
+        // Assert that the lists are empty after removal
+        Assertions.assertTrue(grid.getCell(0, 0).getEntities().isEmpty());
+        Assertions.assertTrue(grid.getCell(0, 1).getEntities().isEmpty());
+        Assertions.assertTrue(grid.getCell(1, 0).getEntities().isEmpty());
+        Assertions.assertTrue(grid.getCell(1, 1).getEntities().isEmpty());
+    }
+
     // Define a test entity class that extends Entity for testing purposes
     private static class TestEntity extends Entity {
         public TestEntity() {

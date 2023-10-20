@@ -24,9 +24,6 @@ public class Cell {
     public void setPlayer(Player player) {
         this.player = player;
     }
-    public void addPlayer(Player player) {
-        this.player = player;
-    }
     public void addEntity(Entity entity) {
         entities.add(entity);
     }

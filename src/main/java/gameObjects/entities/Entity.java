@@ -34,7 +34,7 @@ public abstract class Entity {
     protected boolean moving = false;
     protected int action = EntityConstants.IDLE;
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
-
+    private boolean deleted = false;
     public Entity(int x, int y, EntityConstants entityConstants) {
         this.x = x;
         this.y = y;
@@ -232,5 +232,12 @@ public abstract class Entity {
 
     public Rectangle getCollisionBounds() {
         return new Rectangle((int) x+bounds.x,(int) y+bounds.y, bounds.width, bounds.height);
+    }
+
+    public void die() {
+        deleted = true;
+    }
+    public boolean isDeleted() {
+        return deleted;
     }
 }

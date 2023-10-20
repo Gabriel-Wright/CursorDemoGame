@@ -18,10 +18,18 @@ public class GameObjectGrid {
     }
 
     public void initialiseGrid(Player player, List<Entity> entities, List<SuperObject> objects, List<PositionalEvent> triggerEvents) {
-        addPlayerToCells(player);
-        addEntitiesToCells(entities);
-        addObjectsToCells(objects);
-        addTriggerEventsToCells(triggerEvents);
+        if(player !=null) {
+            addPlayerToCells(player);
+        }
+        if(entities != null) {
+            addEntitiesToCells(entities);
+        }
+        if(objects != null) {
+            addObjectsToCells(objects);
+        }
+        if(triggerEvents != null) {
+            addTriggerEventsToCells(triggerEvents);
+        }
     }
 
     private void addPlayerToCells(Player player) {
@@ -206,6 +214,12 @@ public class GameObjectGrid {
         return assignedCells;
     }
 
+    public void removeEntityFromCells(Entity entity) {
+        List<Point> assignedCells = getAssignedCells(entity);
+        for(Point assignedCell: assignedCells) {
+            getCell(assignedCell.x,assignedCell.y).removeEntity(entity);
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

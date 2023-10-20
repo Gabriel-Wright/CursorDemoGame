@@ -13,6 +13,7 @@ import ui.UI;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static main.GamePanel.*;
@@ -21,6 +22,7 @@ public class GameObjectHandler {
 
     //Used to store all data of cells maps from (x,y) -> Cell
     private GameObjectGrid gameObjectGrid;
+    private GameObjectLoader gameObjectLoader;
     private List<Entity> entities;
     private List<SuperObject> objects;
     private List<PositionalEvent> positionalEvents;
@@ -66,7 +68,7 @@ public class GameObjectHandler {
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
         int index = 0;
-        for(int i =0; i<100; i++) {
+        for(int i =0; i<5; i++) {
             GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
             entities.add(greenDeath);
             if(index ==4) {
@@ -79,16 +81,23 @@ public class GameObjectHandler {
     //Need to restrict this to entities within a certain range, as with render method.
     public void update(Level level) {
         player.update(level, gameObjectGrid);
-        for(Entity entity: entities) {
-            if(entity !=player) {
-                entity.update(level, gameObjectGrid);
+        Iterator<Entity> iterator = entities.iterator();
+        while (iterator.hasNext()) {
+            Entity entity = iterator.next();
+            entity.update(level, gameObjectGrid);
+            // Check whether to remove the entity
+            if (entity.isDeleted()) {
+                iterator.remove();
+                gameObjectGrid.removeEntityFromCells(entity);
             }
         }
+
         //For loop for entity updates - movement and tile collision
         //Within same for loop do collisions with object grid
         UI.ECPULOCAL = ECPU;
         ECPU = 0;
     }
+
 
     public Player getPlayer() {
         return player;

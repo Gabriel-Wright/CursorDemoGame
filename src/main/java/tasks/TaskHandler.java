@@ -1,5 +1,7 @@
 package tasks;
 
+import levels.LevelManager;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 //Stores continuous background tasks that have to be updated e.g. updateBackground
 public class TaskHandler {
     public static List<Task> activeTasks;
+    private LevelManager levelManager;
 
     public TaskHandler() {
         activeTasks = new ArrayList<>();
