@@ -1,16 +1,12 @@
 package levels;
 
 import gameObjects.handler.GameObjectHandler;
-import main.GamePanel;
-import object.ObjectConstants;
-import object.ObjectManager;
-import object.SuperObject;
-import tile.TileConstants;
+import gameObjects.objects.ObjectManager;
 import tile.TileManager;
 
 import java.awt.*;
-
-import static main.GamePanel.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LevelManager {
 
@@ -34,7 +30,7 @@ public class LevelManager {
     }
 
     private void loadGameObjectHandler() {
-        gameObjectHandler = new GameObjectHandler(level.getLevelWidth(), level.getLevelHeight(), null, null, null);
+        gameObjectHandler = new GameObjectHandler( null, null, Arrays.asList(objectManager.getCollectableObjects()));
         gameObjectHandler.loadGameObjectHandler();
     }
     private void loadTileManager() {
@@ -44,7 +40,7 @@ public class LevelManager {
 
     private void loadObjectManager() {
         objectManager = new ObjectManager(levelConstants.getObjectConstants());
-        objectManager.loadObjects(levelConstants.getObjectReferences(levelRef));
+        objectManager.loadObjects();
     }
 
     private void loadLevel() {

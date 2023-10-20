@@ -45,7 +45,7 @@ public class UI {
     public void drawEntityInventoryInfo(Graphics g, float x, float y) {
         g.setFont(arial_tileSize);
         g.setColor(Color.WHITE);
-        g.drawString(player.getPlayerInventory().toString(),TILE_SIZE,SCREEN_HEIGHT-TILE_SIZE);
+//        g.drawString(player.getPlayerInventory().toString(),TILE_SIZE,SCREEN_HEIGHT-TILE_SIZE);
     }
 
     public void drawPerformanceInfo(Graphics g) {

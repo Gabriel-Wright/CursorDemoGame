@@ -2,11 +2,9 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
-import gameObjects.events.Event;
 import gameObjects.events.PositionalEvent;
 import levels.Level;
-import net.bytebuddy.implementation.bind.annotation.Super;
-import object.SuperObject;
+import gameObjects.objects.SuperObject;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,14 +30,14 @@ public class Cell {
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
-
+    public void addObject(SuperObject object) {
+        objects.add(object);
+        System.out.println("Added object" + object.getX() + object.getY());
+    }
     public void addPositionalEvent(PositionalEvent positionalEvent) {
         positionalEvents.add(positionalEvent);
     }
 
-    public void addObject(SuperObject object) {
-        objects.add(object);
-    }
 
     public void removePlayer() {
         this.player = null;
@@ -81,7 +79,11 @@ public class Cell {
             }
         }
     }
-
+    public void renderObjects(Graphics g, Level level) {
+        for(SuperObject object: objects) {
+            object.renderObject(g, level);
+        }
+    }
     public void renderEvents(Graphics g, Level level) {
         for(PositionalEvent event: positionalEvents) {
             event.render(g, level);

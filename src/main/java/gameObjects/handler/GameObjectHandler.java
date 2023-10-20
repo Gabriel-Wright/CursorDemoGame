@@ -5,17 +5,15 @@ import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
-import gameObjects.events.Event;
 import gameObjects.events.PositionalEvent;
-import gameObjects.events.triggers.RoomChange;
+import gameObjects.events.RoomChange;
 import levels.Level;
-import object.SuperObject;
+import gameObjects.objects.SuperObject;
 import ui.UI;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static main.GamePanel.*;
 
@@ -31,8 +29,8 @@ public class GameObjectHandler {
     private GreenDeathConstants greenDeathConstants;
     public static int ECPU; //Entity collision checks per update - how many checks per ingame update
     //Also add event triggers
-    public GameObjectHandler(int numRows, int numCols, Player player, List<Entity> entities, List<SuperObject> objects) {
-        gameObjectGrid = new GameObjectGrid(numRows, numCols);
+    public GameObjectHandler(Player player, List<Entity> entities, List<SuperObject> objects) {
+        gameObjectGrid = new GameObjectGrid();
         this.entities = entities;
         this.objects = objects;
     }
@@ -68,15 +66,13 @@ public class GameObjectHandler {
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
         int index = 0;
-//        for(int i =0; i<100; i++) {
-//            GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
-//            entities.add(greenDeath);
-//            if(index ==4) {
-//                index = 0;
-//            }
-//        }
-        objects = new ArrayList<>();
-
+        for(int i =0; i<100; i++) {
+            GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
+            entities.add(greenDeath);
+            if(index ==4) {
+                index = 0;
+            }
+        }
     }
 
     //Pass level as argument for logic calculations with tile collisions
@@ -107,6 +103,7 @@ public class GameObjectHandler {
             for (int x = xStart; x < xEnd; x++) {
                 if(gameObjectGrid.getCell(x,y)!=null) {
                     gameObjectGrid.getCell(x,y).renderEntities(g, level);
+                    gameObjectGrid.getCell(x,y).renderObjects(g, level);
                     gameObjectGrid.getCell(x,y).renderEvents(g,level);
                 }
             }

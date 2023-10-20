@@ -1,7 +1,6 @@
 package levels;
 
-import object.CollectableObject;
-import object.SuperObject;
+import gameObjects.objects.SuperObject;
 import tile.Tile;
 
 import java.awt.*;
@@ -15,7 +14,7 @@ public class Level {
 
     //private Tile[] levelTiles;
     private Map<Integer, Tile> templateLevelTiles;
-    private CollectableObject[] levelObjects;
+    private SuperObject[] levelObjects;
     private BufferedImage levelMap;
 //    private SuperObject[][] levelObjects;
     private int[][] levelTileData;
@@ -25,7 +24,7 @@ public class Level {
 
 
 
-    public Level(int[][] levelTileData, Map<Integer, Tile> templateLevelTiles, CollectableObject[] templateLevelObjects) {
+    public Level(int[][] levelTileData, Map<Integer, Tile> templateLevelTiles, SuperObject[] templateLevelObjects) {
         this.levelTileData = levelTileData;
         this.templateLevelTiles = templateLevelTiles;
         this.levelObjects = templateLevelObjects;

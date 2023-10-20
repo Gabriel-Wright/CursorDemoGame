@@ -1,4 +1,7 @@
-package object;
+package gameObjects.objects;
+
+import gameObjects.events.CollectItem;
+import gameObjects.events.Event;
 
 import java.awt.image.BufferedImage;
 
@@ -59,6 +62,15 @@ public class ObjectConstants {
         switch(i) {
             case GUN:
                 return GUN_IMAGE;
+        }
+        return null;
+    }
+
+    public Event getObjectEvent(int i) {
+        switch(i) {
+            case GUN:
+                Event gunEvent = new CollectItem();
+                return gunEvent;
         }
         return null;
     }

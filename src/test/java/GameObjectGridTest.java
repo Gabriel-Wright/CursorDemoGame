@@ -5,16 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static main.GamePanel.TILE_SIZE;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import gameObjects.entities.Entity;
-import object.SuperObject;
 import gameObjects.handler.GameObjectGrid;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class GameObjectGridTest {
 
@@ -24,7 +21,7 @@ public class GameObjectGridTest {
     @BeforeEach
     public void setUp() {
         //Initialise empty grid before each test
-        grid = new GameObjectGrid(5,5);
+        grid = new GameObjectGrid();
     }
 
     @Test

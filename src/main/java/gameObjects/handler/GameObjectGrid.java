@@ -2,30 +2,25 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
-import gameObjects.events.Event;
 import gameObjects.events.PositionalEvent;
-import object.SuperObject;
+import gameObjects.objects.SuperObject;
 
 import java.awt.*;
 import java.util.*;
 import java.util.List;
 
-import static main.GamePanel.TILE_SIZE;
 import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class GameObjectGrid {
     private Map<Integer, Map<Integer,Cell>> cells;
-    private int numRows;
-    private int numCols;
-    public GameObjectGrid(int numRows, int numCols) {
-        this.numRows = numRows;
-        this.numCols = numCols;
+    public GameObjectGrid() {
         cells = new HashMap<>();
     }
 
     public void initialiseGrid(Player player, List<Entity> entities, List<SuperObject> objects, List<PositionalEvent> triggerEvents) {
         addPlayerToCells(player);
         addEntitiesToCells(entities);
+        addObjectsToCells(objects);
         addTriggerEventsToCells(triggerEvents);
     }
 
@@ -39,8 +34,13 @@ public class GameObjectGrid {
         }
     }
 
-    private void addObjectsToCells(List<Entity> entities) {
-
+    private void addObjectsToCells(List<SuperObject> objects) {
+        for(SuperObject object: objects) {
+            Point[] cellIndexes = FindOverlapTiles(object.getObjectCollisionBox());
+            for(Point cellIndex: cellIndexes) {
+                addObjectToCell(cellIndex.x, cellIndex.y, object);
+            }
+        }
     }
     private void addEntitiesToCells(List<Entity> entities) {
         for(Entity entity: entities) {
@@ -64,6 +64,20 @@ public class GameObjectGrid {
                 }
             }
         }
+    }
+
+    private void addObjectToCell(int x, int y, SuperObject object) {
+        // Initialize inside map if it does not exist (i.e. map between y and Cell)
+        if (!cells.containsKey(x)) {
+            cells.put(x, new HashMap<>());
+            addCell(x,y);
+        }
+
+        if(!cells.get(x).containsKey((y))) {
+            cells.get(x).put(y, new Cell());
+        }
+        getCell(x,y).addObject(object);
+
     }
 
     private void addPlayerToCell(int x, int y, Player player) {

@@ -1,10 +1,7 @@
 package levels;
 
-import object.ObjectConstants;
-import tile.Tile;
+import gameObjects.objects.ObjectConstants;
 import tile.TileConstants;
-
-import java.sql.Struct;
 
 import static utils.LoadFiles.readJsonTiles;
 

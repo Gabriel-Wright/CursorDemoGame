@@ -131,7 +131,7 @@ public abstract class Entity {
         //Verify states/positions based on collisions within level post movement
         move(level);
         //Check entity collisions
-        handleLocalEntityCollisions(level, gameObjectGrid);
+        handleLocalEntityCollisions(gameObjectGrid);
         //Update action state of the entity
         updateAction();
         //Adjust the entity animation based on its action state
@@ -145,7 +145,7 @@ public abstract class Entity {
     }
 
     //May need to adjust to not use set?
-    protected void handleLocalEntityCollisions(Level level, GameObjectGrid gameObjectGrid) {
+    protected void handleLocalEntityCollisions(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
         Set<Entity> cellEntities = new HashSet<>();
         //Retrieve all entities

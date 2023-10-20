@@ -1,9 +1,10 @@
 package gameObjects.entities.player;
 
 import gameObjects.entities.Entity;
-import gameObjects.entities.Inventory;
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
+import gameObjects.objects.SuperObject;
 import levels.Level;
 
 import java.awt.*;
@@ -14,15 +15,15 @@ import static inputs.KeyHandler.*;
 
 public class Player extends Entity {
 
-    private Inventory playerInventory = new Inventory();
+//    private Inventory playerInventory = new Inventory();
 
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
     }
 
-    public Inventory getPlayerInventory() {
-        return playerInventory;
-    }
+//    public Inventory getPlayerInventory() {
+//        return playerInventory;
+//    }
 
     @Override
     public void update(Level level, GameObjectGrid gameObjectGrid) {
@@ -33,7 +34,9 @@ public class Player extends Entity {
         //Handle local event triggers
         handleLocalEventTriggers(gameObjectGrid);
         //Check entity collisions
-        handleLocalEntityCollisions(level, gameObjectGrid);
+        handleLocalEntityCollisions(gameObjectGrid);
+        //Check object collisions
+        handleLocalObjectCollisions(level, gameObjectGrid);
         //Centre camera on player
         centerCamera(level);
         //Update action state of the entity
@@ -55,11 +58,31 @@ public class Player extends Entity {
             entity.checkActionChangeAniIndexAniTick(EntityConstants.DEAD);
         }
     }
+    private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        Set<SuperObject> cellObjects = new HashSet<>();
+        //Retrieve all entities
+        for(Point cellIndex: cellIndexes) {
+            Cell cell = gameObjectGrid.getCell(cellIndex.x, cellIndex.y);
+            cellObjects.addAll(cell.getObjects());
+        }
+
+        //Complete collisions for those entities
+        for(SuperObject cellObject: cellObjects) {
+            //Check entity is not itself
+            handleLocalCollision(level, cellObject);
+        }
+
+    }
+
+    private void handleLocalCollision(Level level, SuperObject cellObject) {
+        cellObject.getEvent().runEvent();
+    }
     //This is intended for only single trigger in a small space
     private void handleLocalEventTriggers(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
         for(Point cellIndex: cellIndexes) {
-            if(!gameObjectGrid.getCell(cellIndex.x, cellIndex.y).getPositionalEvents().isEmpty());{
+            if(!gameObjectGrid.getCell(cellIndex.x, cellIndex.y).getPositionalEvents().isEmpty()){
                 gameObjectGrid.getCell(cellIndex.x, cellIndex.y).runEvents();
             }
         }

@@ -1,15 +1,16 @@
-package object;
+package gameObjects.objects;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
 import levels.Level;
-
+import gameObjects.events.Event;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
 
-public abstract class SuperObject {
+public class SuperObject {
 
     protected BufferedImage objectImage;
     //Whether Object has been interacted with yet
@@ -18,32 +19,21 @@ public abstract class SuperObject {
     protected int x, y;
     protected String objectName;
     protected Rectangle objectCollisionBox;
-//    public SuperObject(int x, int y, BufferedImage objectImage, boolean collided, int objectName) {
-//        this.x = x;
-//        this.y = y;
-//        objectCollisionBox = new Rectangle(x*TILE_SIZE, y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-//        this.objectImage = objectImage;
-//        this.collided = collided;
-//        this.objectName = objectName;
-//    }
-//
-//    public SuperObject(int x, int y, int objectName, boolean collided) {
-//        this.x = x;
-//        this.y = y;
-//        objectCollisionBox = new Rectangle(x*TILE_SIZE, y*TILE_SIZE, ObjectConstants.getObjectWidth(objectName), ObjectConstants.getObjectHeight(objectName));
-//        this.objectImage =
-//    }
-
+    protected Event collisionEvent;
     public SuperObject(int x, int y, int objectID, ObjectConstants objectConstants) {
         this.x = x;
         this.y =y;
         objectCollisionBox = new Rectangle(x*TILE_SIZE, y*TILE_SIZE, objectConstants.getObjectWidth(objectID), objectConstants.getObjectHeight(objectID));
         this.objectImage = objectConstants.getObjectImage(objectID);
         this.objectName = objectConstants.getObjectName(objectID);
+        this.collisionEvent = objectConstants.getObjectEvent(objectID);
     }
 
-    public abstract void CollideWithEntity(Entity entity, Level level);
-    public abstract void CollideWithEntity(Player player, Level level);
+    public Rectangle getObjectCollisionBox() {
+        return objectCollisionBox;
+    }
+
+
     public BufferedImage getObjectImage() {
         return objectImage;
     }
@@ -68,7 +58,21 @@ public abstract class SuperObject {
         return collided;
     }
 
+    public Event getEvent() {
+        return collisionEvent;
+    }
     public String getObjectName() {
         return objectName;
+    }
+
+    public void renderObject(Graphics g, Level level) {
+        int xPos = (int) (x*TILE_SIZE - level.getLevelCamera().getxOffset());
+        int yPos = (int) (y*TILE_SIZE - level.getLevelCamera().getyOffset());
+
+        g.drawImage(objectImage,xPos,yPos,TILE_SIZE,TILE_SIZE,null);
+        if(hitboxToggle) {
+            g.setColor(Color.WHITE);
+            g.drawRect(xPos, yPos, TILE_SIZE, TILE_SIZE);
+        }
     }
 }

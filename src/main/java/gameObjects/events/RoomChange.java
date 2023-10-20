@@ -1,4 +1,4 @@
-package gameObjects.events.triggers;
+package gameObjects.events;
 
 import gameObjects.events.PositionalEvent;
 import main.GamePanel;
