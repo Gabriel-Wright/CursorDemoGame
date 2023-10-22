@@ -68,7 +68,7 @@ public class GameObjectHandler {
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
         int index = 0;
-        for(int i =0; i<5; i++) {
+        for(int i =0; i<100; i++) {
             GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
             entities.add(greenDeath);
             if(index ==4) {

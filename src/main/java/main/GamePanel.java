@@ -1,12 +1,18 @@
 package main;
 
 import inputs.KeyHandler;
+import inputs.MouseHandler;
 import states.GameState;
 import states.State;
 import ui.UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
+import static main.Main.WINDOW_IN_FOCUS;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -14,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Unscaled pixel size of tiles, they have detail size of 32x32
     public final static int originalTileSize = 32; // 32x32 tile size
     //Scale tiles with monitors
-    final static int scale = 2;
+    final static int scale = 3;
     public final static int FPS = 60;
     public final static int UPS = 120;
     public final static int TILE_SIZE = originalTileSize * scale; // 64x64
@@ -25,8 +31,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final static Toolkit toolkit = Toolkit.getDefaultToolkit();
     public final static int SCREEN_DPI = toolkit.getScreenResolution();
     KeyHandler keyH = new KeyHandler();
+    MouseHandler mouseH = new MouseHandler();
+    WindowFocusListener windowFocusListener;
+    Robot mouseLocker;
     Thread gameThread;
     private GameState gameState;
+
     private static State currentState;
     public static Color backGroundColor = Color.black;
     public GamePanel() {
@@ -35,7 +45,10 @@ public class GamePanel extends JPanel implements Runnable {
         //Set background color to black
         this.setBackground(Color.black);
         this.setDoubleBuffered(true); //Can improve game rendering performance
+        initialiseRobot();
         this.addKeyListener(keyH);
+        this.addMouseListener(mouseH);
+        this.addMouseMotionListener(mouseH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
         gameState = new GameState();
         setCurrentState(gameState);
@@ -46,6 +59,22 @@ public class GamePanel extends JPanel implements Runnable {
         currentState.initialiseState();
     }
 
+    private void initialiseRobot() {
+        try {
+            mouseLocker = new Robot();
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void lockCursorToCentre() {
+        if(WINDOW_IN_FOCUS) {
+            Point panelLocation = getLocationOnScreen();
+            int centerX = panelLocation.x + SCREEN_WIDTH / 2;
+            int centerY = panelLocation.y + SCREEN_HEIGHT / 2;
+            mouseLocker.mouseMove(centerX, centerY);
+        }
+    }
     /**
      * Initialises startGameThread which creates begins run method, which implements our game loop
      */
@@ -114,6 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
         setBackground(backGroundColor);
     }
     public void update() {
+        lockCursorToCentre();
         currentState.update();
     }
 
