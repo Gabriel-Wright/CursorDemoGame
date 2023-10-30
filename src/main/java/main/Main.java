@@ -11,14 +11,15 @@ public class Main {
     public static int startX;
     public static int startY;
     public static void main(String[] args) {
-
+        startX = 100;
+        startY = 100;
         JFrame window = new JFrame();
         //Can close window
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Cannot resize window
         window.setResizable(false);
         window.setTitle("2D Adventure");
-        window.setLocation(100,100);
+        window.setLocation(startX,startY);
         window.addWindowFocusListener(new WindowFocusListener() {
             @Override
             public void windowGainedFocus(WindowEvent e) {

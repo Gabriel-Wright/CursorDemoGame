@@ -28,9 +28,10 @@ public class GamePanel extends JPanel implements Runnable {
     final static int maxScreenRow = 9;
     public final static int SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
     public final static int SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;
-    public static int centreX = 0;
-    public static int centreY = 0;
-
+    public static int centreX;
+    public static int centreY;
+    public static int screenEdgeX;
+    public static int screenEdgeY;
     public final static Toolkit toolkit = Toolkit.getDefaultToolkit();
     public final static int SCREEN_DPI = toolkit.getScreenResolution();
     KeyHandler keyH = new KeyHandler();
@@ -43,6 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
     private static State currentState;
     public static Color backGroundColor = Color.black;
     public GamePanel() {
+        screenEdgeX = startX + SCREEN_WIDTH;
+        screenEdgeY = startY + SCREEN_HEIGHT;
         centreX = startX + SCREEN_WIDTH/2;
         centreY = startY + SCREEN_HEIGHT/2;
         //Set size of window to preferred size
@@ -76,6 +79,9 @@ public class GamePanel extends JPanel implements Runnable {
         Point panelLocation = getLocationOnScreen();
         centreY = panelLocation.y + SCREEN_HEIGHT/2;
         centreX = panelLocation.x + SCREEN_WIDTH/2;
+        screenEdgeX = panelLocation.x + SCREEN_WIDTH;
+        screenEdgeY = panelLocation.y + SCREEN_HEIGHT;
+
     }
 
     private void lockCursorToCentre() {
