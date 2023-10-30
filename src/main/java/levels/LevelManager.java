@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static main.GamePanel.TILE_SIZE;
+
 public class LevelManager {
 
     private Level level;
@@ -52,6 +54,7 @@ public class LevelManager {
         level.render(g);
         //Draw entities and objects - should do check to see whether they are within camera range also
         gameObjectHandler.render(g,level);
+        g.setColor(Color.GRAY);
     }
 
     public void update() {

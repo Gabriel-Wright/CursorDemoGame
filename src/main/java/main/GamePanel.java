@@ -12,7 +12,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
-import static main.Main.WINDOW_IN_FOCUS;
+import static main.Main.*;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -28,6 +28,9 @@ public class GamePanel extends JPanel implements Runnable {
     final static int maxScreenRow = 9;
     public final static int SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
     public final static int SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;
+    public static int centreX = 0;
+    public static int centreY = 0;
+
     public final static Toolkit toolkit = Toolkit.getDefaultToolkit();
     public final static int SCREEN_DPI = toolkit.getScreenResolution();
     KeyHandler keyH = new KeyHandler();
@@ -40,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
     private static State currentState;
     public static Color backGroundColor = Color.black;
     public GamePanel() {
+        centreX = startX + SCREEN_WIDTH/2;
+        centreY = startY + SCREEN_HEIGHT/2;
         //Set size of window to preferred size
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         //Set background color to black
@@ -67,12 +72,15 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    private void checkPanelLocation() {
+        Point panelLocation = getLocationOnScreen();
+        centreY = panelLocation.y + SCREEN_HEIGHT/2;
+        centreX = panelLocation.x + SCREEN_WIDTH/2;
+    }
+
     private void lockCursorToCentre() {
         if(WINDOW_IN_FOCUS) {
-            Point panelLocation = getLocationOnScreen();
-            int centerX = panelLocation.x + SCREEN_WIDTH / 2;
-            int centerY = panelLocation.y + SCREEN_HEIGHT / 2;
-            mouseLocker.mouseMove(centerX, centerY);
+            mouseLocker.mouseMove(centreX, centreY);
         }
     }
     /**
@@ -81,6 +89,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+        lockCursorToCentre();
+
     }
 
     //When an object implementing Runnable is used to create a thread, starting the thread
@@ -111,6 +121,9 @@ public class GamePanel extends JPanel implements Runnable {
             if (deltaU >= 1) {
                 update();
                 updates++;
+                if(updates%2 ==0) {
+                    lockCursorToCentre();
+                }
                 //Doesn't reset to 0, take away difference above 1.
                 deltaU--;
             }
@@ -143,7 +156,7 @@ public class GamePanel extends JPanel implements Runnable {
         setBackground(backGroundColor);
     }
     public void update() {
-        lockCursorToCentre();
+        checkPanelLocation();
         currentState.update();
     }
 

@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
 
 public class Main {
     public static boolean WINDOW_IN_FOCUS;
-
+    public static int startX;
+    public static int startY;
     public static void main(String[] args) {
 
         JFrame window = new JFrame();
@@ -17,6 +18,7 @@ public class Main {
         //Cannot resize window
         window.setResizable(false);
         window.setTitle("2D Adventure");
+        window.setLocation(100,100);
         window.addWindowFocusListener(new WindowFocusListener() {
             @Override
             public void windowGainedFocus(WindowEvent e) {

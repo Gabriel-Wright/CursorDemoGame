@@ -12,13 +12,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static inputs.KeyHandler.*;
+import static main.GamePanel.TILE_SIZE;
 
 public class Player extends Entity {
 
 //    private Inventory playerInventory = new Inventory();
-
+    private Cursor cursor;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
+        cursor = new Cursor(TILE_SIZE/5);
     }
 
 //    public Inventory getPlayerInventory() {
@@ -49,6 +51,8 @@ public class Player extends Entity {
             // Do something when xMove or yMove is not close to 0
             gameObjectGrid.reassignPlayerCells(this, -xMove, -yMove);
         }
+
+        cursor.update();
     }
 
     @Override
@@ -127,6 +131,18 @@ public class Player extends Entity {
             action = PlayerConstants.IDLE;
         }
     }
+    public void render(Graphics g, Level level) {
+        int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
+        int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
+        animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);
 
+        if (hitboxToggle) {
+            g.setColor(Color.WHITE);
+            g.drawRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);
+        }
+        renderedThisFrame = true;
+
+        cursor.render(g);
+    }
 
 }
