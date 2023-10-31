@@ -18,6 +18,7 @@ public class Player extends Entity {
 
 //    private Inventory playerInventory = new Inventory();
     private Cursor cursor;
+    private int cursorRange = TILE_SIZE*4;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
         cursor = new Cursor(TILE_SIZE/5);
@@ -52,7 +53,8 @@ public class Player extends Entity {
             gameObjectGrid.reassignPlayerCells(this, -xMove, -yMove);
         }
 
-        cursor.update();
+
+        cursor.update(x, y, level.getLevelCamera(), cursorRange);
     }
 
     @Override
