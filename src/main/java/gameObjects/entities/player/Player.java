@@ -8,6 +8,7 @@ import gameObjects.objects.SuperObject;
 import levels.Level;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ public class Player extends Entity {
 //    private Inventory playerInventory = new Inventory();
     private Cursor cursor;
     private int cursorRange = TILE_SIZE*4;
+    private double rotationAngle=0;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
         cursor = new Cursor(TILE_SIZE/5);
@@ -48,6 +50,8 @@ public class Player extends Entity {
         updateAction();
         //Adjust the entity animation based on its action state
         updateAnimationTick();
+        //Adjust player rotation
+        updatePlayerRotation(level);
 
         //If entity has moved in this update - reassign its grid position
         if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
@@ -80,6 +84,9 @@ public class Player extends Entity {
             handleLocalCollision(level, cellObject);
         }
 
+    }
+    private void updatePlayerRotation(Level level) {
+        rotationAngle = cursor.calculateAngle(x,y,level.getLevelCamera()) + Math.PI/2;
     }
 
     private void handleLocalCollision(Level level, SuperObject cellObject) {
@@ -140,8 +147,18 @@ public class Player extends Entity {
         int entityYPos = (int) (y -  level.getLevelCamera().getyOffset());
         int displacedXPos = (int) (x - entityWidth/2 - level.getLevelCamera().getxOffset());
         int displacedYPos = (int) (y - entityHeight/2 - level.getLevelCamera().getyOffset());
-        animations.drawImage(g, action, aniIndex, displacedXPos, displacedYPos, entityWidth, entityHeight);
 
+        // Cast Graphics to Graphics2D to enable transformations
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        // Save the original transform state
+        AffineTransform originalTransform = g2d.getTransform();
+
+        g2d.rotate(rotationAngle, entityXPos, entityYPos);
+
+        animations.drawImage(g2d, action, aniIndex, displacedXPos, displacedYPos, entityWidth, entityHeight);
+
+        g2d.dispose();
         if (hitboxToggle) {
             g.setColor(Color.WHITE);
             g.drawRect(entityXPos + bounds.x, entityYPos + bounds.y, bounds.width, bounds.height);

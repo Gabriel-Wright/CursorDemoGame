@@ -62,7 +62,7 @@ public class Cursor {
 
     }
     //Checks distance between playerPos and mousePos
-    private float calculateDistance(float playerX, float playerY, LevelCamera levelCamera, int mouseX, int mouseY) {
+    private float calculateDistance(float playerX, float playerY, LevelCamera levelCamera) {
         float entityPosX = playerX - levelCamera.getxOffset();
         float entityPosY = playerY - levelCamera.getyOffset();
         float dx = mouseX - entityPosX;
@@ -71,7 +71,7 @@ public class Cursor {
     }
 
     //Checks angle difference between playerPos and mousePos
-    private double calculateAngle(float playerX, float playerY, LevelCamera levelCamera, int mouseX, int mouseY) {
+    public double calculateAngle(float playerX, float playerY, LevelCamera levelCamera) {
         float entityPosX = playerX - levelCamera.getxOffset();
         float entityPosY = playerY - levelCamera.getyOffset();
         float dx = mouseX - entityPosX;
@@ -80,33 +80,15 @@ public class Cursor {
     }
 
     private void checkCursorRange(float x, float y, LevelCamera levelCamera, int cursorRange) {
-        float distance = calculateDistance(x, y, levelCamera, mouseX, mouseY);
+        float distance = calculateDistance(x, y, levelCamera);
         // If the distance exceeds the cursor range, limit the mouse position within the range
         if (distance > cursorRange) {
             // Calculate the angle between the player and the mouse
-            double angle = calculateAngle(x, y, levelCamera, mouseX, mouseY);
+            double angle = calculateAngle(x, y, levelCamera);
 
             // Set the mouse position to the edge of the cursor range
             mouseX = (int) (x - levelCamera.getxOffset() + cursorRange * Math.cos(angle));
             mouseY = (int) (y - levelCamera.getyOffset() + cursorRange * Math.sin(angle));
-        }
-    }
-
-    private void checkCursorRangeX(float x, LevelCamera levelCamera, int cursorRange) {
-        float entityPosX = x -levelCamera.getxOffset();
-        if(mouseX > entityPosX + cursorRange) {
-            mouseX = (int) entityPosX + cursorRange;
-        } else if(mouseX < entityPosX - cursorRange) {
-            mouseX = (int) entityPosX - cursorRange;
-        }
-    }
-
-    private void checkCursorRangeY(float y, LevelCamera levelCamera, int cursorRange) {
-        float entityPosY = y - levelCamera.getyOffset();
-        if(mouseY > entityPosY + cursorRange) {
-            mouseY = (int) entityPosY + cursorRange;
-        } else if(mouseY < entityPosY - cursorRange) {
-            mouseY = (int) entityPosY - cursorRange;
         }
     }
 
