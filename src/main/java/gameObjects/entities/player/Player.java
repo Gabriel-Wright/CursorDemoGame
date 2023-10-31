@@ -22,6 +22,8 @@ public class Player extends Entity {
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
         cursor = new Cursor(TILE_SIZE/5);
+        bounds.x -= entityWidth/2;
+        bounds.y -= entityHeight/2;
     }
 
 //    public Inventory getPlayerInventory() {
@@ -135,8 +137,10 @@ public class Player extends Entity {
     }
     public void render(Graphics g, Level level) {
         int entityXPos = (int) (x - level.getLevelCamera().getxOffset());
-        int entityYPos = (int) (y - level.getLevelCamera().getyOffset());
-        animations.drawImage(g, action, aniIndex, entityXPos, entityYPos, entityWidth, entityHeight);
+        int entityYPos = (int) (y -  level.getLevelCamera().getyOffset());
+        int displacedXPos = (int) (x - entityWidth/2 - level.getLevelCamera().getxOffset());
+        int displacedYPos = (int) (y - entityHeight/2 - level.getLevelCamera().getyOffset());
+        animations.drawImage(g, action, aniIndex, displacedXPos, displacedYPos, entityWidth, entityHeight);
 
         if (hitboxToggle) {
             g.setColor(Color.WHITE);
