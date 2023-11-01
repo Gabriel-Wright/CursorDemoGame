@@ -26,6 +26,8 @@ public class EntityAnimations {
         this.animationFlags = animationConstants.getAnimationFlags();
     }
 
+
+    //For entities, each sprite must have a buffer of 1 between sprites
     public void loadAnimations() {
         int numAnimations = animationFlags.length;
         int maxNumAnimationFrames = animationConstants.getMaxNumAnimationFrames();
@@ -45,7 +47,8 @@ public class EntityAnimations {
             height= animationConstants.getAnimationHeight(action);
 
             for(int j=0; j<numAnimationFrames;j++) {
-                animationFrames[i][j] = spriteSheet.getSubimage(j+startXDim+(width)*j,startYDim,width,height);
+                int xSpriteStartDim = j+startXDim+(width)*j;
+                animationFrames[i][j] = spriteSheet.getSubimage(xSpriteStartDim,startYDim,width,height);
             }
         }
 

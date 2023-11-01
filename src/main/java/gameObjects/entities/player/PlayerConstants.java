@@ -14,43 +14,43 @@ public class PlayerConstants extends EntityConstants {
 
     @Override
     public String getAnimationPath() {
-        return "/entities/playerIdleMove.png";
+        return "/entities/playeuniformSprite.png";
     }
 
     @Override
     public int[] getAnimationFlags() {
-        int[] animationFlags = {IDLE, WALKING};
+        int[] animationFlags = {IDLE, WALKING,SHOOTING};
         return animationFlags;
     }
 
     @Override
     public int getNumAnimationFrames(int playerAction) {
         switch(playerAction) {
-            case IDLE:
-                return 2;
-            case WALKING:
-                return 3;
+            case IDLE, WALKING:
+                return 1;
+            case SHOOTING:
+                return 6;
         }
         return 0;
     }
 
     @Override
     public int getMaxNumAnimationFrames() {
-        return 3;
+        return 6;
     }
 
     @Override
     public int getAnimationStartXDimension(int playerAction) {
-        return 1;
+        return 0;
     }
 
     @Override
     public int getAnimationStartYDimension(int playerAction) {
         switch(playerAction){
-            case IDLE:
-                return 1;
-            case WALKING:
-                return 66;
+            case IDLE,WALKING:
+                return 0;
+            case SHOOTING:
+                return 33;
         }
         return 1;
     }
@@ -62,7 +62,7 @@ public class PlayerConstants extends EntityConstants {
 
     @Override
     public int getAnimationHeight(int playerAction) {
-        return 64;
+        return 32;
     }
 
     @Override
@@ -77,27 +77,27 @@ public class PlayerConstants extends EntityConstants {
 
     @Override
     public int getEntityHeight() {
-        return TILE_SIZE*2;
+        return TILE_SIZE;
     }
 
     @Override
     public int getHitboxXoffset() {
-        return 10;
+        return TILE_SIZE/8;
     }
 
     @Override
     public int getHitboxYoffset() {
-        return 20;
+        return TILE_SIZE/8;
     }
 
     @Override
     public int getHitboxWidth() {
-        return TILE_SIZE/2;
+        return 3*TILE_SIZE/4;
     }
 
     @Override
     public int getHitboxHeight() {
-        return TILE_SIZE;
+        return 3*TILE_SIZE/4;
     }
 
 }

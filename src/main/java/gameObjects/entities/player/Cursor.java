@@ -47,7 +47,6 @@ public class Cursor {
             mouseX = centreX;
             mouseY = centreY;
         }
-        System.out.println(mouseX +"," +mouseY);
     }
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;

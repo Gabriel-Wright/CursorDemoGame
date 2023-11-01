@@ -7,5 +7,6 @@ public abstract class EntityConstants implements AnimationConstants, HitboxConst
     public static final int IDLE = 0;
     public static final int WALKING = 1;
     public static final int DEAD = 2;
+    public static final int SHOOTING = 3;
     public abstract float getSpeed();
 }
