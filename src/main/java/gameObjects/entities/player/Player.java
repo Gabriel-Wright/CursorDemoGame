@@ -35,7 +35,7 @@ public class Player extends Entity {
     @Override
     public void update(Level level, GameObjectGrid gameObjectGrid) {
         //Update position calculations
-        updatePos();
+            updatePos();
         //Verify states/positions based on collisions within level post movement
         move(level);
         //Handle local event triggers
@@ -60,7 +60,7 @@ public class Player extends Entity {
         }
 
 
-        cursor.update(x, y, level.getLevelCamera(), cursorRange);
+        cursor.update(x, y, level, cursorRange);
     }
 
     @Override

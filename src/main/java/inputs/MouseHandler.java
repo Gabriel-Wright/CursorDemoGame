@@ -10,7 +10,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     //We lock the real mouse to the centre of the screen, and use a fake software mouse for
     //in screen calculations
-    public static boolean IN_FOCUS = true;
 
      @Override
     public void mouseClicked(MouseEvent e) {
@@ -30,16 +29,10 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         System.out.println("Mouse entered?");
-        IN_FOCUS = true;
-//        MOUSE_X = e.getX(); // Update mouse X position
-//        MOUSE_Y = e.getY(); // Update mouse Y position
-//        System.out.println(MOUSE_X +","+ MOUSE_Y);
-
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        IN_FOCUS = false;
         System.out.println("mouse exit");
     }
 
