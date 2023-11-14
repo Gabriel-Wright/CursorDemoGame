@@ -132,7 +132,7 @@ public class Cursor {
             //Check left bound of entity
             int tx = (int) ((mouseX + level.getLevelCamera().getxOffset() + deltaX -radius) / TILE_SIZE);
             //If tile overlapping the left bound of the entity is solid then change the xMove value so that the player lines up
-            if (level.isSolidTile(tx,  (int) (mouseY +level.getLevelCamera().getyOffset() - radius) / TILE_SIZE) || level.isSolidTile(tx,  (mouseY + radius) / TILE_SIZE)) {
+            if (level.isSolidTile(tx,  (int) (mouseY +level.getLevelCamera().getyOffset() - radius) / TILE_SIZE) || level.isSolidTile(tx,  (int) (mouseY +level.getLevelCamera().getyOffset() + radius) / TILE_SIZE)) {
                 deltaX = (int) (tx * TILE_SIZE + TILE_SIZE - level.getLevelCamera().getxOffset() + radius - mouseX);
             }
         }
@@ -141,14 +141,14 @@ public class Cursor {
     private void checkLevelCollisionY(Level level) {
         if (deltaY < 0) { //Moving up
             //Check upper bound of entity
-            int ty = (int) (mouseY + deltaY + level.getLevelCamera().getyOffset()+radius) / TILE_SIZE;
+            int ty = (int) (mouseY + deltaY + level.getLevelCamera().getyOffset() - radius) / TILE_SIZE;
             //If tile overlapping the upper bound of the entity is solid then change the yMove value so that the player lines up with that tile
             if (level.isSolidTile((int) (mouseX + level.getLevelCamera().getxOffset() - radius) / TILE_SIZE, ty) || level.isSolidTile((int) (mouseX + level.getLevelCamera().getxOffset() + radius) / TILE_SIZE, ty)) {
                 deltaY = (int) (ty * TILE_SIZE + TILE_SIZE - level.getLevelCamera().getyOffset() + radius - mouseY);
             }
         } else if (deltaY > 0) { // Moving down
             //Check lower bound of entity
-            int ty = (int) (mouseY + deltaY +level.getLevelCamera().getxOffset() + radius) / TILE_SIZE;
+            int ty = (int) (mouseY + deltaY +level.getLevelCamera().getyOffset() + radius) / TILE_SIZE;
             //If tile overlapping the lower bound of the entity is solid then change the yMove value so that hte player lines up with that tile
             if (level.isSolidTile((int) (mouseX + level.getLevelCamera().getxOffset() - radius) / TILE_SIZE, ty) || level.isSolidTile((int) (mouseX + level.getLevelCamera().getxOffset() + radius) / TILE_SIZE, ty)) {
                 deltaY = (int) (ty * TILE_SIZE -level.getLevelCamera().getyOffset() - radius - 1 - mouseY);
