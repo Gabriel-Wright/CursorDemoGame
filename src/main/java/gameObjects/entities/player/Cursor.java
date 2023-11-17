@@ -12,6 +12,9 @@ import static main.Main.WINDOW_IN_FOCUS;
 
 public class Cursor {
 
+    //Max world distance that software cursor can move in a single update
+    private final int maxDelta = TILE_SIZE/8;
+    private static int SENSITIVITY_FACTOR = 1;
     //Software positions of mouse calculated each update using the difference in distance from in game :O
     private int mouseX;
     private int mouseY;
@@ -29,20 +32,15 @@ public class Cursor {
     }
     public void update(float x, float y, Level level, int cursorRange) {
         if(WINDOW_IN_FOCUS) {
-            //non centred position of osMouse
-            int osMouseX = MouseInfo.getPointerInfo().getLocation().x;
-            int osMouseY = MouseInfo.getPointerInfo().getLocation().y;
-
-            // Calculate the difference between the OS mouse's previous position and the center of the screen
-
-            deltaX = osMouseX - centreX;
-            deltaY = osMouseY - centreY;
+            displaceSoftwareMouse();
+            checkScreenEdges();
             checkLevelCollision(level);
             mouseY += deltaY;
             mouseX += deltaX;
-
+            //Temporarily double check
             checkScreenEdges();
-            checkCursorRange(x,y,level.getLevelCamera(),cursorRange);
+
+//            checkCursorRange(x,y,level.getLevelCamera(),cursorRange);
         }
         else {
             mouseX = centreX;
@@ -62,6 +60,25 @@ public class Cursor {
 
     }
 
+    private void displaceSoftwareMouse() {
+
+        //non centred position of osMouse
+        int osMouseX = MouseInfo.getPointerInfo().getLocation().x;
+        int osMouseY = MouseInfo.getPointerInfo().getLocation().y;
+
+        // Calculate the difference between the OS mouse's previous position and the center of the screen
+        //Don't want the mouse to move too quickly
+        //Have sensitivty facto as setting later to deal with playe sensitivty customisation
+        int displaceX = (osMouseX - centreX)/SENSITIVITY_FACTOR;
+//        System.out.println(displaceX+" x");
+        int displaceY = (osMouseY - centreY)/SENSITIVITY_FACTOR;
+//        System.out.println(displaceY+" y");
+        //Don't to limit mouse's movement in line with sensitivity so use Max and Min to bound
+
+        //This is syntax for is else statement where you assign in one line
+        deltaX = (displaceX>0) ? Math.min(displaceX, maxDelta) : Math.max(displaceX, -maxDelta);
+        deltaY = (displaceY>0) ? Math.min(displaceY, maxDelta) : Math.max(displaceY, -maxDelta);
+    }
     //Checks distance between playerPos and mousePos
     private float calculateDistance(float playerX, float playerY, LevelCamera levelCamera) {
         float entityPosX = playerX - levelCamera.getxOffset();
@@ -156,4 +173,7 @@ public class Cursor {
         }
     }
 
+    public static void UPDATE_SENSITIVITY(int sensitivity) {
+        SENSITIVITY_FACTOR = sensitivity;
+    }
 }

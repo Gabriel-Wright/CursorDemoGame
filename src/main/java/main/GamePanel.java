@@ -44,6 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
     private static State currentState;
     public static Color backGroundColor = Color.black;
     public GamePanel() {
+        System.out.println(SCREEN_WIDTH);
+        System.out.println(SCREEN_HEIGHT);
         screenEdgeX = startX + SCREEN_WIDTH;
         screenEdgeY = startY + SCREEN_HEIGHT;
         centreX = startX + SCREEN_WIDTH/2;

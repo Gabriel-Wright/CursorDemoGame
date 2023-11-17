@@ -16,6 +16,18 @@ public class Main {
         JFrame window = new JFrame();
         //Can close window
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//        window.setUndecorated(true);
+//        window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+//        // Set the frame to be fullscreen
+//        if (graphicsDevice.isFullScreenSupported()) {
+//            graphicsDevice.setFullScreenWindow(window);
+//        } else {
+//            // Fallback to maximized if fullscreen is not supported
+//            window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        }
+
         //Cannot resize window
         window.setResizable(false);
         window.setTitle("2D Adventure");

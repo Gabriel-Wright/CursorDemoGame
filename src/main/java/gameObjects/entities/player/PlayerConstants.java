@@ -9,7 +9,8 @@ public class PlayerConstants extends EntityConstants {
 
     @Override
     public float getSpeed() {
-        return 5.0f;
+//        return 5.0f;
+        return (float) TILE_SIZE/24;
     }
 
     @Override
