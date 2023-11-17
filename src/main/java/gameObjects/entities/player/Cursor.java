@@ -31,20 +31,15 @@ public class Cursor {
 
     }
     public void update(float x, float y, Level level, int cursorRange) {
+        //if window is infocus then update cursor position, then update software pos, otherwise do not.
         if(WINDOW_IN_FOCUS) {
             displaceSoftwareMouse();
             checkScreenEdges();
             checkLevelCollision(level);
             mouseY += deltaY;
             mouseX += deltaX;
-            //Temporarily double check
             checkScreenEdges();
-
 //            checkCursorRange(x,y,level.getLevelCamera(),cursorRange);
-        }
-        else {
-            mouseX = centreX;
-            mouseY = centreY;
         }
     }
     public void render(Graphics g) {
