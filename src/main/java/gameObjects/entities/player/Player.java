@@ -51,7 +51,7 @@ public class Player extends Entity {
         //Adjust the entity animation based on its action state
         updateAnimationTick();
         //Adjust player rotation
-        updatePlayerRotation(level);
+//        updatePlayerRotation(level);
 
         //If entity has moved in this update - reassign its grid position
         if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
@@ -60,13 +60,14 @@ public class Player extends Entity {
         }
 
 
-        cursor.update(x, y, level, cursorRange);
+        cursor.update(x, y, level, gameObjectGrid, cursorRange);
     }
 
+    //Player dies if touched D:
     @Override
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-            entity.die();
+            die();
         }
     }
     private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {

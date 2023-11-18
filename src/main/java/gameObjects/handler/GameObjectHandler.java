@@ -66,10 +66,10 @@ public class GameObjectHandler {
     private void loadTestEntities() {
         entities = new ArrayList<>();
         greenDeathConstants = new GreenDeathConstants();
-        GreenDeath greenDeathTest = new GreenDeath(6*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
+        GreenDeath greenDeathTest = new GreenDeath(3*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
         int index = 0;
         for(int i =0; i<100; i++) {
-            GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE+index*TILE_SIZE, 5*TILE_SIZE, greenDeathConstants);
+            GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
             entities.add(greenDeath);
             if(index ==4) {
                 index = 0;

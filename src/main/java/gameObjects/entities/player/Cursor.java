@@ -1,19 +1,28 @@
 package gameObjects.entities.player;
 
+import gameObjects.entities.Entity;
+import gameObjects.handler.Cell;
+import gameObjects.handler.GameObjectGrid;
+import gameObjects.objects.SuperObject;
 import levels.Level;
 import levels.LevelCamera;
+import utils.FindOvelapTiles;
 
 import java.awt.*;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.HashSet;
+import java.util.Set;
 
+import static gameObjects.handler.GameObjectHandler.ECPU;
+import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.*;
 import static main.Main.WINDOW_IN_FOCUS;
 
 public class Cursor {
 
     //Max world distance that software cursor can move in a single update
-    private final int maxDelta = TILE_SIZE/8;
+    private final int maxDelta = TILE_SIZE/2;
     private static int SENSITIVITY_FACTOR = 1;
     //Software positions of mouse calculated each update using the difference in distance from in game :O
     private int mouseX;
@@ -22,15 +31,17 @@ public class Cursor {
     private int deltaY;
     private int radius;
     private AlphaComposite cursorTransparency;
+
+    private Rectangle cursorHitbox;
     public Cursor(int radius) {
         this.radius = radius;
         mouseX = centreX;
         mouseY = centreY;
         // Create an AlphaComposite with 70% transparency
         cursorTransparency = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f); // 0.7f means 70% transparency
-
+        cursorHitbox = new Rectangle(-(3*radius)/4,-(3*radius/4),3*radius/2,3*radius/2);
     }
-    public void update(float x, float y, Level level, int cursorRange) {
+    public void update(float x, float y, Level level, GameObjectGrid gameObjectGrid, int cursorRange) {
         //if window is infocus then update cursor position, then update software pos, otherwise do not.
         if(WINDOW_IN_FOCUS) {
             displaceSoftwareMouse();
@@ -40,8 +51,35 @@ public class Cursor {
             mouseX += deltaX;
             checkScreenEdges();
 //            checkCursorRange(x,y,level.getLevelCamera(),cursorRange);
+            handleLocalObjectCollisions(level, gameObjectGrid);
         }
     }
+
+    private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this, level.getLevelCamera().getxOffset(), level.getLevelCamera().getyOffset()).toArray(new Point[0]);
+        Set<SuperObject> cellObjects = new HashSet<>();
+        //Retrieve all entities
+        Set<Entity> cellEntities = new HashSet<>();
+        //Retrieve all entities
+        for(Point cellIndex: cellIndexes) {
+            Cell cell = gameObjectGrid.getCell(cellIndex.x, cellIndex.y);
+            cellEntities.addAll(cell.getEntities());
+        }
+
+        //Complete collisions for those entities
+        for(Entity entity: cellEntities) {
+            //Check entity is not itself
+                ECPU++;
+                handleEntityCollision(level, entity);
+        }
+    }
+
+    protected void handleEntityCollision(Level level, Entity entity) {
+        if(getCollisionBounds(level).intersects(entity.getCollisionBounds())) {
+            entity.die();
+        }
+    }
+
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         Composite originalComposite = g2d.getComposite();
@@ -53,6 +91,9 @@ public class Cursor {
 
         g.fillOval(mouseX - radius, mouseY - radius, radius * 2, radius * 2);
 
+        if(hitboxToggle) {
+            g.drawRect(mouseX+cursorHitbox.x, mouseY+cursorHitbox.y, cursorHitbox.width,cursorHitbox.height);
+        }
     }
 
     private void displaceSoftwareMouse() {
@@ -170,5 +211,25 @@ public class Cursor {
 
     public static void UPDATE_SENSITIVITY(int sensitivity) {
         SENSITIVITY_FACTOR = sensitivity;
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public Rectangle getCursorHitbox() {
+        return cursorHitbox;
+    }
+
+    public Rectangle getCollisionBounds(Level level) {
+        return new Rectangle((int) (mouseX + cursorHitbox.x + level.getLevelCamera().getxOffset()), (int) (mouseY + cursorHitbox.y + level.getLevelCamera().getyOffset()), cursorHitbox.width, cursorHitbox.height);
     }
 }

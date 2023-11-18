@@ -2,6 +2,7 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
+import gameObjects.entities.player.Cursor;
 import gameObjects.events.PositionalEvent;
 import gameObjects.objects.SuperObject;
 
@@ -212,6 +213,22 @@ public class GameObjectGrid {
         }
 
         return assignedCells;
+    }
+
+//    xOffset and yOffset represent the camera offset, as cursor position is screen based not level based
+    public List<Point> getAssignedCells(Cursor cursor, float xOffset, float yOffset) {
+        List<Point> assignedCells = new ArrayList<>();
+
+        Point[] cellIndexes = FindOverlapTiles(cursor, xOffset, yOffset);
+        for (Point cellIndex : cellIndexes) {
+            if (getCell(cellIndex.x, cellIndex.y) != null) {
+                assignedCells.add(cellIndex);
+            }
+        }
+
+        return assignedCells;
+
+
     }
 
     public void removeEntityFromCells(Entity entity) {

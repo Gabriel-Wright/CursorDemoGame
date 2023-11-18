@@ -1,7 +1,7 @@
 package utils;
 
 import gameObjects.entities.Entity;
-
+import gameObjects.entities.player.Cursor;
 import java.awt.*;
 
 import static main.GamePanel.TILE_SIZE;
@@ -21,6 +21,26 @@ public class FindOvelapTiles {
         for (int x = startX; x <= endX; x++) {
             for (int y = startY; y <= endY; y++) {
                 tileIndexes[i] = new Point(x, y);
+                i++;
+            }
+        }
+        return tileIndexes;
+    }
+
+
+//    Probably better to add a small hitbox for the cursor
+    public static Point[] FindOverlapTiles(Cursor cursor, float xOffset, float yOffset) {
+        int startX = (int) (cursor.getMouseX() + cursor.getCursorHitbox().x + xOffset)/TILE_SIZE;
+        int startY = (int) (cursor.getMouseY() + cursor.getCursorHitbox().y +yOffset)/TILE_SIZE;
+        int endX = (int) (cursor.getMouseX() + cursor.getCursorHitbox().width + cursor.getCursorHitbox().x + xOffset)/TILE_SIZE;
+        int endY = (int) (cursor.getMouseY() + cursor.getCursorHitbox().height + cursor.getCursorHitbox().y + yOffset)/TILE_SIZE;
+
+        int numTiles = (endX - startX +1) * (endY - startY +1);
+        Point[] tileIndexes = new Point[numTiles];
+        int i=0;
+        for(int x = startX; x<=endX; x++) {
+            for(int y= startY; y <=endY; y++) {
+                tileIndexes[i] = new Point(x,y);
                 i++;
             }
         }
