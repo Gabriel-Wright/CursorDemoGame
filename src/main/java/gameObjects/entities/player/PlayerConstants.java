@@ -1,6 +1,7 @@
 package gameObjects.entities.player;
 
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.events.entity.EntityEvent;
 
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
@@ -22,6 +23,11 @@ public class PlayerConstants extends EntityConstants {
     public int[] getAnimationFlags() {
         int[] animationFlags = {IDLE, WALKING,SHOOTING};
         return animationFlags;
+    }
+
+    @Override
+    public EntityEvent getEntityEvent() {
+        return null;
     }
 
     @Override

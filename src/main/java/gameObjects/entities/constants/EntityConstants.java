@@ -2,7 +2,7 @@ package gameObjects.entities.constants;
 
 //Create a constants class for each unique entity -this allows us to store the same values for them that can be passed
 //into an Entities object.
-public abstract class EntityConstants implements AnimationConstants, HitboxConstants{
+public abstract class EntityConstants implements AnimationConstants, HitboxConstants, EventConstants{
 
     public static final int IDLE = 0;
     public static final int WALKING = 1;

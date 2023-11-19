@@ -1,5 +1,6 @@
-package gameObjects.events;
+package gameObjects.events.generic;
 
+import gameObjects.events.generic.Event;
 import levels.Level;
 
 import java.awt.*;
@@ -7,7 +8,7 @@ import java.awt.*;
 import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
 
-public abstract class PositionalEvent implements Event{
+public abstract class PositionalEvent implements Event {
 
 
     //World size triggerBox rectangle - scaled to pixel size.

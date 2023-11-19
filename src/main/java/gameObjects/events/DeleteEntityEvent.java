@@ -1,5 +1,6 @@
 package gameObjects.events;
 
+import gameObjects.events.generic.Event;
 import levels.LevelManager;
 
 public class DeleteEntityEvent implements Event {

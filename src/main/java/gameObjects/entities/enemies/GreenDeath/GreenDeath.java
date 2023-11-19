@@ -22,6 +22,8 @@ public class GreenDeath extends Entity {
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
             //System.out.println("EntityCollision");
+            //Run entity event
+            flipDirection();
         }
     }
 
@@ -56,6 +58,22 @@ public class GreenDeath extends Entity {
         }
     }
 
+    private void flipDirection() {
+        switch(direction) {
+            case 0:
+                direction = 1;
+                break;
+            case 1:
+                direction = 0;
+                break;
+            case 2:
+                direction = 3;
+                break;
+            case 3:
+                direction = 2;
+                break;
+        }
+    }
     @Override
     protected void updateAction() {
 

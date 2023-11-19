@@ -5,8 +5,8 @@ import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
-import gameObjects.events.PositionalEvent;
-import gameObjects.events.RoomChange;
+import gameObjects.events.generic.PositionalEvent;
+import gameObjects.events.generic.RoomChange;
 import levels.Level;
 import gameObjects.objects.SuperObject;
 import ui.UI;
@@ -68,8 +68,8 @@ public class GameObjectHandler {
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(3*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
         int index = 0;
-        for(int i =0; i<100; i++) {
-            GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
+        for(int i =0; i<3; i++) {
+            GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*2*TILE_SIZE, 9*TILE_SIZE, greenDeathConstants);
             entities.add(greenDeath);
             if(index ==4) {
                 index = 0;

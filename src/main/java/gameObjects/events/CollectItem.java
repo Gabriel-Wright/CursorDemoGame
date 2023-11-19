@@ -1,6 +1,8 @@
 package gameObjects.events;
 
-public class CollectItem implements Event{
+import gameObjects.events.generic.Event;
+
+public class CollectItem implements Event {
 
 
     @Override

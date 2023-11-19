@@ -2,6 +2,7 @@ package gameObjects.entities;
 
 import animations.EntityAnimations;
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.events.entity.EntityEvent;
 import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
 import levels.Level;
@@ -35,6 +36,7 @@ public abstract class Entity {
     protected int action = EntityConstants.IDLE;
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
     private boolean deleted = false;
+    private EntityEvent entityCollideEvents;
     public Entity(int x, int y, EntityConstants entityConstants) {
         this.x = x;
         this.y = y;
@@ -59,6 +61,7 @@ public abstract class Entity {
         this.entityWidth = entityConstants.getEntityWidth();
         this.entityHeight = entityConstants.getEntityHeight();
         this.speed = entityConstants.getSpeed();
+        this.entityCollideEvents = entityConstants.getEntityEvent();
     }
 
     private void loadAnimations() {
@@ -164,7 +167,12 @@ public abstract class Entity {
         }
     }
 
-    protected abstract void handleEntityCollision(Entity entity);
+    //Run event for entity - entity (player entity calls cannot be made through this method)
+    protected void handleEntityCollision(Entity entity) {
+        if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
+            entityCollideEvents.RunEntityEntityCollideEvent(this, entity);
+        }
+    }
 
     protected abstract void updatePos();
 
@@ -239,5 +247,9 @@ public abstract class Entity {
     }
     public boolean isDeleted() {
         return deleted;
+    }
+
+    public EntityEvent getEntityCollideEvents() {
+        return entityCollideEvents;
     }
 }

@@ -1,9 +1,7 @@
 package gameObjects.objects;
 
-import gameObjects.entities.Entity;
-import gameObjects.entities.player.Player;
 import levels.Level;
-import gameObjects.events.Event;
+import gameObjects.events.generic.Event;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

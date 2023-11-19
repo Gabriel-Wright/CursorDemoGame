@@ -1,7 +1,7 @@
 package gameObjects.objects;
 
 import gameObjects.events.CollectItem;
-import gameObjects.events.Event;
+import gameObjects.events.generic.Event;
 
 import java.awt.image.BufferedImage;
 

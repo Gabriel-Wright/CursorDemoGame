@@ -2,7 +2,7 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
-import gameObjects.events.PositionalEvent;
+import gameObjects.events.generic.PositionalEvent;
 import levels.Level;
 import gameObjects.objects.SuperObject;
 

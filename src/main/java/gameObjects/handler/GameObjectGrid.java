@@ -3,7 +3,7 @@ package gameObjects.handler;
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.Cursor;
-import gameObjects.events.PositionalEvent;
+import gameObjects.events.generic.PositionalEvent;
 import gameObjects.objects.SuperObject;
 
 import java.awt.*;

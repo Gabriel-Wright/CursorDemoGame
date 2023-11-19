@@ -1,6 +1,7 @@
 package gameObjects.entities.enemies.GreenDeath;
 
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.events.entity.EntityEvent;
 
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
@@ -47,6 +48,11 @@ public class GreenDeathConstants extends EntityConstants {
                 return 0;
         }
         return 0;
+    }
+
+    @Override
+    public EntityEvent getEntityEvent() {
+        return null;
     }
 
     @Override
@@ -98,4 +104,5 @@ public class GreenDeathConstants extends EntityConstants {
     public int getHitboxHeight() {
         return TILE_SIZE/2;
     }
+
 }

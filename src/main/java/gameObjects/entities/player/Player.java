@@ -23,7 +23,7 @@ public class Player extends Entity {
     private double rotationAngle=0;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
-        cursor = new Cursor(TILE_SIZE/5);
+        cursor = new Cursor(TILE_SIZE/4);
         bounds.x -= entityWidth/2;
         bounds.y -= entityHeight/2;
     }
@@ -63,13 +63,17 @@ public class Player extends Entity {
         cursor.update(x, y, level, gameObjectGrid, cursorRange);
     }
 
-    //Player dies if touched D:
+    //Entity - player collision is only calculated from player, entities only run
+    //entity - entity events within their own classes.
     @Override
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
             die();
+            //Run entity - player collision event from entity's event list
+            //entity.getEntityCollideEvents().RunEntityPlayerCollideEvent(entity,this);
         }
     }
+
     private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
         Set<SuperObject> cellObjects = new HashSet<>();

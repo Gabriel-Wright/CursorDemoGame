@@ -1,7 +1,6 @@
-package gameObjects.events;
+package gameObjects.events.generic;
 
-import gameObjects.events.PositionalEvent;
-import main.GamePanel;
+import gameObjects.events.generic.PositionalEvent;
 import states.GameState;
 import tasks.TaskHandler;
 import tasks.backgroundColorTasks.BackGroundColorChange;
@@ -9,7 +8,6 @@ import tasks.backgroundColorTasks.BackGroundColorChange;
 import java.awt.*;
 
 import static main.GamePanel.UPS;
-import static states.GameState.getBackgroundColor;
 
 
 public class RoomChange extends PositionalEvent {
