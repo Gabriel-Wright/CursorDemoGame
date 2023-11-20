@@ -68,7 +68,7 @@ public class GameObjectHandler {
         greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeathTest = new GreenDeath(3*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
         int index = 0;
-        for(int i =0; i<3; i++) {
+        for(int i =0; i<8; i++) {
             GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*2*TILE_SIZE, 9*TILE_SIZE, greenDeathConstants);
             entities.add(greenDeath);
             if(index ==4) {
@@ -80,7 +80,9 @@ public class GameObjectHandler {
     //Pass level as argument for logic calculations with tile collisions
     //Need to restrict this to entities within a certain range, as with render method.
     public void update(Level level) {
-        player.update(level, gameObjectGrid);
+        if(!player.isDeleted()) {
+            player.update(level, gameObjectGrid);
+        }
         Iterator<Entity> iterator = entities.iterator();
         while (iterator.hasNext()) {
             Entity entity = iterator.next();

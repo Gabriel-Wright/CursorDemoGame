@@ -238,6 +238,10 @@ public abstract class Entity {
         this.action = action;
     }
 
+    public int getAction() {
+        return action;
+    }
+
     public Rectangle getCollisionBounds() {
         return new Rectangle((int) x+bounds.x,(int) y+bounds.y, bounds.width, bounds.height);
     }

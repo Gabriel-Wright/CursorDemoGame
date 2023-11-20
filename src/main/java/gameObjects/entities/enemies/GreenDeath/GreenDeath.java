@@ -18,14 +18,12 @@ public class GreenDeath extends Entity {
         super(x, y ,greenDeathConstants);
     }
 
-    @Override
-    protected void handleEntityCollision(Entity entity) {
-        if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-            //System.out.println("EntityCollision");
-            //Run entity event
-            flipDirection();
-        }
-    }
+//    @Override
+//    protected void handleEntityCollision(Entity entity) {
+//        if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
+//            getEntityCollideEvents().RunEntityEntityCollideEvent(entity,this);
+//        }
+//    }
 
     @Override
     protected void updatePos() {

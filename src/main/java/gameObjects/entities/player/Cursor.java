@@ -76,7 +76,7 @@ public class Cursor {
 
     protected void handleEntityCollision(Level level, Entity entity) {
         if(getCollisionBounds(level).intersects(entity.getCollisionBounds())) {
-            entity.die();
+            entity.getEntityCollideEvents().RunEntityCursorCollideEvent(entity,this);
         }
     }
 

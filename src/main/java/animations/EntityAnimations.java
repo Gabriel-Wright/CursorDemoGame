@@ -1,15 +1,18 @@
 package animations;
 
 import gameObjects.entities.constants.AnimationConstants;
+import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import utils.LoadFiles;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EntityAnimations {
 
     private BufferedImage spriteSheet;
-    private BufferedImage[][] animationFrames;
+    private Map<Integer,BufferedImage[]> animationFramesMap;
     /**
      * These value refer to the first index of animationFrames - refer to the ACTION of a given entity.
      *  e.g 0 = IDLE. , 1 = WALK
@@ -30,14 +33,12 @@ public class EntityAnimations {
     //For entities, each sprite must have a buffer of 1 between sprites
     public void loadAnimations() {
         int numAnimations = animationFlags.length;
-        int maxNumAnimationFrames = animationConstants.getMaxNumAnimationFrames();
-
         int numAnimationFrames;
         int action;
 
         int startXDim, startYDim, width, height;
 
-        animationFrames = new BufferedImage[numAnimations][maxNumAnimationFrames];
+        animationFramesMap = new HashMap<>();
         for(int i=0; i<numAnimations ;i++) {
             action = animationFlags[i];
             numAnimationFrames = animationConstants.getNumAnimationFrames(action);
@@ -45,12 +46,15 @@ public class EntityAnimations {
             startXDim = animationConstants.getAnimationStartXDimension(action);
             width = animationConstants.getAnimationWidth(action);
             height= animationConstants.getAnimationHeight(action);
-
+            BufferedImage[] animationFrames = new BufferedImage[numAnimationFrames];
             for(int j=0; j<numAnimationFrames;j++) {
                 int xSpriteStartDim = j+startXDim+(width)*j;
-                animationFrames[i][j] = spriteSheet.getSubimage(xSpriteStartDim,startYDim,width,height);
+//                animationFrames[i][j] = spriteSheet.getSubimage(xSpriteStartDim,startYDim,width,height);
+                animationFrames[j] = spriteSheet.getSubimage(xSpriteStartDim, startYDim, width, height);
             }
+            animationFramesMap.put(action,animationFrames);
         }
+
 
     }
 
@@ -65,6 +69,6 @@ public class EntityAnimations {
      * @param height - height of the animation image on the GamePanel
      */
     public void drawImage(Graphics g, int action, int aniIndex, int x, int y, int width, int height) {
-        g.drawImage(animationFrames[action][aniIndex], x, y, width, height, null);
+        g.drawImage(animationFramesMap.get(action)[aniIndex], x, y, width, height, null);
     }
 }

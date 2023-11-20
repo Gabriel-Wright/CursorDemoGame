@@ -68,9 +68,9 @@ public class Player extends Entity {
     @Override
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-            die();
-            //Run entity - player collision event from entity's event list
-            //entity.getEntityCollideEvents().RunEntityPlayerCollideEvent(entity,this);
+//            die();
+//            //Run entity - player collision event from entity's event list
+            entity.getEntityCollideEvents().RunEntityPlayerCollideEvent(entity,this);
         }
     }
 

@@ -1,7 +1,9 @@
 package gameObjects.entities.enemies.GreenDeath;
 
+import gameObjects.entities.constants.AnimationConstants;
 import gameObjects.entities.constants.EntityConstants;
 import gameObjects.events.entity.EntityEvent;
+import gameObjects.events.entity.GreenDeathEvents;
 
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
@@ -52,7 +54,7 @@ public class GreenDeathConstants extends EntityConstants {
 
     @Override
     public EntityEvent getEntityEvent() {
-        return null;
+        return new GreenDeathEvents();
     }
 
     @Override

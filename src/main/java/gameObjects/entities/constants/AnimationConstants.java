@@ -1,8 +1,12 @@
 package gameObjects.entities.constants;
 
+import animations.EntityAnimations;
+
 public interface AnimationConstants {
 
     public String getAnimationPath();
+
+//    public EntityAnimations getAnimations();
 
     public int[] getAnimationFlags();
 
