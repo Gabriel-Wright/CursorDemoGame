@@ -17,19 +17,19 @@ public class LevelCamera {
     private void checkBlankSpace() {
         if (xOffset < 0) {
             xOffset = 0;
-        } else if (xOffset > levelWidth * TILE_SIZE - SCREEN_WIDTH) {
-            xOffset = levelWidth * TILE_SIZE - SCREEN_WIDTH;
+        } else if (xOffset > levelWidth * TILE_SIZE - TARGET_SCREEN_WIDTH) {
+            xOffset = levelWidth * TILE_SIZE - TARGET_SCREEN_WIDTH;
         }
         if (yOffset < 0) {
             yOffset = 0;
-        } else if (yOffset > levelHeight * TILE_SIZE - SCREEN_HEIGHT) {
-            yOffset = levelHeight * TILE_SIZE - SCREEN_HEIGHT;
+        } else if (yOffset > levelHeight * TILE_SIZE - TARGET_SCREEN_HEIGHT) {
+            yOffset = levelHeight * TILE_SIZE - TARGET_SCREEN_HEIGHT;
         }
     }
 
     public void centerOnPos(float x, float y) {
-        xOffset = x - SCREEN_WIDTH / 2;
-        yOffset = y - SCREEN_HEIGHT / 2;
+        xOffset = x - TARGET_SCREEN_WIDTH / 2;
+        yOffset = y - TARGET_SCREEN_HEIGHT / 2;
         checkBlankSpace();
     }
 

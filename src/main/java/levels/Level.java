@@ -72,8 +72,8 @@ public class Level {
 
         int xStart = (int) Math.max(0, levelCamera.getxOffset() / TILE_SIZE);
         int yStart = (int) Math.max(0, levelCamera.getyOffset() / TILE_SIZE);
-        int xEnd = (int) Math.min(levelWidth, (levelCamera.getxOffset() + levelCamera.getxOffset() + SCREEN_WIDTH)/TILE_SIZE +1);
-        int yEnd = (int) Math.min(levelHeight, (levelCamera.getyOffset() + SCREEN_HEIGHT)/TILE_SIZE +1);
+        int xEnd = (int) Math.min(levelWidth, (levelCamera.getxOffset() + levelCamera.getxOffset() + TARGET_SCREEN_WIDTH)/TILE_SIZE +1);
+        int yEnd = (int) Math.min(levelHeight, (levelCamera.getyOffset() + TARGET_SCREEN_HEIGHT)/TILE_SIZE +1);
         //Level tiles
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {

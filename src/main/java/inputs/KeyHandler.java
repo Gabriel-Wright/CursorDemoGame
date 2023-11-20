@@ -1,5 +1,7 @@
 package inputs;
 
+import main.GamePanel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.security.Key;
@@ -12,7 +14,10 @@ public class KeyHandler implements KeyListener {
     //Debug toggles
     public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false,
     performanceInfo = false;
-
+    private GamePanel gamePanel;
+    public KeyHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -52,6 +57,8 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_F6:
                 performanceInfo = !performanceInfo;
                 break;
+            case KeyEvent.VK_F11:
+                gamePanel.toggleFullScreen();
         }
     }
 

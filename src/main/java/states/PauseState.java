@@ -2,8 +2,8 @@ package states;
 
 import sound.SoundManager;
 
-import static main.GamePanel.SCREEN_HEIGHT;
-import static main.GamePanel.SCREEN_WIDTH;
+import static main.GamePanel.TARGET_SCREEN_HEIGHT;
+import static main.GamePanel.TARGET_SCREEN_WIDTH;
 import static sound.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
 
@@ -53,6 +53,6 @@ public class PauseState extends State{
     private void applyPauseFilter(Graphics g) {
         //Apply a darker color filter to the entire screen
         g.setColor(new Color(0, 0, 0, 128));
-        g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        g.fillRect(0, 0, TARGET_SCREEN_WIDTH, TARGET_SCREEN_HEIGHT);
     }
 }

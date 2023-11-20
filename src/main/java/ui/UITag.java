@@ -16,9 +16,9 @@ public class UITag {
     private String tagFlair;
     private int originalX = -TILE_SIZE;
     private int x;
-    private int y = SCREEN_HEIGHT / 4;
+    private int y = TARGET_SCREEN_HEIGHT / 4;
     private int destX = TILE_SIZE;
-    private int destY = SCREEN_HEIGHT / 4;
+    private int destY = TARGET_SCREEN_HEIGHT / 4;
 
     public UITag(String message, String tagFlair) {
         this.message = message;

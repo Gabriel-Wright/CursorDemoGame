@@ -65,16 +65,16 @@ public class GameObjectHandler {
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
-        greenDeathConstants = new GreenDeathConstants();
-        GreenDeath greenDeathTest = new GreenDeath(3*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
-        int index = 0;
-        for(int i =0; i<8; i++) {
-            GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*2*TILE_SIZE, 9*TILE_SIZE, greenDeathConstants);
-            entities.add(greenDeath);
-            if(index ==4) {
-                index = 0;
-            }
-        }
+//        greenDeathConstants = new GreenDeathConstants();
+//        GreenDeath greenDeathTest = new GreenDeath(3*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
+//        int index = 0;
+//        for(int i =0; i<8; i++) {
+//            GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*2*TILE_SIZE, 9*TILE_SIZE, greenDeathConstants);
+//            entities.add(greenDeath);
+//            if(index ==4) {
+//                index = 0;
+//            }
+//        }
     }
 
     //Pass level as argument for logic calculations with tile collisions
@@ -108,8 +108,8 @@ public class GameObjectHandler {
     public void render(Graphics g, Level level) {
         int xStart = (int) Math.max(0, level.getLevelCamera().getxOffset() / TILE_SIZE);
         int yStart = (int) Math.max(0, level.getLevelCamera().getyOffset() / TILE_SIZE);
-        int xEnd = (int) Math.min(level.getLevelWidth(), (level.getLevelCamera().getxOffset() + level.getLevelCamera().getxOffset() + SCREEN_WIDTH)/TILE_SIZE +1);
-        int yEnd = (int) Math.min(level.getLevelHeight(), (level.getLevelCamera().getyOffset() + SCREEN_HEIGHT)/TILE_SIZE +1);
+        int xEnd = (int) Math.min(level.getLevelWidth(), (level.getLevelCamera().getxOffset() + level.getLevelCamera().getxOffset() + TARGET_SCREEN_WIDTH)/TILE_SIZE +1);
+        int yEnd = (int) Math.min(level.getLevelHeight(), (level.getLevelCamera().getyOffset() + TARGET_SCREEN_HEIGHT)/TILE_SIZE +1);
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
                 if(gameObjectGrid.getCell(x,y)!=null) {
