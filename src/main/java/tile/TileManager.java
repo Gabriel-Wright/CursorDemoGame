@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-import static main.GamePanel.TILE_SIZE;
-import static main.GamePanel.originalTileSize;
 
 public class TileManager {
 

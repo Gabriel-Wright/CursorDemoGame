@@ -28,8 +28,8 @@ public class Level {
         this.levelTileData = levelTileData;
         this.templateLevelTiles = templateLevelTiles;
         this.levelObjects = templateLevelObjects;
-        levelWidth = levelTileData[0].length;
-        levelHeight = levelTileData.length;
+        levelHeight = levelTileData[0].length;
+        levelWidth = levelTileData.length;
         levelCamera = new LevelCamera(0 ,0, levelWidth, levelHeight);
     }
 

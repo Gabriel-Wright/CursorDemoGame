@@ -45,7 +45,7 @@ public class Player extends Entity {
         //Check object collisions
         handleLocalObjectCollisions(level, gameObjectGrid);
         //Centre camera on player
-        centerCamera(level);
+//        centerCamera(level);
         //Update action state of the entity
         updateAction();
         //Adjust the entity animation based on its action state

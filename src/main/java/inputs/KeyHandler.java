@@ -14,10 +14,7 @@ public class KeyHandler implements KeyListener {
     //Debug toggles
     public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false,
     performanceInfo = false;
-    private GamePanel gamePanel;
-    public KeyHandler(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
+    public static boolean fullScreenToggle = false;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -58,7 +55,7 @@ public class KeyHandler implements KeyListener {
                 performanceInfo = !performanceInfo;
                 break;
             case KeyEvent.VK_F11:
-                gamePanel.toggleFullScreen();
+                fullScreenToggle = !fullScreenToggle;
         }
     }
 

@@ -18,7 +18,6 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Cannot resize window
-        window.setResizable(true);
         window.setTitle("2D Adventure");
         window.setLocation(startX,startY);
         window.addWindowFocusListener(new WindowFocusListener() {
@@ -37,6 +36,7 @@ public class Main {
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
+        window.setResizable(false);
         window.pack();
 
         // Create a blank image for a custom cursor
@@ -45,7 +45,7 @@ public class Main {
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blankCursor");
 
         // Set the cursor to the blank cursor
-        window.getContentPane().setCursor(blankCursor);
+//        window.getContentPane().setCursor(blankCursor);
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);

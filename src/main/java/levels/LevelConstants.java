@@ -48,7 +48,7 @@ public class LevelConstants {
     private String getLevelJsonPath(int i) {
         switch(i) {
             case TEST_LEVEL:
-                return "/levelMaps/TESTLEVEL.json";
+                return "/levelMaps/3219.json";
         }
         return null;
     }
