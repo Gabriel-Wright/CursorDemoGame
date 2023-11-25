@@ -11,21 +11,20 @@ import static inputs.KeyHandler.isPaused;
 import java.awt.*;
 
 import static main.GamePanel.TILE_SIZE;
+import static main.GamePanel.lockCursor;
 
 public class GameState extends State{
 
     private TaskHandler taskHandler;
-    private PauseState pauseState;
-    private boolean inPauseState = false;
     private LevelManager levelManager;
     private UI gameUI;
 
     public void loadTestGame() {
         loadLevelManager();
         loadUI();
-        pauseState = new PauseState(this);
         taskHandler = new TaskHandler();
     }
+
 
     //Need to switch these to be linked to FPS rather than updates.
     public static void updateGameBackground(Color color) {
@@ -36,13 +35,6 @@ public class GameState extends State{
         return GamePanel.backGroundColor;
     }
 
-    public void pauseGame() {
-        pauseState.initialiseState();
-    }
-
-    public void resumeGame() {
-        pauseState.endState();
-    }
     private void loadUI() {
         gameUI = new UI(levelManager);
     }
@@ -56,23 +48,14 @@ public class GameState extends State{
         loadTestGame();
     }
 
-    //This update method checks whether a pause state has changed -> this is important because
-    //in this case resumeGame() or pauseGame() is ran when a change occurs.
+    @Override
+    public void reloadState() {
+        lockCursor();
+    }
+
     @Override
     public void update() {
-        if(hasSwitchedPauseState()) {
-            if(inPauseState) {
-                pauseGame();
-            } else {
-                resumeGame();
-            }
-        }
-        if(!isPaused) {
-            levelManager.update();
-        }
-        if(isPaused) {
-            pauseState.update();
-        }
+        levelManager.update();
         taskHandler.updateTasks();
     }
 
@@ -82,18 +65,8 @@ public class GameState extends State{
 
     @Override
     public void render(Graphics g) {
-        if(!isPaused) {
-            levelManager.draw(g);
-            gameUI.render(g);
-        }
-        if(isPaused) {
-            pauseState.render(g);
-        }
-    }
-    private boolean hasSwitchedPauseState() {
-        boolean hasSwitched = isPaused != inPauseState;
-        inPauseState = isPaused;
-        return hasSwitched;
+        levelManager.draw(g);
+        gameUI.render(g);
     }
 
 }

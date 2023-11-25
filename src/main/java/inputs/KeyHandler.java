@@ -15,6 +15,11 @@ public class KeyHandler implements KeyListener {
     public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false,
     performanceInfo = false;
     public static boolean fullScreenToggle = false;
+
+    private GamePanel gamePanel;
+    public KeyHandler(GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -39,6 +44,7 @@ public class KeyHandler implements KeyListener {
                 break;
             //Pause the game
             case KeyEvent.VK_P, KeyEvent.VK_ESCAPE:
+                gamePanel.switchGameStates();
                 isPaused = !isPaused;
                 break;
             //Debug info

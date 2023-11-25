@@ -2,8 +2,7 @@ package states;
 
 import sound.SoundManager;
 
-import static main.GamePanel.TARGET_SCREEN_HEIGHT;
-import static main.GamePanel.TARGET_SCREEN_WIDTH;
+import static main.GamePanel.*;
 import static sound.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
 
@@ -19,10 +18,15 @@ public class PauseState extends State{
 
     //Unsure what is needed
     public void initialiseState() {
+
+    }
+
+    @Override
+    public void reloadState() {
+        unlockCursor();
         //play sound - load menus?
         playPauseSound(PAUSE_RESUME);
     }
-
     public void endState() {
         //play sound & close menus, reset menu data
         playPauseSound(PAUSE_RESUME);

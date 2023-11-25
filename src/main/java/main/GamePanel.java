@@ -3,6 +3,7 @@ package main;
 import inputs.KeyHandler;
 import inputs.MouseHandler;
 import states.GameState;
+import states.PauseState;
 import states.State;
 import ui.UI;
 
@@ -45,9 +46,10 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean isFullScreen = false;
 
     //Input listeners
-    private KeyHandler keyH = new KeyHandler();
+    private KeyHandler keyH = new KeyHandler(this);
     private MouseHandler mouseH = new MouseHandler();
     Robot mouseLocker;
+    public static boolean LOCK_CURSOR;
 
     //Local monitor and graphics environment info
     private GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -55,10 +57,11 @@ public class GamePanel extends JPanel implements Runnable {
     private DisplayMode originalDisplayMode;
 
     //NumUpdates per toggle check - how many updates have to pass for toggle check
-    private int numUpdatesPerToggleCheck = 2;
+    private int numUpdatesPerToggleCheck = 1;
     Thread gameThread;
     //GameStates
     private GameState gameState;
+    private PauseState pauseState;
     private static State currentState;
 
     public static Color backGroundColor = Color.black;
@@ -81,6 +84,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         //Initial gameStates
         gameState = new GameState();
+        pauseState = new PauseState(gameState);
+        gameState.initialiseState();
+        pauseState.initialiseState();
         setCurrentState(gameState);
 
         //Initial display mode
@@ -99,6 +105,15 @@ public class GamePanel extends JPanel implements Runnable {
         scaleY = (double) getHeight() / TARGET_SCREEN_HEIGHT;
     }
 
+    public void switchGameStates() {
+        if(currentState == gameState) {
+            setCurrentState(pauseState);
+            return;
+        }
+        if(currentState == pauseState) {
+            setCurrentState(gameState);
+        }
+    }
 
     private void enterFullscreen() {
         if (graphicsDevice.isFullScreenSupported()) {
@@ -128,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static void setCurrentState(State state) {
         currentState = state;
-        currentState.initialiseState();
+        currentState.reloadState();
     }
 
     private void initialiseRobot() {
@@ -194,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable {
                 update();
                 updates++;
                 //Add variable here instead of 2
-                if (updates % numUpdatesPerToggleCheck == 0) {
+                if (updates % numUpdatesPerToggleCheck == 0 && LOCK_CURSOR) {
                     lockCursorToCentre();
                 }
                 //Doesn't reset to 0, take away difference above 1.
@@ -249,5 +264,13 @@ public class GamePanel extends JPanel implements Runnable {
         if (isFullScreen != fullScreenToggle) {
             toggleFullScreen();
         }
+    }
+
+    public static void lockCursor() {
+        LOCK_CURSOR = true;
+    }
+
+    public static void unlockCursor() {
+        LOCK_CURSOR = false;
     }
 }
