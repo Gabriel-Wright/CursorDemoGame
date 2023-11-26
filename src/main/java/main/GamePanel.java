@@ -18,7 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // SCREEN SETTINGS
     //Unscaled pixel size of tiles, they have detail size of 32x32
-    public final static int TILE_SIZE = 32;
+    public final static int TILE_SIZE = 16;
     //Scales used for adjusting window size for monitors
     private double scaleX = 1;
     private double scaleY = 1;

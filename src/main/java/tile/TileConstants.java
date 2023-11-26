@@ -7,94 +7,88 @@ import static utils.LoadFiles.importImg;
 
 public class TileConstants {
 
+    //Store Tile names with enumerator Tile type - i think it is still easier to
+    public enum TileType {
+        LIGHT_BLUE, GREY, PURPLE, TRANSPARENT,
+        DEMITRANSPARENT, SOLID_WALL,
+        SOLID_WALL_EXPOSED_LEFT, SOLID_WALL_EXPOSED_RIGHT, SOLID_WALL_EXPOSED_TOP, SOLID_WALL_EXPOSED_BOTTOM,
+        SOLID_WALL_EXPOSED_TOP_LEFT, SOLID_WALL_EXPOSED_TOP_RIGHT, SOLID_WALL_EXPOSED_BOTTOM_RIGHT, SOLID_WALL_EXPOSED_BOTTOM_LEFT,
+        SOLID_WALL_UNEXPOSED_BOTTOM, SOLID_WALL_UNEXPOSED_LEFT, SOLID_WALL_UNEXPOSED_TOP, SOLID_WALL_UNEXPOSED_RIGHT
+    }
 
-    public final static int LIGHT_BLUE = 0;
-    public final static int GREY = 1;
-    public final static int PURPLE = 2;
-    public final static int TRANSPARENT = 3;
+    private BufferedImage[] loadedTileImages = new BufferedImage[TileType.values().length];
 
-    private BufferedImage LIGHT_BLUE_IMAGE;
-    private BufferedImage GREY_IMAGE;
-    private BufferedImage PURPLE_IMAGE;
-    private BufferedImage TRANSPARENT_IMAGE;
-
-    public void loadTileBufferedImageConstants(int[] tiles) {
-        for (int i : tiles) {
-            switch (i) {
-                case LIGHT_BLUE:
-                    LIGHT_BLUE_IMAGE = loadSubImage(i);
-                    break;
-                case GREY:
-                    GREY_IMAGE = loadSubImage(i);
-                    break;
-                case PURPLE:
-                    PURPLE_IMAGE = loadSubImage(i);
-                    break;
-                case TRANSPARENT:
-                    TRANSPARENT_IMAGE = loadSubImage(i);
-            }
+    public void loadTileBufferedImageConstants(TileType[] tiles) {
+        for (TileType tile : tiles) {
+            loadedTileImages[tile.ordinal()] = loadSubImage(tile);
         }
     }
 
-    public boolean getTileSolid(int i) {
-        switch(i) {
-            case LIGHT_BLUE, GREY, PURPLE:
-                return true;
-            case TRANSPARENT:
-                return false;
-        } return false;
+    public boolean getTileSolid(TileType tile) {
+        return switch (tile) {
+            case TRANSPARENT, DEMITRANSPARENT -> false;
+            default -> true;
+        };
     }
 
-    private BufferedImage loadSubImage(int i) {
-        BufferedImage tempImage = importImg(getTileFilePath(i));
-        return tempImage.getSubimage(getTileImageStartX(i), getTileImageStartY(i), getTileWidth(i), getTileHeight(i));
-    }
-    private String getTileFilePath(int i) {
-        switch (i) {
-            case LIGHT_BLUE, GREY, PURPLE, TRANSPARENT:
-                return "/tiles/testTiles.png";
-        }
-        return null;
+    private BufferedImage loadSubImage(TileType tile) {
+        BufferedImage tempImage = importImg(getTileFilePath(tile));
+        return tempImage.getSubimage(getTileImageStartX(tile), getTileImageStartY(tile), getTileWidth(tile), getTileHeight(tile));
     }
 
-    public BufferedImage getTileImage(int i) {
-        switch(i) {
-            case LIGHT_BLUE:
-                return LIGHT_BLUE_IMAGE;
-            case GREY:
-                return GREY_IMAGE;
-            case PURPLE:
-                return PURPLE_IMAGE;
-            case TRANSPARENT:
-                return TRANSPARENT_IMAGE;
-        } return TRANSPARENT_IMAGE;
+    private String getTileFilePath(TileType tile) {
+        return switch (tile) {
+            case LIGHT_BLUE, GREY, PURPLE, TRANSPARENT -> "/tiles/testTiles.png";
+            default -> null;
+        };
     }
 
-    private int getTileImageStartX(int i) {
-        switch(i) {
-            case LIGHT_BLUE, GREY, PURPLE, TRANSPARENT:
-                return 0;
-        } return 0;
+    public BufferedImage getTileImage(TileType tile) {
+        return loadedTileImages[tile.ordinal()];
     }
 
-    private int getTileImageStartY(int i) {
-        switch(i) {
-            case LIGHT_BLUE:
-                return 0;
-            case GREY:
-                return 32;
-            case PURPLE:
-                return 64;
-            case TRANSPARENT:
-                return 96;
-        } return 96;
+    private int getTileImageStartX(TileType tile) {
+        return switch (tile) {
+            case LIGHT_BLUE, GREY, PURPLE, TRANSPARENT -> 0;
+            default -> 0;
+        };
     }
 
-    private int getTileWidth(int i) {
-        return 32;
+    private int getTileImageStartY(TileType tile) {
+        return switch (tile) {
+            case LIGHT_BLUE -> 0;
+            case GREY -> 32;
+            case PURPLE -> 64;
+            case TRANSPARENT -> 96;
+            case SOLID_WALL -> 192;
+            case SOLID_WALL_UNEXPOSED_TOP -> 176;
+            case SOLID_WALL_UNEXPOSED_LEFT -> 160;
+            case SOLID_WALL_UNEXPOSED_BOTTOM -> 144;
+            case SOLID_WALL_UNEXPOSED_RIGHT -> 128;
+            case SOLID_WALL_EXPOSED_BOTTOM_RIGHT -> 112;
+            case SOLID_WALL_EXPOSED_TOP_RIGHT -> 96;
+            case SOLID_WALL_EXPOSED_TOP_LEFT -> 80;
+            case SOLID_WALL_EXPOSED_BOTTOM_LEFT -> 64;
+            case SOLID_WALL_EXPOSED_TOP -> 48;
+            case SOLID_WALL_EXPOSED_LEFT -> 32;
+            case SOLID_WALL_EXPOSED_BOTTOM -> 16;
+            case SOLID_WALL_EXPOSED_RIGHT -> 0;
+            case DEMITRANSPARENT -> 208;
+            default -> 96;
+        };
     }
 
-    private int getTileHeight(int i) {
-        return 32;
+    private int getTileWidth(TileType tile) {
+        return switch(tile) {
+            case LIGHT_BLUE, GREY, PURPLE, TRANSPARENT -> 32;
+            default -> 16;
+        };
+    }
+
+    private int getTileHeight(TileType tile) {
+        return switch(tile) {
+            case LIGHT_BLUE, GREY, PURPLE, TRANSPARENT -> 32;
+            default -> 16;
+        };
     }
 }
