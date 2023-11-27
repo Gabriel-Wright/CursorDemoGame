@@ -75,6 +75,33 @@ public class GameObjectGrid {
         }
     }
 
+    public void addObjectToCell(SuperObject object) {
+        Point[] cellIndexes = FindOverlapTiles(object.getObjectCollisionBox());
+        for(Point cellIndex: cellIndexes) {
+            addObjectToCell(cellIndex.x, cellIndex.y, object);
+        }
+    }
+
+    public void addEntityToCell(Entity entity) {
+        Point[] cellIndexes = FindOverlapTiles(entity);
+        for(Point cellIndex: cellIndexes) {
+            addEntityToCell(cellIndex.x, cellIndex.y, entity);
+        }
+    }
+
+    public void addTriggerEventToCell(PositionalEvent triggerEvent) {
+        int startCol = triggerEvent.getStartCol();
+        int startRow = triggerEvent.getStartRow();
+        int numCols = triggerEvent.getNumCols();
+        int numRows = triggerEvent.getNumRows();
+        for(int i =0; i<numCols; i++) {
+            for(int j=0; j<numRows; j++) {
+                addTriggerEventToCell(startCol+i, startRow+i, triggerEvent);
+            }
+        }
+
+    }
+
     private void addObjectToCell(int x, int y, SuperObject object) {
         // Initialize inside map if it does not exist (i.e. map between y and Cell)
         if (!cells.containsKey(x)) {

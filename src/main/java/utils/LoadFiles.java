@@ -4,6 +4,15 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+import com.opencsv.exceptions.CsvValidationException;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -86,4 +95,32 @@ public class LoadFiles {
             return null; // Handle the error appropriately
         }
     }
+
+    public static int[][] readCsvTiles(String path) {
+        try {
+            // Read the CSV file from the resources folder
+            Reader reader = new InputStreamReader(LoadFiles.class.getResourceAsStream(path));
+            CSVReader csvReader = new CSVReader(reader);
+
+            // Read all lines from the CSV
+            List<String[]> csvLines = csvReader.readAll();
+
+            // Convert the List<String[]> into a 2D int array
+            int numRows = csvLines.size();
+            int numCols = csvLines.get(0).length;
+            int[][] gridArray = new int[numCols][numRows];
+
+            for (int i = 0; i < numCols; i++) {
+                for (int j = 0; j < numRows; j++) {
+                    gridArray[i][j] = Integer.parseInt(csvLines.get(j)[i]);
+                }
+            }
+
+            return gridArray;
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+            return null; // Handle the error appropriately
+        }
+    }
+
 }

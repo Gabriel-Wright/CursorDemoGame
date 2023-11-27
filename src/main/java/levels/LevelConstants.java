@@ -3,6 +3,7 @@ package levels;
 import gameObjects.objects.ObjectConstants;
 import tile.TileConstants;
 
+import static utils.LoadFiles.readCsvTiles;
 import static utils.LoadFiles.readJsonTiles;
 
 public class LevelConstants {
@@ -18,7 +19,7 @@ public class LevelConstants {
 
     public int[] getObjectReferences(int i) {
         switch(i) {
-            case TEST_LEVEL:
+            case TEST_LEVEL, TEST_DEMICHROME:
                 int[] objectReferences = {ObjectConstants.GUN};
                 return objectReferences;
         }
@@ -56,19 +57,32 @@ public class LevelConstants {
         objectConstants.loadBufferedImageConstants(getObjectReferences(i));
     }
 
-    private String getLevelJsonPath(int i) {
+    private String getLevelPath(int i) {
         switch(i) {
             case TEST_LEVEL:
                 return "/levelMaps/3219.json";
+            case TEST_DEMICHROME:
+                return "/levelMaps/testmap.csv";
         }
         return null;
     }
 
+    public int[][] getLevelData(int i) {
+        return switch(i) {
+            case TEST_LEVEL -> getLevelJsonData(i);
+            case TEST_DEMICHROME -> getCSVData(i);
+            default -> getLevelJsonData(TEST_LEVEL);
+        };
+    }
     public int[][] getLevelJsonData(int i) {
-        String jsonPath = getLevelJsonPath(i);
+        String jsonPath = getLevelPath(i);
         return readJsonTiles(jsonPath, MATRIX_ARRAY_NAME);
     }
 
+    public int[][] getCSVData(int i) {
+        String csvPath = getLevelPath(i);
+        return readCsvTiles(csvPath);
+    }
     public ObjectConstants getObjectConstants() {
         return objectConstants;
     }

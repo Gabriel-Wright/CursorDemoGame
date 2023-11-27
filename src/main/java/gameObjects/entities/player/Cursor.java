@@ -35,8 +35,8 @@ public class Cursor {
     private Rectangle cursorHitbox;
     public Cursor(int radius) {
         this.radius = radius;
-        mouseX = centreX;
-        mouseY = centreY;
+        mouseX = TARGET_SCREEN_WIDTH/2;
+        mouseY = TARGET_SCREEN_HEIGHT/2;
         // Create an AlphaComposite with 70% transparency
         cursorTransparency = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f); // 0.7f means 70% transparency
         cursorHitbox = new Rectangle(-(3*radius)/4,-(3*radius/4),3*radius/2,3*radius/2);

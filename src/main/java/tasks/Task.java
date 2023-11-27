@@ -2,26 +2,26 @@ package tasks;
 
 public abstract class Task {
 
-    private int tick = 0;
+    protected int tick = 0;
     //Max number of ticks to complete task
-    private int maxTick;
+//    private int maxTick;
 
-    public Task(int maxTick){
-        this.maxTick = maxTick;
-    }
+    //Flag for if task complete
+    protected boolean complete = false;
 
     //Runs tasks in background - incrementing ticks. If tick = maxTick then task complete
+
     public abstract void runTask();
+
+    public abstract void checkComplete();
 
     public void updateTask() {
         runTask();
         tick++;
-    }
-    public int getTick() {
-        return tick;
+        checkComplete();
     }
 
-    public int getMaxTick() {
-        return maxTick;
+    public void setComplete() {
+        complete = true;
     }
 }

@@ -1,6 +1,7 @@
 package gameObjects.events.generic;
 
 import gameObjects.events.generic.PositionalEvent;
+import gameObjects.handler.GameObjectHandler;
 import states.GameState;
 import tasks.TaskHandler;
 import tasks.backgroundColorTasks.BackGroundColorChange;
@@ -25,5 +26,6 @@ public class RoomChange extends PositionalEvent {
 
         TaskHandler.addTask(new BackGroundColorChange(UPS, GameState.getBackgroundColor(),backgroundColor));
         complete = true;
+        GameObjectHandler.eventQueue.add(new TriggerAlarm(new Color[]{Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.PINK},12,12,2,2,true));
     }
 }

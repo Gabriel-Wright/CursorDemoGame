@@ -41,7 +41,7 @@ public class GameState extends State{
 
     private void loadLevelManager() {
         levelManager = new LevelManager();
-        levelManager.loadNewLevel(LevelConstants.TEST_LEVEL);
+        levelManager.loadNewLevel(LevelConstants.TEST_DEMICHROME);
     }
     @Override
     public void initialiseState() {

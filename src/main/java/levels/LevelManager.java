@@ -46,7 +46,7 @@ public class LevelManager {
     }
 
     private void loadLevel() {
-        level = new Level(levelConstants.getLevelJsonData(levelRef), tileManager.getTiles(), objectManager.getCollectableObjects());
+        level = new Level(levelConstants.getLevelData(levelRef), tileManager.getTiles(), objectManager.getCollectableObjects());
     }
 
     public void draw(Graphics g) {

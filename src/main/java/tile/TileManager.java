@@ -20,7 +20,7 @@ public class TileManager {
         tiles = new HashMap<>();
         for(TileConstants.TileType tileReference : tileReferences) {
             Tile tempTile = new Tile(tileConstants.getTileImage(tileReference),tileConstants.getTileSolid(tileReference));
-            tiles.put(tileReference.ordinal(), tempTile);
+            tiles.put(tileReference.id, tempTile);
         }
     }
 

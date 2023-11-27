@@ -11,16 +11,16 @@ public class BackGroundColorChange extends Task {
     private Color newColor;
     private Color oldColor;
     private Color lerpedColor;
-
+    private int maxTick;
     public BackGroundColorChange(int maxTick, Color oldColor, Color newColor) {
-        super(maxTick);
+        this.maxTick = maxTick;
         this.newColor = newColor;
         this.oldColor = oldColor;
     }
 
     @Override
     public void runTask() {
-        float progressRatio = (float) (getTick()) / getMaxTick();
+        float progressRatio = (float) (tick) / maxTick;
 
         //Interpolate values of rgb, based on ratio
         int r = (int) (oldColor.getRed() * (1 - progressRatio) + newColor.getRed() * progressRatio);
@@ -31,5 +31,10 @@ public class BackGroundColorChange extends Task {
         lerpedColor = new Color(r, g, b);
 
         GameState.updateGameBackground(lerpedColor);
+    }
+
+    @Override
+    public void checkComplete() {
+        complete = (tick ==maxTick);
     }
 }

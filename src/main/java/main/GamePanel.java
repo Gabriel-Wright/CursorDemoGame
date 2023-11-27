@@ -28,8 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final static int UPS = 120;
 
     //Maximum number of tiles to be displayed on screen for each dimension
-    final static int maxScreenCol = 32;
-    final static int maxScreenRow = 18;
+    final static int maxScreenCol = 48;
+    final static int maxScreenRow = 27;
     //Hence target width and height with initial tile size -this is used to calculate scale X and scale Y
     public static int TARGET_SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
     public static int TARGET_SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;

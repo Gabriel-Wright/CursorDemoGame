@@ -12,9 +12,9 @@ import gameObjects.objects.SuperObject;
 import ui.UI;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
+
 
 import static main.GamePanel.*;
 
@@ -29,6 +29,12 @@ public class GameObjectHandler {
     private Player player;
     private PlayerConstants playerConstants;
     private GreenDeathConstants greenDeathConstants;
+
+    //Queues of entities, objects and positionalEvents that are added
+    public static Queue<Entity> entityQueue = new LinkedList<>();
+    public static Queue<SuperObject> objectQueue = new LinkedList<>();
+    public static Queue<PositionalEvent> eventQueue = new LinkedList<>();
+
     public static int ECPU; //Entity collision checks per update - how many checks per ingame update
     //Also add event triggers
     public GameObjectHandler(Player player, List<Entity> entities, List<SuperObject> objects) {
@@ -80,6 +86,15 @@ public class GameObjectHandler {
     //Pass level as argument for logic calculations with tile collisions
     //Need to restrict this to entities within a certain range, as with render method.
     public void update(Level level) {
+        gameObjectLogicUpdate(level);
+        gameObjectQueueUpdate();
+        //For loop for entity updates - movement and tile collision
+        //Within same for loop do collisions with object grid
+        UI.ECPULOCAL = ECPU;
+        ECPU = 0;
+    }
+
+    private void gameObjectLogicUpdate(Level level) {
         if(!player.isDeleted()) {
             player.update(level, gameObjectGrid);
         }
@@ -93,11 +108,29 @@ public class GameObjectHandler {
                 gameObjectGrid.removeEntityFromCells(entity);
             }
         }
+    }
 
-        //For loop for entity updates - movement and tile collision
-        //Within same for loop do collisions with object grid
-        UI.ECPULOCAL = ECPU;
-        ECPU = 0;
+    private void gameObjectQueueUpdate() {
+        // Check and add entities from the entity queue
+        while (!entityQueue.isEmpty()) {
+            Entity entity = entityQueue.poll();
+            entities.add(entity);
+            gameObjectGrid.addEntityToCell(entity);
+        }
+
+        // Check and add events from the event queue
+        while (!eventQueue.isEmpty()) {
+            PositionalEvent event = eventQueue.poll();
+            positionalEvents.add(event);
+            gameObjectGrid.addTriggerEventToCell(event);
+        }
+
+        // Check and add objects from the object queue
+        while (!objectQueue.isEmpty()) {
+            SuperObject object = objectQueue.poll();
+            objects.add(object);
+            gameObjectGrid.addObjectToCell(object);
+        }
     }
 
 
