@@ -3,6 +3,7 @@ package levels;
 import gameObjects.handler.GameObjectHandler;
 import gameObjects.objects.ObjectManager;
 import tile.TileManager;
+import utils.PathFinder;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class LevelManager {
 
     private void loadLevel() {
         level = new Level(levelConstants.getLevelData(levelRef), tileManager.getTiles(), objectManager.getCollectableObjects());
+        PathFinder pathFinder = new PathFinder(level);
+        pathFinder.findPath(new Point(16,18),new Point(36,8));
     }
 
     public void draw(Graphics g) {
