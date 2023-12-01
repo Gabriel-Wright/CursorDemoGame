@@ -5,6 +5,8 @@ import gameObjects.entities.player.Player;
 import gameObjects.entities.player.Cursor;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.objects.SuperObject;
+import levels.Level;
+import utils.PathFinder;
 
 import java.awt.*;
 import java.util.*;
@@ -110,7 +112,7 @@ public class GameObjectGrid {
         }
 
         if(!cells.get(x).containsKey((y))) {
-            cells.get(x).put(y, new Cell());
+            cells.get(x).put(y, new Cell(x,y));
         }
         getCell(x,y).addObject(object);
 
@@ -124,7 +126,7 @@ public class GameObjectGrid {
         }
 
         if(!cells.get(x).containsKey((y))) {
-            cells.get(x).put(y, new Cell());
+            cells.get(x).put(y, new Cell(x,y));
         }
         getCell(x,y).setPlayer(player);
     }
@@ -136,7 +138,7 @@ public class GameObjectGrid {
         }
 
         if(!cells.get(x).containsKey((y))) {
-            cells.get(x).put(y, new Cell());
+            cells.get(x).put(y, new Cell(x,y));
         }
 
         getCell(x,y).addPositionalEvent(positionalEvent);
@@ -150,13 +152,13 @@ public class GameObjectGrid {
         }
 
         if(!cells.get(x).containsKey((y))) {
-            cells.get(x).put(y, new Cell());
+            cells.get(x).put(y, new Cell(x,y));
         }
         getCell(x, y).addEntity(entity);
     }
 
     private void addCell(int x, int y) {
-        cells.get(x).put(y, new Cell());
+        cells.get(x).put(y, new Cell(x,y));
     }
     public Cell getCell(int x, int y) {
         //Check if row (x exists within grid
@@ -285,4 +287,21 @@ public class GameObjectGrid {
         return sb.toString();
     }
 
+    public void updateEntityPaths(PathFinder pathfinder, Level level) {
+        for (Map.Entry<Integer, Map<Integer, Cell>> outerEntry : cells.entrySet()) {
+            int outerKey = outerEntry.getKey();  // Extract the outer key
+            Map<Integer, Cell> innerMap = outerEntry.getValue();  // Extract the inner map
+
+            // Iterate over the inner map
+            for (Map.Entry<Integer, Cell> innerEntry : innerMap.entrySet()) {
+
+                Cell cell = innerEntry.getValue();   // Extract the cell
+                if(!cell.getEntities().isEmpty()) {
+                    //Find path to desired point --> add that path to the cell
+                    pathfinder.findPath(cell.getCelLIndexes(), new Point(36, 8));
+                    cell.setAgroPath(pathfinder.getPath());
+                }
+            }
+        }
+    }
 }

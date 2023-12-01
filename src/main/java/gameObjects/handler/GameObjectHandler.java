@@ -10,6 +10,7 @@ import gameObjects.events.generic.RoomChange;
 import levels.Level;
 import gameObjects.objects.SuperObject;
 import ui.UI;
+import utils.PathFinder;
 
 import java.awt.*;
 import java.util.*;
@@ -29,6 +30,7 @@ public class GameObjectHandler {
     private Player player;
     private PlayerConstants playerConstants;
     private GreenDeathConstants greenDeathConstants;
+    private PathFinder pathFinder;
 
     //Queues of entities, objects and positionalEvents that are added
     public static Queue<Entity> entityQueue = new LinkedList<>();
@@ -37,10 +39,11 @@ public class GameObjectHandler {
 
     public static int ECPU; //Entity collision checks per update - how many checks per ingame update
     //Also add event triggers
-    public GameObjectHandler(Player player, List<Entity> entities, List<SuperObject> objects) {
+    public GameObjectHandler(Player player, List<Entity> entities, List<SuperObject> objects, Level level) {
         gameObjectGrid = new GameObjectGrid();
         this.entities = entities;
         this.objects = objects;
+        this.pathFinder = new PathFinder(level);
     }
 
     public GameObjectGrid getGameObjectGrid() {
@@ -71,21 +74,15 @@ public class GameObjectHandler {
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
-//        greenDeathConstants = new GreenDeathConstants();
-//        GreenDeath greenDeathTest = new GreenDeath(3*TILE_SIZE, 17*TILE_SIZE, greenDeathConstants);
-//        int index = 0;
-//        for(int i =0; i<8; i++) {
-//            GreenDeath greenDeath = new GreenDeath(3*TILE_SIZE+index*2*TILE_SIZE, 9*TILE_SIZE, greenDeathConstants);
-//            entities.add(greenDeath);
-//            if(index ==4) {
-//                index = 0;
-//            }
-//        }
+        GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
+        GreenDeath greenDeath = new GreenDeath(8*TILE_SIZE,8*TILE_SIZE,greenDeathConstants);
+        entities.add(greenDeath);
     }
 
     //Pass level as argument for logic calculations with tile collisions
     //Need to restrict this to entities within a certain range, as with render method.
     public void update(Level level) {
+        updateEntityPaths(level);
         gameObjectLogicUpdate(level);
         gameObjectQueueUpdate();
         //For loop for entity updates - movement and tile collision
@@ -108,6 +105,10 @@ public class GameObjectHandler {
                 gameObjectGrid.removeEntityFromCells(entity);
             }
         }
+    }
+
+    private void updateEntityPaths(Level level) {
+        gameObjectGrid.updateEntityPaths(pathFinder, level);
     }
 
     private void gameObjectQueueUpdate() {

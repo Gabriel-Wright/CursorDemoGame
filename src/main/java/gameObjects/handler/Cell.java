@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cell {
+    private Point celLIndexes;
     private List<Entity> entities;
     private List<SuperObject> objects;
     private List<PositionalEvent> positionalEvents;
     private Player player;
-    public Cell() {
+    private List<Point> agroPath;
+    public Cell(int x, int y) {
+        this.celLIndexes = new Point(x,y);
         entities = new ArrayList<>();
         objects = new ArrayList<>();
         positionalEvents = new ArrayList<>();
@@ -103,4 +106,15 @@ public class Cell {
         return sb.toString();
     }
 
+    public List<Point> getAgroPath() {
+        return agroPath;
+    }
+
+    public void setAgroPath(List<Point> agroPath) {
+        this.agroPath = agroPath;
+    }
+
+    public Point getCelLIndexes() {
+        return celLIndexes;
+    }
 }

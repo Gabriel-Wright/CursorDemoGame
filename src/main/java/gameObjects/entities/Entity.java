@@ -33,6 +33,7 @@ public abstract class Entity {
     protected float xMove;
     protected float yMove;
     protected boolean moving = false;
+    private boolean onPath = true;
     protected int action = EntityConstants.IDLE;
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
     private boolean deleted = false;
@@ -131,6 +132,8 @@ public abstract class Entity {
     public void update(Level level, GameObjectGrid gameObjectGrid) {
         //Update position calculations
         updatePos();
+        System.out.println(getEntityCellIndexes());
+        System.out.println(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getAgroPath().get(1));
         //Verify states/positions based on collisions within level post movement
         move(level);
         //Check entity collisions
@@ -255,5 +258,9 @@ public abstract class Entity {
 
     public EntityEvent getEntityCollideEvents() {
         return entityCollideEvents;
+    }
+
+    public Point getEntityCellIndexes() {
+        return new Point((int) x/TILE_SIZE, (int) x/TILE_SIZE);
     }
 }

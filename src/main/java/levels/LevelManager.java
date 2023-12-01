@@ -33,7 +33,7 @@ public class LevelManager {
     }
 
     private void loadGameObjectHandler() {
-        gameObjectHandler = new GameObjectHandler( null, null, Arrays.asList(objectManager.getCollectableObjects()));
+        gameObjectHandler = new GameObjectHandler(null, null, Arrays.asList(objectManager.getCollectableObjects()),level);
         gameObjectHandler.loadGameObjectHandler();
     }
     private void loadTileManager() {
@@ -48,8 +48,6 @@ public class LevelManager {
 
     private void loadLevel() {
         level = new Level(levelConstants.getLevelData(levelRef), tileManager.getTiles(), objectManager.getCollectableObjects());
-        PathFinder pathFinder = new PathFinder(level);
-        pathFinder.findPath(new Point(16,18),new Point(36,8));
     }
 
     public void draw(Graphics g) {
