@@ -15,6 +15,7 @@ import utils.PathFinder;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import static main.GamePanel.*;
@@ -76,13 +77,17 @@ public class GameObjectHandler {
         entities = new ArrayList<>();
         GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
         GreenDeath greenDeath = new GreenDeath(8*TILE_SIZE,8*TILE_SIZE,greenDeathConstants);
+        GreenDeath greenDeath1 = new GreenDeath(25*TILE_SIZE,10*TILE_SIZE,greenDeathConstants);
+//        GreenDeath greenDeath2 = new GreenDeath(8*TILE_SIZE, 16* TILE_SIZE, greenDeathConstants);
         entities.add(greenDeath);
+        entities.add(greenDeath1);
+//        entities.add(greenDeath2);
     }
 
     //Pass level as argument for logic calculations with tile collisions
     //Need to restrict this to entities within a certain range, as with render method.
     public void update(Level level) {
-        updateEntityPaths(level);
+        updateEntityPaths();
         gameObjectLogicUpdate(level);
         gameObjectQueueUpdate();
         //For loop for entity updates - movement and tile collision
@@ -107,8 +112,8 @@ public class GameObjectHandler {
         }
     }
 
-    private void updateEntityPaths(Level level) {
-        gameObjectGrid.updateEntityPaths(pathFinder, level);
+    private void updateEntityPaths() {
+        gameObjectGrid.updateEntityPaths(pathFinder, gameObjectGrid.getAssignedCells(player).get(0));
     }
 
     private void gameObjectQueueUpdate() {

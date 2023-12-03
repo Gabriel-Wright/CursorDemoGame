@@ -9,6 +9,7 @@ import levels.Level;
 
 import java.awt.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static inputs.KeyHandler.hitboxToggle;
@@ -130,26 +131,42 @@ public abstract class Entity {
     //This should be improved
 
     public void update(Level level, GameObjectGrid gameObjectGrid) {
-        //Update position calculations
-        updatePos();
-        System.out.println(getEntityCellIndexes());
-        System.out.println(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getAgroPath().get(1));
+        onPath = true;
+        //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
+        if(onPath) {
+            moveTowardsTile(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getAgroPath().get(1));
+        } else {
+            updatePos();
+        }
         //Verify states/positions based on collisions within level post movement
         move(level);
+        //If entity has moved in this update - reassign its grid position
+        if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
+            // Do something when xMove or yMove is not close to 0
+            gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
+        }
+        System.out.println(gameObjectGrid.getAssignedCells(this).toString());
         //Check entity collisions
         handleLocalEntityCollisions(gameObjectGrid);
         //Update action state of the entity
         updateAction();
         //Adjust the entity animation based on its action state
         updateAnimationTick();
-
-        //If entity has moved in this update - reassign its grid position
-        if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
-            // Do something when xMove or yMove is not close to 0
-            gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
-        }
     }
 
+    private void moveTowardsTile(Point nextTileIndex) {
+        if((int) (x+bounds.x)/TILE_SIZE < nextTileIndex.x) {
+            xMove = speed;
+        } else if((int) (x+bounds.x)/TILE_SIZE > nextTileIndex.x) {
+            xMove = -speed;
+        }
+
+        if((int) (y+bounds.y)/TILE_SIZE < nextTileIndex.y) {
+            yMove = speed;
+        } else if((int) (y+bounds.y)/TILE_SIZE > nextTileIndex.y) {
+            yMove = -speed;
+        }
+    }
     //May need to adjust to not use set?
     protected void handleLocalEntityCollisions(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
@@ -261,6 +278,6 @@ public abstract class Entity {
     }
 
     public Point getEntityCellIndexes() {
-        return new Point((int) x/TILE_SIZE, (int) x/TILE_SIZE);
+        return new Point((int) ((x+ bounds.x)/TILE_SIZE), (int) ((y+bounds.y)/TILE_SIZE));
     }
 }

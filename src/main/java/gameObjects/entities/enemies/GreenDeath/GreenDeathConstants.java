@@ -74,7 +74,7 @@ public class GreenDeathConstants extends EntityConstants {
 
     @Override
     public float getSpeed() {
-        return 3;
+        return (float) TILE_SIZE/32;
     }
 
     @Override

@@ -28,16 +28,17 @@ public class PathFinder {
     }
 
     public void findPath(Point startIndex, Point endIndex) {
-        this.startNode = nodes[startIndex.x][startIndex.y];
-        this.goalNode = nodes[endIndex.x][endIndex.y];
+        goalReached = false;
+        startNode = nodes[startIndex.x][startIndex.y];
+        goalNode = nodes[endIndex.x][endIndex.y];
         openList = new ArrayList<>();
         path = new ArrayList<>();
         currentNode = startNode;
         resetNodeValues();
-        System.out.println("startIndex:"+startIndex);
+//        System.out.println("startIndex:"+startIndex);
         search();
         trackTheRoute();
-        System.out.println("Found route startnode:"+startNode.point.x+","+startNode.point.y);
+//        System.out.println("Found route startnode:"+startNode.point.x+","+startNode.point.y);
         printRouteToString();
     }
     public void findPath(Node startNode, Node goalNode) {
@@ -71,6 +72,7 @@ public class PathFinder {
                 setCost(nodes[i][j]);
                 nodes[i][j].setUnchecked();
                 nodes[i][j].setUnopen();
+                nodes[i][j].parent = null;
             }
         }
     }
@@ -180,9 +182,9 @@ public class PathFinder {
         while(current != startNode) {
             path.add(new Point(current.col, current.row));
             current = current.parent;
-            if(current.parent ==null) {
-                System.out.println("null Parent:"+current.point);
-            }
+//            if(current.parent ==null) {
+//                System.out.println("null Parent:"+current.point);
+//            }
         }
         path.add(new Point(startNode.col,startNode.row));
         Collections.reverse(path);
