@@ -4,9 +4,9 @@ import gameObjects.entities.Entity;
 import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
 import gameObjects.objects.SuperObject;
+import inputs.MouseHandler;
 import levels.Level;
 import levels.LevelCamera;
-import utils.FindOvelapTiles;
 
 import java.awt.*;
 import java.awt.MouseInfo;
@@ -32,6 +32,9 @@ public class Cursor {
     private int radius;
     private AlphaComposite cursorTransparency;
 
+    //Variables related to the mouse's attacking
+    private boolean mouseKillActive=false;
+    private int mouseKillMetre = UPS*3; //3 seconds worth of use
     private Rectangle cursorHitbox;
     public Cursor(int radius) {
         this.radius = radius;
@@ -44,17 +47,34 @@ public class Cursor {
     public void update(float x, float y, Level level, GameObjectGrid gameObjectGrid, int cursorRange) {
         //if window is infocus then update cursor position, then update software pos, otherwise do not.
         if(WINDOW_IN_FOCUS) {
+            //Handle mouse's position
             displaceSoftwareMouse();
             checkScreenEdges();
             checkLevelCollision(level);
             mouseY += deltaY;
             mouseX += deltaX;
             checkScreenEdges();
-//            checkCursorRange(x,y,level.getLevelCamera(),cursorRange);
+            //Handle mouse's active state
+            checkKillState();
+            adjustKillMetre();
+            //Handle mouse's interactions with entities and objects
             handleLocalObjectCollisions(level, gameObjectGrid);
         }
     }
 
+    private void checkKillState() {
+        if(MouseHandler.mouseClickHeld&&mouseKillMetre>0) {
+            mouseKillActive = true;
+        } else {
+            mouseKillActive = false;
+        }
+    }
+
+    private void adjustKillMetre() {
+        if(mouseKillActive) {
+            mouseKillMetre--;
+        }
+    }
     private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this, level.getLevelCamera().getxOffset(), level.getLevelCamera().getyOffset()).toArray(new Point[0]);
         Set<SuperObject> cellObjects = new HashSet<>();
@@ -75,7 +95,7 @@ public class Cursor {
     }
 
     protected void handleEntityCollision(Level level, Entity entity) {
-        if(getCollisionBounds(level).intersects(entity.getCollisionBounds())) {
+        if(getCollisionBounds(level).intersects(entity.getCollisionBounds())&& mouseKillActive) {
             entity.getEntityCollideEvents().RunEntityCursorCollideEvent(entity,this);
         }
     }
@@ -86,10 +106,14 @@ public class Cursor {
 
         // Set the 70% transparency composite
         g2d.setComposite(cursorTransparency);
-
-        g.setColor(Color.GRAY);
-
+        if(mouseKillActive) {
+            g.setColor(Color.RED);
+        } else {
+            g.setColor(Color.GRAY);
+        }
         g.fillOval(mouseX - radius, mouseY - radius, radius * 2, radius * 2);
+        //Temporary killmetre indicator
+        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*45,(int)TILE_SIZE*25);
 
         if(hitboxToggle) {
             g.drawRect(mouseX+cursorHitbox.x, mouseY+cursorHitbox.y, cursorHitbox.width,cursorHitbox.height);
