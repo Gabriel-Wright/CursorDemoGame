@@ -131,10 +131,15 @@ public abstract class Entity {
     //This should be improved
 
     public void update(Level level, GameObjectGrid gameObjectGrid) {
-        onPath = true;
+        if(Objects.equals(getEntityCellIndexes(), new Point(43, 3))){
+            System.out.println(getEntityCellIndexes());
+            System.out.println("debug");
+        }
         //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
+        System.out.println(getEntityCellIndexes());
+
         if(onPath) {
-            moveTowardsTile(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getAgroPath().get(1), level);
+            moveTowardsTile(getEntityNextAgroIndex(gameObjectGrid), level);
         } else {
             updatePos();
         }
@@ -145,7 +150,10 @@ public abstract class Entity {
             // Do something when xMove or yMove is not close to 0
             gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
         }
-        System.out.println(gameObjectGrid.getAssignedCells(this).toString());
+        if(gameObjectGrid.getAssignedCells(this).contains(gameObjectGrid.getCell(43,3).getCellIndexes())){
+            System.out.println("pause");
+        }
+
         //Check entity collisions
         handleLocalEntityCollisions(gameObjectGrid);
         //Update action state of the entity
@@ -213,19 +221,8 @@ public abstract class Entity {
                 xMove = speed;
             }
         }
-
-//        if((int) (x+bounds.x)/TILE_SIZE < nextTileIndex.x) {
-//            xMove = speed;
-//        } else if((int) (x+bounds.x)/TILE_SIZE > nextTileIndex.x) {
-//            xMove = -speed;
-//        }
-//
-//        if((int) (y+bounds.y)/TILE_SIZE < nextTileIndex.y) {
-//            yMove = speed;
-//        } else if((int) (y+bounds.y)/TILE_SIZE > nextTileIndex.y) {
-//            yMove = -speed;
-//        } else
     }
+
     //May need to adjust to not use set?
     protected void handleLocalEntityCollisions(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
@@ -336,7 +333,12 @@ public abstract class Entity {
         return entityCollideEvents;
     }
 
+    //this is indexed from the centre of the entity's hitbox
     public Point getEntityCellIndexes() {
-        return new Point((int) ((x+ bounds.x)/TILE_SIZE), (int) ((y+bounds.y)/TILE_SIZE));
+        return new Point((int) ((x+ bounds.x+bounds.width/2)/TILE_SIZE), (int) ((y+bounds.y+bounds.height/2)/TILE_SIZE));
+    }
+
+    public Point getEntityNextAgroIndex(GameObjectGrid gameObjectGrid) {
+        return gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getNextAgroPathPoint();
     }
 }

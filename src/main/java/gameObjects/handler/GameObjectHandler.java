@@ -15,7 +15,6 @@ import utils.PathFinder;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 import static main.GamePanel.*;
@@ -114,7 +113,8 @@ public class GameObjectHandler {
     }
 
     private void updateEntityPaths() {
-        gameObjectGrid.updateEntityPaths(pathFinder, gameObjectGrid.getAssignedCells(player).get(0));
+        gameObjectGrid.updateEntityAgroPaths(pathFinder, gameObjectGrid.getAssignedCells(player).get(0));
+//        gameObjectGrid.updateEntityAgroPaths(pathFinder,new Point(43,3));
     }
 
     private void gameObjectQueueUpdate() {
@@ -153,7 +153,6 @@ public class GameObjectHandler {
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
                 if (gameObjectGrid.getCell(x, y) != null) {
-//                    gameObjectGrid.getCell(x,y).renderEntities(g, level);
                     gameObjectGrid.renderEntities(x, y, g, level);
                     gameObjectGrid.renderObjects(x, y, g, level);
                     gameObjectGrid.renderEvents(x, y, g, level);

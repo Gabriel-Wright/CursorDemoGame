@@ -22,7 +22,7 @@ import static main.Main.WINDOW_IN_FOCUS;
 public class Cursor {
 
     //Max world distance that software cursor can move in a single update
-    private final int maxDelta = TILE_SIZE/2;
+    private final int maxDelta = TILE_SIZE/16;
     private static int SENSITIVITY_FACTOR = 1;
     //Software positions of mouse calculated each update using the difference in distance from in game :O
     private int mouseX;

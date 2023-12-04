@@ -287,7 +287,7 @@ public class GameObjectGrid {
         return sb.toString();
     }
 
-    public void updateEntityPaths(PathFinder pathfinder, Point goalIndex) {
+    public void updateEntityAgroPaths(PathFinder pathfinder, Point goalIndex) {
         for (Map.Entry<Integer, Map<Integer, Cell>> outerEntry : cells.entrySet()) {
             int outerKey = outerEntry.getKey();  // Extract the outer key
             Map<Integer, Cell> innerMap = outerEntry.getValue();  // Extract the inner map
@@ -296,10 +296,15 @@ public class GameObjectGrid {
             for (Map.Entry<Integer, Cell> innerEntry : innerMap.entrySet()) {
 
                 Cell cell = innerEntry.getValue();   // Extract the cell
-                if(!cell.getEntities().isEmpty() && cell.getCelLIndexes()!=goalIndex) {
+                if(!cell.getEntities().isEmpty()) {
+                    if(cell.getCellIndexes().x==goalIndex.x&&cell.getCellIndexes().y==goalIndex.y) {
+                        cell.setNextAgroPathPoint(cell.getCellIndexes());
+                        continue;
+                    }
                     //Find path to desired point --> add that path to the cell
-                    pathfinder.findPath(cell.getCelLIndexes(), goalIndex);
+                    pathfinder.findPath(cell.getCellIndexes(), goalIndex);
                     cell.setAgroPath(pathfinder.getPath());
+                    cell.setNextAgroPathPoint(cell.getAgroPath().get(1));
                 }
             }
         }

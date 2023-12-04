@@ -39,7 +39,7 @@ public class PathFinder {
         search();
         trackTheRoute();
 //        System.out.println("Found route startnode:"+startNode.point.x+","+startNode.point.y);
-        printRouteToString();
+//        printRouteToString();
     }
     public void findPath(Node startNode, Node goalNode) {
         goalReached = false;

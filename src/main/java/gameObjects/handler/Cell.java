@@ -19,7 +19,12 @@ public class Cell {
     private List<SuperObject> objects;
     private List<PositionalEvent> positionalEvents;
     private Player player;
+
+    //These variables store the relevant pathfinding info to reach the player for this cell
+    //The bools flag whether any entities in the cell are on this path
     private List<Point> agroPath;
+    private Point nextAgroPathPoint;
+
     public Cell(int x, int y) {
         this.celLIndexes = new Point(x,y);
         entities = new ArrayList<>();
@@ -124,7 +129,15 @@ public class Cell {
         this.agroPath = agroPath;
     }
 
-    public Point getCelLIndexes() {
+    public Point getNextAgroPathPoint() {
+        return nextAgroPathPoint;
+    }
+
+    public void setNextAgroPathPoint(Point nextAgroPathPoint) {
+        this.nextAgroPathPoint = nextAgroPathPoint;
+    }
+
+    public Point getCellIndexes() {
         return celLIndexes;
     }
 }
