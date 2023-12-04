@@ -10,6 +10,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static inputs.KeyHandler.pathFindingDisplay;
+import static main.GamePanel.TILE_SIZE;
+
 public class Cell {
     private Point celLIndexes;
     private List<Entity> entities;
@@ -76,6 +79,13 @@ public class Cell {
         for(Entity entity: entities) {
             if(!entity.renderedThisFrame) {
                 entity.render(g, level);
+            }
+        }
+        //Won't work with camera - temporary for now
+        if(pathFindingDisplay && agroPath!=null) {
+            for(Point pathPoint: agroPath) {
+                g.setColor(new Color(255,0,0,70));
+                g.fillRect(pathPoint.x*TILE_SIZE,pathPoint.y*TILE_SIZE,TILE_SIZE,TILE_SIZE);
             }
         }
     }

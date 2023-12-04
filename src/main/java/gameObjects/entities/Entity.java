@@ -134,7 +134,7 @@ public abstract class Entity {
         onPath = true;
         //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
         if(onPath) {
-            moveTowardsTile(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getAgroPath().get(1));
+            moveTowardsTile(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getAgroPath().get(1), level);
         } else {
             updatePos();
         }
@@ -154,18 +154,77 @@ public abstract class Entity {
         updateAnimationTick();
     }
 
-    private void moveTowardsTile(Point nextTileIndex) {
-        if((int) (x+bounds.x)/TILE_SIZE < nextTileIndex.x) {
-            xMove = speed;
-        } else if((int) (x+bounds.x)/TILE_SIZE > nextTileIndex.x) {
-            xMove = -speed;
-        }
+    private void moveTowardsTile(Point nextTileIndex, Level level) {
 
-        if((int) (y+bounds.y)/TILE_SIZE < nextTileIndex.y) {
-            yMove = speed;
-        } else if((int) (y+bounds.y)/TILE_SIZE > nextTileIndex.y) {
+        int nextX = nextTileIndex.x * TILE_SIZE;
+        int nextY = nextTileIndex.y * TILE_SIZE;
+
+        //Entity's solid area boundaries
+
+        float enLeftX = x + bounds.x;
+        float enRightX = x + bounds.x + bounds.width;
+        float enTopY = y + bounds.y;
+        float enBottomY = y + bounds.y + bounds.height;
+        xMove = 0;
+        yMove = 0;
+        //Checking if entity can go up path
+        if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + TILE_SIZE) {
+            //Entity moving up
             yMove = -speed;
         }
+        else if(enTopY < nextY && enLeftX >= nextX && enRightX < nextX + TILE_SIZE) {
+            //Entity can move down
+            yMove = speed;
+        }
+        else if(enTopY >= nextY && enBottomY < nextY + TILE_SIZE) {
+            //Left or right
+            if(enLeftX > nextX) {
+                xMove = -speed;
+            }
+            if(enLeftX < nextX) {
+                xMove = speed;
+            }
+        }
+
+        //Have to go up and to the left
+        else if(enTopY > nextY && enLeftX > nextX) {
+            //up or left direction
+            yMove = - speed;
+            if(level.isSolidTile((int)enRightX/TILE_SIZE,(int)(enTopY/TILE_SIZE)-1)){
+                xMove = -speed;
+            }
+        }
+        //Have to go up and right
+        else if(enTopY > nextY && enLeftX < nextX) {
+            yMove = -speed;
+            if(level.isSolidTile((int)enLeftX/TILE_SIZE,(int)(enTopY/TILE_SIZE)-1)){
+                xMove = speed;
+            }
+        }
+        else if(enTopY < nextY && enLeftX > nextX) {
+            yMove = speed;
+            if(level.isSolidTile((int)enRightX/TILE_SIZE,(int)(enTopY/TILE_SIZE)+1)) {
+                xMove = -speed;
+            }
+        }
+        else if(enTopY < nextY && enLeftX < nextX) {
+            yMove = speed;
+            if(level.isSolidTile((int)enLeftX/TILE_SIZE,(int)(enTopY/TILE_SIZE)+1)) {
+                xMove = speed;
+            }
+        }
+
+//        if((int) (x+bounds.x)/TILE_SIZE < nextTileIndex.x) {
+//            xMove = speed;
+//        } else if((int) (x+bounds.x)/TILE_SIZE > nextTileIndex.x) {
+//            xMove = -speed;
+//        }
+//
+//        if((int) (y+bounds.y)/TILE_SIZE < nextTileIndex.y) {
+//            yMove = speed;
+//        } else if((int) (y+bounds.y)/TILE_SIZE > nextTileIndex.y) {
+//            yMove = -speed;
+//        } else
     }
     //May need to adjust to not use set?
     protected void handleLocalEntityCollisions(GameObjectGrid gameObjectGrid) {

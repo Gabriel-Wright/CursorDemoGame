@@ -62,7 +62,9 @@ public class LevelConstants {
             case TEST_LEVEL:
                 return "/levelMaps/3219.json";
             case TEST_DEMICHROME:
-                return "/levelMaps/testmap.csv";
+//                return "/levelMaps/testmap.csv";
+                return "/levelMaps/mazeTest.csv";
+
         }
         return null;
     }

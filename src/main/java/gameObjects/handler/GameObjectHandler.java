@@ -39,6 +39,7 @@ public class GameObjectHandler {
     public static Queue<PositionalEvent> eventQueue = new LinkedList<>();
 
     public static int ECPU; //Entity collision checks per update - how many checks per ingame update
+
     //Also add event triggers
     public GameObjectHandler(Player player, List<Entity> entities, List<SuperObject> objects, Level level) {
         gameObjectGrid = new GameObjectGrid();
@@ -59,8 +60,8 @@ public class GameObjectHandler {
     }
 
     private void loadPlayerInfo() {
-        int startX = 5*TILE_SIZE;
-        int startY = 5*TILE_SIZE;
+        int startX = 43 * TILE_SIZE;
+        int startY = 3 * TILE_SIZE;
         playerConstants = new PlayerConstants();
         player = new Player(startX, startY, playerConstants);
     }
@@ -76,12 +77,12 @@ public class GameObjectHandler {
     private void loadTestEntities() {
         entities = new ArrayList<>();
         GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
-        GreenDeath greenDeath = new GreenDeath(8*TILE_SIZE,8*TILE_SIZE,greenDeathConstants);
-        GreenDeath greenDeath1 = new GreenDeath(25*TILE_SIZE,10*TILE_SIZE,greenDeathConstants);
-//        GreenDeath greenDeath2 = new GreenDeath(8*TILE_SIZE, 16* TILE_SIZE, greenDeathConstants);
+        GreenDeath greenDeath = new GreenDeath(8 * TILE_SIZE, 8 * TILE_SIZE, greenDeathConstants);
+        GreenDeath greenDeath1 = new GreenDeath(25 * TILE_SIZE, 10 * TILE_SIZE, greenDeathConstants);
+        GreenDeath greenDeath2 = new GreenDeath(15 * TILE_SIZE, 3 * TILE_SIZE, greenDeathConstants);
         entities.add(greenDeath);
         entities.add(greenDeath1);
-//        entities.add(greenDeath2);
+        entities.add(greenDeath2);
     }
 
     //Pass level as argument for logic calculations with tile collisions
@@ -97,7 +98,7 @@ public class GameObjectHandler {
     }
 
     private void gameObjectLogicUpdate(Level level) {
-        if(!player.isDeleted()) {
+        if (!player.isDeleted()) {
             player.update(level, gameObjectGrid);
         }
         Iterator<Entity> iterator = entities.iterator();
@@ -147,14 +148,15 @@ public class GameObjectHandler {
     public void render(Graphics g, Level level) {
         int xStart = (int) Math.max(0, level.getLevelCamera().getxOffset() / TILE_SIZE);
         int yStart = (int) Math.max(0, level.getLevelCamera().getyOffset() / TILE_SIZE);
-        int xEnd = (int) Math.min(level.getLevelWidth(), (level.getLevelCamera().getxOffset() + level.getLevelCamera().getxOffset() + TARGET_SCREEN_WIDTH)/TILE_SIZE +1);
-        int yEnd = (int) Math.min(level.getLevelHeight(), (level.getLevelCamera().getyOffset() + TARGET_SCREEN_HEIGHT)/TILE_SIZE +1);
+        int xEnd = (int) Math.min(level.getLevelWidth(), (level.getLevelCamera().getxOffset() + level.getLevelCamera().getxOffset() + TARGET_SCREEN_WIDTH) / TILE_SIZE + 1);
+        int yEnd = (int) Math.min(level.getLevelHeight(), (level.getLevelCamera().getyOffset() + TARGET_SCREEN_HEIGHT) / TILE_SIZE + 1);
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
-                if(gameObjectGrid.getCell(x,y)!=null) {
-                    gameObjectGrid.getCell(x,y).renderEntities(g, level);
-                    gameObjectGrid.getCell(x,y).renderObjects(g, level);
-                    gameObjectGrid.getCell(x,y).renderEvents(g,level);
+                if (gameObjectGrid.getCell(x, y) != null) {
+//                    gameObjectGrid.getCell(x,y).renderEntities(g, level);
+                    gameObjectGrid.renderEntities(x, y, g, level);
+                    gameObjectGrid.renderObjects(x, y, g, level);
+                    gameObjectGrid.renderEvents(x, y, g, level);
                 }
             }
         }

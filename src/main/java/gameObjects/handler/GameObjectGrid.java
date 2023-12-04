@@ -304,4 +304,22 @@ public class GameObjectGrid {
             }
         }
     }
+
+    public void renderEntities(int x, int y, Graphics g, Level level) {
+        if(!getCell(x,y).getEntities().isEmpty()) {
+            getCell(x, y).renderEntities(g, level);
+        }
+    }
+
+    public void renderObjects(int x, int y, Graphics g, Level level) {
+        if(!getCell(x,y).getObjects().isEmpty()) {
+            getCell(x, y).renderObjects(g, level);
+        }
+    }
+
+    public void renderEvents(int x, int y, Graphics g, Level level) {
+        if(!getCell(x,y).getPositionalEvents().isEmpty()) {
+            getCell(x, y).renderEvents(g, level);
+        }
+    }
 }

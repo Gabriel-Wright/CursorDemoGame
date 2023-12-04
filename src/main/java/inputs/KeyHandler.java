@@ -13,7 +13,7 @@ public class KeyHandler implements KeyListener {
     public static boolean isPaused;
     //Debug toggles
     public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false,
-    performanceInfo = false;
+    performanceInfo = false, pathFindingDisplay = false;
     public static boolean fullScreenToggle = false;
 
     private GamePanel gamePanel;
@@ -48,6 +48,8 @@ public class KeyHandler implements KeyListener {
                 isPaused = !isPaused;
                 break;
             //Debug info
+            case KeyEvent.VK_F7:
+                pathFindingDisplay = !pathFindingDisplay;
             case KeyEvent.VK_F3:
                 playerPosInfo = !playerPosInfo;
                 break;
