@@ -9,7 +9,7 @@ public interface EntityEvent {
     public void RunEvent(Entity entity);
 
     public void RunEntityEntityCollideEvent(Entity entity1, Entity entity2);
-
+    //
     public void RunEntityPlayerCollideEvent(Entity entity, Player player);
 
     public void RunEntityCursorCollideEvent(Entity entity, Cursor cursor);
