@@ -71,7 +71,7 @@ public class GameObjectGrid {
             int numRows = triggerEvent.getNumRows();
             for(int i =0; i<numCols; i++) {
                 for(int j=0; j<numRows; j++) {
-                    addTriggerEventToCell(startCol+i, startRow+i, triggerEvent);
+                    addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
                 }
             }
         }

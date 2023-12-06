@@ -5,6 +5,8 @@ import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
+import gameObjects.events.generic.ChargingPort;
+import gameObjects.events.generic.DecreaseChargeTrigger;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.events.generic.RoomChange;
 import levels.Level;
@@ -67,21 +69,27 @@ public class GameObjectHandler {
 
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
-        RoomChange testEvent = new RoomChange(Color.GREEN, 7, 7, 1, 1);
-        RoomChange testEvent2 = new RoomChange(Color.RED, 10, 10, 2, 2);
+        RoomChange testEvent = new RoomChange(Color.GREEN, 7*TILE_SIZE, 7*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        RoomChange testEvent2 = new RoomChange(Color.RED, 10*TILE_SIZE, 10*TILE_SIZE, TILE_SIZE, TILE_SIZE);
         positionalEvents.add(testEvent);
         positionalEvents.add(testEvent2);
+        ChargingPort chargingPort = new ChargingPort(43*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE);
+        positionalEvents.add(chargingPort);
+        DecreaseChargeTrigger decreaseChargeTrigger = new DecreaseChargeTrigger(42*TILE_SIZE,12*TILE_SIZE, (9 * TILE_SIZE) /8,8*TILE_SIZE);
+//        DecreaseChargeTrigger decreaseChargeTrigger2 = new DecreaseChargeTrigger(44*TILE_SIZE-TILE_SIZE/8,12*TILE_SIZE, (float) (10 * TILE_SIZE) /8,8*TILE_SIZE);
+        positionalEvents.add(decreaseChargeTrigger);
+//        positionalEvents.add(decreaseChargeTrigger2);
     }
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
         GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
-        GreenDeath greenDeath = new GreenDeath(8 * TILE_SIZE, 8 * TILE_SIZE, greenDeathConstants);
-        GreenDeath greenDeath1 = new GreenDeath(25 * TILE_SIZE, 10 * TILE_SIZE, greenDeathConstants);
-        GreenDeath greenDeath2 = new GreenDeath(15 * TILE_SIZE, 3 * TILE_SIZE, greenDeathConstants);
-        entities.add(greenDeath);
-        entities.add(greenDeath1);
-        entities.add(greenDeath2);
+//        GreenDeath greenDeath = new GreenDeath(8 * TILE_SIZE, 8 * TILE_SIZE, greenDeathConstants);
+//        GreenDeath greenDeath1 = new GreenDeath(25 * TILE_SIZE, 10 * TILE_SIZE, greenDeathConstants);
+//        GreenDeath greenDeath2 = new GreenDeath(15 * TILE_SIZE, 3 * TILE_SIZE, greenDeathConstants);
+//        entities.add(greenDeath);
+//        entities.add(greenDeath1);
+//        entities.add(greenDeath2);
     }
 
     //Pass level as argument for logic calculations with tile collisions

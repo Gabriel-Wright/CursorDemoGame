@@ -2,6 +2,7 @@ package gameObjects.entities.player;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.constants.EntityConstants;
+import gameObjects.events.generic.PositionalEvent;
 import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
 import gameObjects.objects.SuperObject;
@@ -96,14 +97,26 @@ public class Player extends Entity {
     //This is intended for only single trigger in a small space
     private void handleLocalEventTriggers(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        Set<PositionalEvent> cellEvents = new HashSet<>();
+
+        //Retrieve all events
         for(Point cellIndex: cellIndexes) {
-            if(!gameObjectGrid.getCell(cellIndex.x, cellIndex.y).getPositionalEvents().isEmpty()){
-                gameObjectGrid.getCell(cellIndex.x, cellIndex.y).runEvents(this);
-            }
+            Cell cell = gameObjectGrid.getCell(cellIndex.x, cellIndex.y);
+            cellEvents.addAll(cell.getPositionalEvents());
+        }
+
+        //Complete collisions for those entities
+        for(PositionalEvent cellEvent: cellEvents) {
+            //Check entity is not itself
+            handleLocalEventTrigger(cellEvent);
         }
     }
 
-
+    private void handleLocalEventTrigger(PositionalEvent positionalEvent) {
+        if(getCollisionBounds().intersects(positionalEvent.getTriggerBox())) {
+            positionalEvent.runEvent(this);
+        }
+    }
     @Override
     protected void updatePos() {
         xMove = 0;

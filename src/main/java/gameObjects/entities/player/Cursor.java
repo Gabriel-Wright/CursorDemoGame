@@ -1,6 +1,7 @@
 package gameObjects.entities.player;
 
 import gameObjects.entities.Entity;
+import gameObjects.events.generic.PositionalEvent;
 import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
 import gameObjects.objects.SuperObject;
@@ -35,7 +36,8 @@ public class Cursor {
 
     //Variables related to the mouse's attacking
     private boolean mouseKillActive=false;
-    private int mouseKillMetre = UPS*3; //3 seconds worth of use
+    private final int maxKillMetre = UPS*3;
+    private int mouseKillMetre = maxKillMetre; //3 seconds worth of use
     private Rectangle cursorHitbox;
     public Cursor(int radius) {
         this.radius = radius;
@@ -59,7 +61,7 @@ public class Cursor {
             checkKillState();
             adjustKillMetre();
             //Handle mouse's interactions with entities and objects
-            handleLocalEventTriggers(gameObjectGrid);
+            handleLocalEventTriggers(level, gameObjectGrid);
             handleLocalEntityCollisions(level, gameObjectGrid);
             handleLocalObjectCollisions(gameObjectGrid);
         }
@@ -79,7 +81,7 @@ public class Cursor {
         }
     }
     private void handleLocalEntityCollisions(Level level, GameObjectGrid gameObjectGrid) {
-        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this, level.getLevelCamera().getxOffset(), level.getLevelCamera().getyOffset()).toArray(new Point[0]);
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
         Set<SuperObject> cellObjects = new HashSet<>();
         //Retrieve all entities
         Set<Entity> cellEntities = new HashSet<>();
@@ -124,16 +126,29 @@ public class Cursor {
         cellObject.getEvent().runEvent(this);
     }
 
-    private void handleLocalEventTriggers(GameObjectGrid gameObjectGrid) {
+    //This is intended for only single trigger in a small space
+    private void handleLocalEventTriggers(Level level, GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        Set<PositionalEvent> cellEvents = new HashSet<>();
+
+        //Retrieve all events
         for(Point cellIndex: cellIndexes) {
-            if(!gameObjectGrid.getCell(cellIndex.x, cellIndex.y).getPositionalEvents().isEmpty()){
-                gameObjectGrid.getCell(cellIndex.x, cellIndex.y).runEvents(this);
-            }
+            Cell cell = gameObjectGrid.getCell(cellIndex.x, cellIndex.y);
+            cellEvents.addAll(cell.getPositionalEvents());
+        }
+
+        //Complete collisions for those entities
+        for(PositionalEvent cellEvent: cellEvents) {
+            //Check entity is not itself
+            handleLocalEventTrigger(level, cellEvent);
         }
     }
 
-
+    private void handleLocalEventTrigger(Level level, PositionalEvent positionalEvent) {
+        if(getCollisionBounds(level).intersects(positionalEvent.getTriggerBox())) {
+            positionalEvent.runEvent(this);
+        }
+    }
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         // Set the 70% transparency composite
@@ -294,6 +309,14 @@ public class Cursor {
     }
 
     public void increaseKillMetre() {
-        mouseKillMetre++;
+        if(mouseKillMetre<maxKillMetre) {
+            mouseKillMetre++;
+        }
+    }
+
+    public void decreaseKillMetre() {
+        if(mouseKillMetre>0) {
+            mouseKillMetre--;
+        }
     }
 }
