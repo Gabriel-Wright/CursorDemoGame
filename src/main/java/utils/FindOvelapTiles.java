@@ -47,6 +47,24 @@ public class FindOvelapTiles {
         return tileIndexes;
     }
 
+    public static Point[] FindOverlapTiles(Cursor cursor) {
+        int startX = (int) (cursor.getMouseX() + cursor.getCursorHitbox().x)/TILE_SIZE;
+        int startY = (int) (cursor.getMouseY() + cursor.getCursorHitbox().y)/TILE_SIZE;
+        int endX =  (int) (cursor.getMouseX() + cursor.getCursorHitbox().width + cursor.getCursorHitbox().x)/TILE_SIZE;
+        int endY = (int) (cursor.getMouseY() + cursor.getCursorHitbox().height + cursor.getCursorHitbox().y)/TILE_SIZE;
+
+        int numTiles = (endX - startX +1) * (endY - startY +1);
+        Point[] tileIndexes = new Point[numTiles];
+        int i=0;
+        for(int x = startX; x<=endX; x++) {
+            for(int y= startY; y <=endY; y++) {
+                tileIndexes[i] = new Point(x,y);
+                i++;
+            }
+        }
+        return tileIndexes;
+    }
+
     public static Point[] FindOverlapTiles(Entity entity, float xOffset, float yOffset) {
         int startX = (int) (entity.getX()+entity.getBounds().getX() + xOffset) / TILE_SIZE;
         int startY = (int) (entity.getY()+entity.getBounds().getY() + yOffset) / TILE_SIZE;
@@ -82,4 +100,5 @@ public class FindOvelapTiles {
         }
         return tileIndexes;
     }
+
 }

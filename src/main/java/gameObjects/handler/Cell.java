@@ -2,6 +2,7 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
+import gameObjects.entities.player.Cursor;
 import gameObjects.events.generic.PositionalEvent;
 import levels.Level;
 import gameObjects.objects.SuperObject;
@@ -73,13 +74,30 @@ public class Cell {
         return positionalEvents;
     }
 
-    public void runEvents() {
+//    public void runEvents() {
+//        for(PositionalEvent event: positionalEvents) {
+//            if(!event.isComplete()) {
+//                event.runEvent();
+//            }
+//        }
+//    }
+    //Run Player events
+    public void runEvents(Player player) {
         for(PositionalEvent event: positionalEvents) {
             if(!event.isComplete()) {
-                event.runEvent();
+                event.runEvent(player);
             }
         }
     }
+    //Run cursor events
+    public void runEvents(Cursor cursor) {
+        for(PositionalEvent event: positionalEvents) {
+            if(!event.isComplete()) {
+                event.runEvent(cursor);
+            }
+        }
+    }
+
     public void renderEntities(Graphics g, Level level) {
         for(Entity entity: entities) {
             if(!entity.renderedThisFrame) {

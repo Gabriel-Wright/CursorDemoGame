@@ -244,6 +244,20 @@ public class GameObjectGrid {
         return assignedCells;
     }
 
+    public List<Point> getAssignedCells(Cursor cursor) {
+        List<Point> assignedCells = new ArrayList<>();
+
+        Point[] cellIndexes = FindOverlapTiles(cursor);
+
+        for (Point cellIndex : cellIndexes) {
+            if (getCell(cellIndex.x, cellIndex.y) != null) {
+                assignedCells.add(cellIndex);
+            }
+        }
+
+        return assignedCells;
+    }
+
 //    xOffset and yOffset represent the camera offset, as cursor position is screen based not level based
     public List<Point> getAssignedCells(Cursor cursor, float xOffset, float yOffset) {
         List<Point> assignedCells = new ArrayList<>();

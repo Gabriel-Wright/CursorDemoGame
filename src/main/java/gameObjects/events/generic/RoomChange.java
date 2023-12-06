@@ -1,5 +1,7 @@
 package gameObjects.events.generic;
 
+import gameObjects.entities.player.Player;
+import gameObjects.entities.player.Cursor;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.handler.GameObjectHandler;
 import states.GameState;
@@ -14,18 +16,22 @@ import static main.GamePanel.UPS;
 public class RoomChange extends PositionalEvent {
 
     private Color backgroundColor;
-    public RoomChange(Color color, int x, int y, int width, int height, boolean playerTriggered) {
-        super(x,y,width,height,playerTriggered);
+    public RoomChange(Color color, int x, int y, int width, int height) {
+        super(x,y,width,height);
         triggerBox = new Rectangle(x, y , width, height);
         backgroundColor = color;
     }
-    @Override
-    public void runEvent() {
-//        System.out.println("Test");
-//        GameState.updateGameBackground(backgroundColor);
 
+    @Override
+    public void runEvent(Player player) {
         TaskHandler.addTask(new BackGroundColorChange(UPS, GameState.getBackgroundColor(),backgroundColor));
         complete = true;
-        GameObjectHandler.eventQueue.add(new TriggerAlarm(new Color[]{Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.PINK},12,12,2,2,true));
+        GameObjectHandler.eventQueue.add(new TriggerAlarm(new Color[]{Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.PINK},12,12,2,2));
     }
+
+    @Override
+    public void runEvent(Cursor cursor) {
+        System.out.println("Event collides with cursor");
+    }
+
 }

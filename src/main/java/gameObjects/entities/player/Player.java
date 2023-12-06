@@ -19,7 +19,6 @@ public class Player extends Entity {
 
 //    private Inventory playerInventory = new Inventory();
     private Cursor cursor;
-    private int cursorRange = TILE_SIZE*4;
     private double rotationAngle=0;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
@@ -28,9 +27,6 @@ public class Player extends Entity {
         bounds.y -= entityHeight/2;
     }
 
-//    public Inventory getPlayerInventory() {
-//        return playerInventory;
-//    }
 
     @Override
     public void update(Level level, GameObjectGrid gameObjectGrid) {
@@ -43,7 +39,7 @@ public class Player extends Entity {
         //Check entity collisions
         handleLocalEntityCollisions(gameObjectGrid);
         //Check object collisions
-        handleLocalObjectCollisions(level, gameObjectGrid);
+        handleLocalObjectCollisions(gameObjectGrid);
         //Centre camera on player
 //        centerCamera(level);
         //Update action state of the entity
@@ -60,7 +56,7 @@ public class Player extends Entity {
         }
 
 
-        cursor.update(x, y, level, gameObjectGrid, cursorRange);
+        cursor.update(x, y, level, gameObjectGrid);
     }
 
     //Entity - player collision is only calculated from player, entities only run
@@ -74,7 +70,7 @@ public class Player extends Entity {
         }
     }
 
-    private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {
+    private void handleLocalObjectCollisions(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
         Set<SuperObject> cellObjects = new HashSet<>();
         //Retrieve all entities
@@ -86,7 +82,7 @@ public class Player extends Entity {
         //Complete collisions for those entities
         for(SuperObject cellObject: cellObjects) {
             //Check entity is not itself
-            handleLocalCollision(level, cellObject);
+            handleLocalCollision(cellObject);
         }
 
     }
@@ -94,15 +90,15 @@ public class Player extends Entity {
         rotationAngle = cursor.calculateAngle(x,y,level.getLevelCamera()) + Math.PI/2;
     }
 
-    private void handleLocalCollision(Level level, SuperObject cellObject) {
-        cellObject.getEvent().runEvent();
+    private void handleLocalCollision(SuperObject cellObject) {
+        cellObject.getEvent().runEvent(this);
     }
     //This is intended for only single trigger in a small space
     private void handleLocalEventTriggers(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
         for(Point cellIndex: cellIndexes) {
             if(!gameObjectGrid.getCell(cellIndex.x, cellIndex.y).getPositionalEvents().isEmpty()){
-                gameObjectGrid.getCell(cellIndex.x, cellIndex.y).runEvents();
+                gameObjectGrid.getCell(cellIndex.x, cellIndex.y).runEvents(this);
             }
         }
     }

@@ -20,16 +20,14 @@ public abstract class PositionalEvent implements Event {
     protected int numRows;
     protected int numCols;
     protected boolean complete = false;
-    private boolean playerTriggered;
 
 
-    public PositionalEvent(int startCol, int startRow, int numCols, int numRows, boolean playerTriggered) {
+    public PositionalEvent(int startCol, int startRow, int numCols, int numRows) {
         this.startCol = startCol;
         this.startRow = startRow;
         this.numCols = numCols;
         this.numRows = numRows;
         triggerBox = new Rectangle(startCol*TILE_SIZE, startRow*TILE_SIZE, numCols*TILE_SIZE, numRows*TILE_SIZE);
-        this.playerTriggered = playerTriggered;
     }
 
     public Rectangle getTriggerBox() {
