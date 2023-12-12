@@ -157,6 +157,9 @@ public abstract class Entity {
 
     private void moveTowardsTile(Point nextTileIndex, Level level) {
 
+        if(nextTileIndex ==null) {
+            System.out.println("Stop");
+        }
         int nextX = nextTileIndex.x * TILE_SIZE;
         int nextY = nextTileIndex.y * TILE_SIZE;
 
@@ -166,8 +169,8 @@ public abstract class Entity {
         float enRightX = x + bounds.x + bounds.width;
         float enTopY = y + bounds.y;
         float enBottomY = y + bounds.y + bounds.height;
-        xMove = 0;
-        yMove = 0;
+        xMove = 0.f;
+        yMove = 0.f;
         //Checking if entity can go up path
         if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + TILE_SIZE) {
             //Entity moving up
@@ -332,6 +335,11 @@ public abstract class Entity {
     }
 
     public Point getEntityNextAgroIndex(GameObjectGrid gameObjectGrid) {
+        Point entityCellIndexes = getEntityCellIndexes();
+        Cell gameObjectGridCell = gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y);
+        if(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getNextAgroPathPoint() ==null) {
+            System.out.println("stop");
+        }
         return gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getNextAgroPathPoint();
     }
 }

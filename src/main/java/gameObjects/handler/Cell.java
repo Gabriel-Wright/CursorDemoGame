@@ -108,7 +108,7 @@ public class Cell {
         if(pathFindingDisplay && agroPath!=null) {
             for(Point pathPoint: agroPath) {
                 g.setColor(new Color(255,0,0,70));
-                g.fillRect(pathPoint.x*TILE_SIZE,pathPoint.y*TILE_SIZE,TILE_SIZE,TILE_SIZE);
+                g.fillRect((int) (pathPoint.x*TILE_SIZE-level.getLevelCamera().getxOffset()),(int)(pathPoint.y*TILE_SIZE-level.getLevelCamera().getyOffset()),TILE_SIZE,TILE_SIZE);
             }
         }
     }

@@ -177,7 +177,7 @@ public class GameObjectGrid {
         //Set of previous cells that entity was attached -> minus since entity moved by xmove and ymove, so previous
         // cell set was xmove back ymove back
         Set<Point> prevCellSet = new HashSet<>(Arrays.asList(FindOverlapTiles(entity, xMove, yMove)));
-        //Iterate through previous cell indexes to check removals
+        // Iterate through current cell indexes to check additions
         for(Point cellIndex: cellIndexes) {
             //Check if cell exists within grid
             if(getCell(cellIndex.x, cellIndex.y) !=null) {
@@ -192,9 +192,12 @@ public class GameObjectGrid {
             }
         }
 
-        // Iterate through current cell indexes to check additions
+        //Iterate through previous cell indexes to check removals
         for (Point cellIndex : prevCellSet) {
             if (getCell(cellIndex.x, cellIndex.y) != null) {
+                if(cellIndex.x==15&&cellIndex.y==13){
+                    System.out.println("Hello");
+                }
                 getCell(cellIndex.x, cellIndex.y).removeEntity(entity);
             }
         }
@@ -308,17 +311,23 @@ public class GameObjectGrid {
 
             // Iterate over the inner map
             for (Map.Entry<Integer, Cell> innerEntry : innerMap.entrySet()) {
-
+                int innerKey = innerEntry.getKey();
                 Cell cell = innerEntry.getValue();   // Extract the cell
                 if(!cell.getEntities().isEmpty()) {
                     if(cell.getCellIndexes().x==goalIndex.x&&cell.getCellIndexes().y==goalIndex.y) {
                         cell.setNextAgroPathPoint(cell.getCellIndexes());
                         continue;
                     }
+                    if(outerKey==15&& (innerKey==13)) {
+                        System.out.println("Whatsup");
+                    }
                     //Find path to desired point --> add that path to the cell
                     pathfinder.findPath(cell.getCellIndexes(), goalIndex);
                     cell.setAgroPath(pathfinder.getPath());
                     cell.setNextAgroPathPoint(cell.getAgroPath().get(1));
+                    if(cell.getAgroPath().get(1)==null) {
+                        System.out.println("stop");
+                    }
                 }
             }
         }

@@ -20,9 +20,9 @@ public class GameState extends State{
     private UI gameUI;
 
     public void loadTestGame() {
+        taskHandler = new TaskHandler();
         loadLevelManager();
         loadUI();
-        taskHandler = new TaskHandler();
     }
 
 

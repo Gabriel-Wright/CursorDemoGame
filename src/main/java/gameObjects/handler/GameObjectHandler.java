@@ -11,6 +11,8 @@ import gameObjects.events.generic.PositionalEvent;
 import gameObjects.events.generic.RoomChange;
 import levels.Level;
 import gameObjects.objects.SuperObject;
+import tasks.SpawnEntities;
+import tasks.TaskHandler;
 import ui.UI;
 import utils.PathFinder;
 
@@ -73,23 +75,22 @@ public class GameObjectHandler {
         RoomChange testEvent2 = new RoomChange(Color.RED, 10*TILE_SIZE, 10*TILE_SIZE, TILE_SIZE, TILE_SIZE);
         positionalEvents.add(testEvent);
         positionalEvents.add(testEvent2);
-        ChargingPort chargingPort = new ChargingPort(43*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE);
-        positionalEvents.add(chargingPort);
-        DecreaseChargeTrigger decreaseChargeTrigger = new DecreaseChargeTrigger(42*TILE_SIZE,12*TILE_SIZE, (9 * TILE_SIZE) /8,8*TILE_SIZE);
+//        ChargingPort chargingPort = new ChargingPort(43*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE);
+//        positionalEvents.add(chargingPort);
+//        DecreaseChargeTrigger decreaseChargeTrigger = new DecreaseChargeTrigger(42*TILE_SIZE,12*TILE_SIZE, (9 * TILE_SIZE) /8,8*TILE_SIZE);
 //        DecreaseChargeTrigger decreaseChargeTrigger2 = new DecreaseChargeTrigger(44*TILE_SIZE-TILE_SIZE/8,12*TILE_SIZE, (float) (10 * TILE_SIZE) /8,8*TILE_SIZE);
-        positionalEvents.add(decreaseChargeTrigger);
+//        positionalEvents.add(decreaseChargeTrigger);
 //        positionalEvents.add(decreaseChargeTrigger2);
     }
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
-//        GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
-//        GreenDeath greenDeath = new GreenDeath(2 * TILE_SIZE, 15 * TILE_SIZE, greenDeathConstants);
-//        GreenDeath greenDeath1 = new GreenDeath(24 * TILE_SIZE, 30 * TILE_SIZE, greenDeathConstants);
-//        GreenDeath greenDeath2 = new GreenDeath(30 * TILE_SIZE, 2 * TILE_SIZE, greenDeathConstants);
-//        entities.add(greenDeath);
-//        entities.add(greenDeath1);
-//        entities.add(greenDeath2);
+        GreenDeathConstants greenDeathConstants1 = new GreenDeathConstants();
+        GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE, 15*TILE_SIZE,greenDeathConstants1);
+        entities.add(greenDeath);
+//        SpawnEntities spawnEntities = new SpawnEntities();
+//        spawnEntities.initialiseConstants();
+//        TaskHandler.addTask(spawnEntities);
     }
 
     //Pass level as argument for logic calculations with tile collisions

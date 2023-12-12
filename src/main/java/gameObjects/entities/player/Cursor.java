@@ -23,7 +23,7 @@ import static main.Main.WINDOW_IN_FOCUS;
 public class Cursor {
 
     //Max world distance that software cursor can move in a single update
-    private final int maxDelta = TILE_SIZE/16;
+    private final int maxDelta = TILE_SIZE/4;
     private static int SENSITIVITY_FACTOR = 1;
     //Software positions of mouse calculated each update using the difference in distance from in game :O
     private int mouseX;
@@ -68,7 +68,8 @@ public class Cursor {
     }
 
     private void checkKillState() {
-        if(MouseHandler.mouseClickHeld&&mouseKillMetre>0) {
+//        if(MouseHandler.mouseClickHeld&&mouseKillMetre>0) {
+        if(MouseHandler.mouseClickHeld){
             mouseKillActive = true;
         } else {
             mouseKillActive = false;
@@ -160,7 +161,7 @@ public class Cursor {
         }
         g.fillOval(mouseX - radius, mouseY - radius, radius * 2, radius * 2);
         //Temporary killmetre indicator
-        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*44,(int)TILE_SIZE*25);
+//        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*44,(int)TILE_SIZE*25);
 
         if(hitboxToggle) {
             g.drawRect(mouseX+cursorHitbox.x, mouseY+cursorHitbox.y, cursorHitbox.width,cursorHitbox.height);

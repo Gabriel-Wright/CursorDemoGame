@@ -45,7 +45,7 @@ public class Main {
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blankCursor");
 
         // Set the cursor to the blank cursor
-//        window.getContentPane().setCursor(blankCursor);
+        window.getContentPane().setCursor(blankCursor);
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
