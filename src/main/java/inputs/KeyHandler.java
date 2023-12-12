@@ -9,17 +9,13 @@ import java.security.Key;
 
 public class KeyHandler implements KeyListener {
 
-    public static boolean upPressed, downPressed, leftPressed, rightPressed;
+    public static boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed, escapePressed;
     public static boolean isPaused;
     //Debug toggles
     public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false,
     performanceInfo = false, pathFindingDisplay = false;
     public static boolean fullScreenToggle = false;
 
-    private GamePanel gamePanel;
-    public KeyHandler(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -42,10 +38,14 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D:
                 rightPressed = true;
                 break;
+            case KeyEvent.VK_SPACE:
+                spacePressed = true;
+                break;
             //Pause the game
             case KeyEvent.VK_P, KeyEvent.VK_ESCAPE:
-                gamePanel.switchGameStates();
+                GamePanel.togglePause();
                 isPaused = !isPaused;
+                escapePressed = true;
                 break;
             //Debug info
             case KeyEvent.VK_F7:
@@ -83,6 +83,12 @@ public class KeyHandler implements KeyListener {
                 break;
             case KeyEvent.VK_D:
                 rightPressed = false;
+                break;
+            case KeyEvent.VK_SPACE:
+                spacePressed = false;
+                break;
+            case KeyEvent.VK_ESCAPE, KeyEvent.VK_P:
+                escapePressed = false;
                 break;
         }
 

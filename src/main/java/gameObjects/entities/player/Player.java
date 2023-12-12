@@ -181,5 +181,4 @@ public class Player extends Entity {
 
         cursor.render(g);
     }
-
 }

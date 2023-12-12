@@ -4,6 +4,7 @@ import gameObjects.entities.Entity;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Cursor;
 import gameObjects.entities.player.Player;
+import main.GamePanel;
 
 public class GreenDeathEvents implements EntityEvent{
     @Override
@@ -28,6 +29,7 @@ public class GreenDeathEvents implements EntityEvent{
     @Override
     public void RunEntityPlayerCollideEvent(Entity entity, Player player) {
         player.die();
+        GamePanel.gameOver();
     }
 
     @Override

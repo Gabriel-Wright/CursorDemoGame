@@ -63,7 +63,7 @@ public class Cursor {
             //Handle mouse's interactions with entities and objects
             handleLocalEventTriggers(level, gameObjectGrid);
             handleLocalEntityCollisions(level, gameObjectGrid);
-            handleLocalObjectCollisions(gameObjectGrid);
+            handleLocalObjectCollisions(level, gameObjectGrid);
         }
     }
 
@@ -81,7 +81,7 @@ public class Cursor {
         }
     }
     private void handleLocalEntityCollisions(Level level, GameObjectGrid gameObjectGrid) {
-        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this, level.getLevelCamera().getxOffset(), level.getLevelCamera().getyOffset()).toArray(new Point[0]);
         Set<SuperObject> cellObjects = new HashSet<>();
         //Retrieve all entities
         Set<Entity> cellEntities = new HashSet<>();
@@ -105,8 +105,8 @@ public class Cursor {
         }
     }
 
-    private void handleLocalObjectCollisions(GameObjectGrid gameObjectGrid) {
-        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+    private void handleLocalObjectCollisions(Level level, GameObjectGrid gameObjectGrid) {
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this, level.getLevelCamera().getxOffset(), level.getLevelCamera().getyOffset()).toArray(new Point[0]);
         Set<SuperObject> cellObjects = new HashSet<>();
         //Retrieve all entities
         for(Point cellIndex: cellIndexes) {
@@ -128,7 +128,7 @@ public class Cursor {
 
     //This is intended for only single trigger in a small space
     private void handleLocalEventTriggers(Level level, GameObjectGrid gameObjectGrid) {
-        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
+        Point[] cellIndexes = gameObjectGrid.getAssignedCells(this, level.getLevelCamera().getxOffset(), level.getLevelCamera().getyOffset()).toArray(new Point[0]);
         Set<PositionalEvent> cellEvents = new HashSet<>();
 
         //Retrieve all events

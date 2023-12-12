@@ -61,8 +61,8 @@ public class GameObjectHandler {
     }
 
     private void loadPlayerInfo() {
-        int startX = 43 * TILE_SIZE;
-        int startY = 3 * TILE_SIZE;
+        int startX = 46 * TILE_SIZE;
+        int startY = 14 * TILE_SIZE;
         playerConstants = new PlayerConstants();
         player = new Player(startX, startY, playerConstants);
     }
@@ -83,10 +83,10 @@ public class GameObjectHandler {
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
-        GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
-//        GreenDeath greenDeath = new GreenDeath(8 * TILE_SIZE, 8 * TILE_SIZE, greenDeathConstants);
-//        GreenDeath greenDeath1 = new GreenDeath(25 * TILE_SIZE, 10 * TILE_SIZE, greenDeathConstants);
-//        GreenDeath greenDeath2 = new GreenDeath(15 * TILE_SIZE, 3 * TILE_SIZE, greenDeathConstants);
+//        GreenDeathConstants greenDeathConstants = new GreenDeathConstants();
+//        GreenDeath greenDeath = new GreenDeath(2 * TILE_SIZE, 15 * TILE_SIZE, greenDeathConstants);
+//        GreenDeath greenDeath1 = new GreenDeath(24 * TILE_SIZE, 30 * TILE_SIZE, greenDeathConstants);
+//        GreenDeath greenDeath2 = new GreenDeath(30 * TILE_SIZE, 2 * TILE_SIZE, greenDeathConstants);
 //        entities.add(greenDeath);
 //        entities.add(greenDeath1);
 //        entities.add(greenDeath2);

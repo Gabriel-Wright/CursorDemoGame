@@ -131,10 +131,6 @@ public abstract class Entity {
     //This should be improved
 
     public void update(Level level, GameObjectGrid gameObjectGrid) {
-        if(Objects.equals(getEntityCellIndexes(), new Point(43, 3))){
-            System.out.println(getEntityCellIndexes());
-            System.out.println("debug");
-        }
         //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
         System.out.println(getEntityCellIndexes());
 
@@ -149,9 +145,6 @@ public abstract class Entity {
         if (Math.abs(xMove) > 0.001 || Math.abs(yMove) > 0.001) {
             // Do something when xMove or yMove is not close to 0
             gameObjectGrid.reassignEntityCells(this, -xMove, -yMove);
-        }
-        if(gameObjectGrid.getAssignedCells(this).contains(gameObjectGrid.getCell(43,3).getCellIndexes())){
-            System.out.println("pause");
         }
 
         //Check entity collisions

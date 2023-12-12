@@ -31,6 +31,7 @@ public class Level {
         levelHeight = levelTileData[0].length;
         levelWidth = levelTileData.length;
         levelCamera = new LevelCamera(0 ,0, levelWidth, levelHeight);
+        levelCamera.move(TILE_SIZE*3,TILE_SIZE*3);
     }
 
     public int[][] getLevelTileData() {

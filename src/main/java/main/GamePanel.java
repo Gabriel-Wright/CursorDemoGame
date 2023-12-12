@@ -2,9 +2,7 @@ package main;
 
 import inputs.KeyHandler;
 import inputs.MouseHandler;
-import states.GameState;
-import states.PauseState;
-import states.State;
+import states.*;
 import ui.UI;
 
 import javax.swing.*;
@@ -46,7 +44,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean isFullScreen = false;
 
     //Input listeners
-    private KeyHandler keyH = new KeyHandler(this);
+    private KeyHandler keyH = new KeyHandler();
     private MouseHandler mouseH = new MouseHandler();
     Robot mouseLocker;
     public static boolean LOCK_CURSOR;
@@ -60,8 +58,10 @@ public class GamePanel extends JPanel implements Runnable {
     private int numUpdatesPerToggleCheck = 1;
     Thread gameThread;
     //GameStates
-    private GameState gameState;
-    private PauseState pauseState;
+    private static GameState gameState;
+    private static PauseState pauseState;
+    private static GameOverState gameOverState;
+    private static MenuState menuState;
     private static State currentState;
 
     public static Color backGroundColor = Color.black;
@@ -82,12 +82,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseMotionListener(mouseH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
 
-        //Initial gameStates
-        gameState = new GameState();
-        pauseState = new PauseState(gameState);
-        gameState.initialiseState();
-        pauseState.initialiseState();
-        setCurrentState(gameState);
+        //Initial menu gameStates - other gameStates are loaded at gameStart
+        menuState = new MenuState();
+
+        setCurrentState(menuState);
 
         //Initial display mode
         originalDisplayMode = graphicsDevice.getDisplayMode();
@@ -105,7 +103,19 @@ public class GamePanel extends JPanel implements Runnable {
         scaleY = (double) getHeight() / TARGET_SCREEN_HEIGHT;
     }
 
-    public void switchGameStates() {
+    public static void startGame() {
+        gameState = new GameState();
+        gameState.initialiseState();
+        pauseState = new PauseState(gameState);
+        gameOverState = new GameOverState(gameState);
+
+        setCurrentState(gameState);
+    }
+
+    public static void returnMenu() {
+        setCurrentState(menuState);
+    }
+    public static void togglePause() {
         if(currentState == gameState) {
             setCurrentState(pauseState);
             return;
@@ -113,6 +123,10 @@ public class GamePanel extends JPanel implements Runnable {
         if(currentState == pauseState) {
             setCurrentState(gameState);
         }
+    }
+
+    public static void gameOver() {
+        setCurrentState(gameOverState);
     }
 
     private void enterFullscreen() {
