@@ -32,6 +32,7 @@ public class GameOverState extends State{
 
     @Override
     public void reloadState() {
+        GameState.updateGameBackground(Color.BLACK);
         unlockCursor();
     }
 

@@ -8,7 +8,6 @@ import static main.GamePanel.TILE_SIZE;
 
 public class FindOvelapTiles {
 
-    private static int testVariable;
     public static Point[] FindOverlapTiles(Rectangle collisionBox) {
         int startX = collisionBox.x / TILE_SIZE;
         int startY = collisionBox.y / TILE_SIZE;

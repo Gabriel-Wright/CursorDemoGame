@@ -134,7 +134,7 @@ public abstract class Entity {
         //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
         System.out.println(getEntityCellIndexes());
 
-        if(onPath) {
+        if(onPath&&getEntityNextAgroIndex(gameObjectGrid)!=null) {
             moveTowardsTile(getEntityNextAgroIndex(gameObjectGrid), level);
         } else {
             updatePos();

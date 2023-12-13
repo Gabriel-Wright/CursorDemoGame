@@ -40,9 +40,9 @@ public abstract class PositionalEvent implements Event {
         this.startY = startY;
         startRow = startY/TILE_SIZE;
         this.width = width;
-        numCols = width/TILE_SIZE+1;
+        numCols = width/TILE_SIZE;
         this.height = height;
-        numRows = height/TILE_SIZE+1;
+        numRows = height/TILE_SIZE;
         triggerBox = new Rectangle(startX, startY, width, height);
     }
     public Rectangle getTriggerBox() {

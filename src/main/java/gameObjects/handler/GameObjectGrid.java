@@ -6,6 +6,7 @@ import gameObjects.entities.player.Cursor;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.objects.SuperObject;
 import levels.Level;
+import utils.FindOvelapTiles;
 import utils.PathFinder;
 
 import java.awt.*;
@@ -98,10 +99,9 @@ public class GameObjectGrid {
         int numRows = triggerEvent.getNumRows();
         for(int i =0; i<numCols; i++) {
             for(int j=0; j<numRows; j++) {
-                addTriggerEventToCell(startCol+i, startRow+i, triggerEvent);
+                addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
             }
         }
-
     }
 
     private void addObjectToCell(int x, int y, SuperObject object) {
@@ -195,9 +195,6 @@ public class GameObjectGrid {
         //Iterate through previous cell indexes to check removals
         for (Point cellIndex : prevCellSet) {
             if (getCell(cellIndex.x, cellIndex.y) != null) {
-                if(cellIndex.x==15&&cellIndex.y==13){
-                    System.out.println("Hello");
-                }
                 getCell(cellIndex.x, cellIndex.y).removeEntity(entity);
             }
         }
@@ -277,12 +274,36 @@ public class GameObjectGrid {
 
     }
 
+    public Point[] getAssignedCells(PositionalEvent event) {
+        return FindOverlapTiles(event.getTriggerBox());
+    }
+
+    public void removeEventFromCells(PositionalEvent positionalEvent) {
+            int startCol = positionalEvent.getStartCol();
+            int startRow = positionalEvent.getStartRow();
+            int numCols = positionalEvent.getNumCols();
+            int numRows = positionalEvent.getNumRows();
+            for(int i =0; i<numCols; i++) {
+                for(int j=0; j<numRows; j++) {
+                    getCell(startCol+i, startRow+j).removePositionalEvent(positionalEvent);
+                }
+            }
+    }
+
+
     public void removeEntityFromCells(Entity entity) {
         List<Point> assignedCells = getAssignedCells(entity);
         for(Point assignedCell: assignedCells) {
             getCell(assignedCell.x,assignedCell.y).removeEntity(entity);
         }
     }
+
+//    public void removeEventFromCells(PositionalEvent event) {
+//        Point[] assignedCells = getAssignedCells(event);
+//        for(Point assignedCell: assignedCells) {
+//            getCell(assignedCell.x, assignedCell.y).removePositionalEvent(event);
+//        }
+//    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

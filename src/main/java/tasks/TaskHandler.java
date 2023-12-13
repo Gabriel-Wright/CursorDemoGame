@@ -1,21 +1,32 @@
 package tasks;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import gameObjects.entities.Entity;
+
+import java.util.*;
 
 //Stores continuous background tasks that have to be updated e.g. updateBackground
 public class TaskHandler {
-    public static List<Task> activeTasks;
+    private static List<Task> activeTasks;
+    public static Queue<Task> queuedTasks;
+
     public TaskHandler() {
         activeTasks = new ArrayList<>();
+        queuedTasks = new LinkedList<>();
     }
 
     public static void addTask(Task task) {
-        activeTasks.add(task);
+        queuedTasks.add(task);
     }
 
-    public void updateTasks() {
+    private void pollTaskQueue() {
+        while (!queuedTasks.isEmpty()) {
+            Task task = queuedTasks.poll();
+            activeTasks.add(task);
+        }
+
+    }
+
+    private void runActiveTasks() {
         Iterator<Task> taskIterator = activeTasks.iterator();
         while (taskIterator.hasNext()) {
             Task task = taskIterator.next();
@@ -25,5 +36,11 @@ public class TaskHandler {
                 taskIterator.remove();
             }
         }
+
+    }
+
+    public void updateTasks() {
+        pollTaskQueue();
+        runActiveTasks();
     }
 }

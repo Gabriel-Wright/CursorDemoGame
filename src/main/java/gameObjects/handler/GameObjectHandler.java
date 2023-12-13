@@ -1,18 +1,16 @@
 package gameObjects.handler;
 
 import gameObjects.entities.Entity;
-import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.PlayerConstants;
-import gameObjects.events.generic.ChargingPort;
-import gameObjects.events.generic.DecreaseChargeTrigger;
 import gameObjects.events.generic.PositionalEvent;
-import gameObjects.events.generic.RoomChange;
 import levels.Level;
 import gameObjects.objects.SuperObject;
-import tasks.SpawnEntities;
+import tasks.Task;
+import tasks.taskQueue.SpawnEntities;
 import tasks.TaskHandler;
+import tasks.taskQueue.TaskQueueHandler;
 import ui.UI;
 import utils.PathFinder;
 
@@ -40,6 +38,8 @@ public class GameObjectHandler {
     public static Queue<Entity> entityQueue = new LinkedList<>();
     public static Queue<SuperObject> objectQueue = new LinkedList<>();
     public static Queue<PositionalEvent> eventQueue = new LinkedList<>();
+    public static Queue<SuperObject> objectRemoveQueue = new LinkedList<>();
+    public static Queue<PositionalEvent> eventRemoveQueue = new LinkedList<>();
 
     public static int ECPU; //Entity collision checks per update - how many checks per ingame update
 
@@ -71,10 +71,16 @@ public class GameObjectHandler {
 
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
-        RoomChange testEvent = new RoomChange(Color.GREEN, 7*TILE_SIZE, 7*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        RoomChange testEvent2 = new RoomChange(Color.RED, 10*TILE_SIZE, 10*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-        positionalEvents.add(testEvent);
-        positionalEvents.add(testEvent2);
+        Random taskHandlerRandom = new Random(0);
+        TaskQueueHandler taskQueueHandler = new TaskQueueHandler(taskHandlerRandom);
+        taskQueueHandler.initialiseTasks();
+//        SpawnTimedBombEvent spawnTimedBombEvent = new SpawnTimedBombEvent();
+//        spawnTimedBombEvent.initialiseTask();
+//        TaskHandler.addTask(spawnTimedBombEvent);
+//        RoomChange testEvent = new RoomChange(Color.GREEN, 7*TILE_SIZE, 7*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+//        RoomChange testEvent2 = new RoomChange(Color.RED, 10*TILE_SIZE, 10*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+//        positionalEvents.add(testEvent);
+//        positionalEvents.add(testEvent2);
 //        ChargingPort chargingPort = new ChargingPort(43*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE);
 //        positionalEvents.add(chargingPort);
 //        DecreaseChargeTrigger decreaseChargeTrigger = new DecreaseChargeTrigger(42*TILE_SIZE,12*TILE_SIZE, (9 * TILE_SIZE) /8,8*TILE_SIZE);
@@ -85,12 +91,13 @@ public class GameObjectHandler {
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
-        GreenDeathConstants greenDeathConstants1 = new GreenDeathConstants();
-        GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE, 15*TILE_SIZE,greenDeathConstants1);
-        entities.add(greenDeath);
-//        SpawnEntities spawnEntities = new SpawnEntities();
-//        spawnEntities.initialiseConstants();
-//        TaskHandler.addTask(spawnEntities);
+//        GreenDeathConstants greenDeathConstants1 = new GreenDeathConstants();
+//        GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE, 15*TILE_SIZE,greenDeathConstants1);
+//        entities.add(greenDeath);
+        Random entitySpawnRandom = new Random(0);
+        SpawnEntities spawnEntities = new SpawnEntities(entitySpawnRandom);
+        spawnEntities.initialiseConstants();
+        TaskHandler.addTask(spawnEntities);
     }
 
     //Pass level as argument for logic calculations with tile collisions
@@ -101,8 +108,17 @@ public class GameObjectHandler {
         gameObjectQueueUpdate();
         //For loop for entity updates - movement and tile collision
         //Within same for loop do collisions with object grid
+        pollEventQueueRemoval();
         UI.ECPULOCAL = ECPU;
         ECPU = 0;
+    }
+
+    private void pollEventQueueRemoval() {
+        while (!eventRemoveQueue.isEmpty()) {
+            PositionalEvent event = eventRemoveQueue.poll();
+            positionalEvents.remove(event);
+            gameObjectGrid.removeEventFromCells(event);
+        }
     }
 
     private void gameObjectLogicUpdate(Level level) {
