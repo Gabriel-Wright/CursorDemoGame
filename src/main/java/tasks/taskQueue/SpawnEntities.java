@@ -53,7 +53,7 @@ public class SpawnEntities extends Task {
     @Override
     public void runTask() {
         if(tick%(spawnRate)==0) {
-//            GameObjectHandler.entityQueue.add(getNewGreenDeathSpawn());
+            GameObjectHandler.entityQueue.add(getNewGreenDeathSpawn());
             if(spawnRate>UPS) {
                 spawnRate -= 5;
             }

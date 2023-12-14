@@ -3,7 +3,7 @@ package gameObjects.events.generic;
 import gameObjects.entities.player.Cursor;
 import gameObjects.entities.player.Player;
 import states.GameState;
-import tasks.TaskHandler;
+import tasks.TaskRunner;
 import tasks.backgroundColorTasks.ContinuousBackGroundColorChange;
 
 import java.awt.*;
@@ -20,7 +20,7 @@ public class TriggerAlarm extends PositionalEvent{
 
     @Override
     public void runEvent(Player player) {
-        TaskHandler.addTask(new ContinuousBackGroundColorChange(UPS*2, GameState.getBackgroundColor(), transitionColors));
+        TaskRunner.addTask(new ContinuousBackGroundColorChange(UPS*2, GameState.getBackgroundColor(), transitionColors));
     }
 
     @Override

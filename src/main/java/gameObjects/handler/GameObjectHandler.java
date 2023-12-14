@@ -7,9 +7,8 @@ import gameObjects.entities.player.PlayerConstants;
 import gameObjects.events.generic.PositionalEvent;
 import levels.Level;
 import gameObjects.objects.SuperObject;
-import tasks.Task;
 import tasks.taskQueue.SpawnEntities;
-import tasks.TaskHandler;
+import tasks.TaskRunner;
 import tasks.taskQueue.TaskQueueHandler;
 import ui.UI;
 import utils.PathFinder;
@@ -71,7 +70,7 @@ public class GameObjectHandler {
 
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
-        Random taskHandlerRandom = new Random(0);
+        Random taskHandlerRandom = new Random(1);
         TaskQueueHandler taskQueueHandler = new TaskQueueHandler(taskHandlerRandom);
         taskQueueHandler.initialiseTasks();
 //        SpawnTimedBombEvent spawnTimedBombEvent = new SpawnTimedBombEvent();
@@ -97,7 +96,7 @@ public class GameObjectHandler {
         Random entitySpawnRandom = new Random(0);
         SpawnEntities spawnEntities = new SpawnEntities(entitySpawnRandom);
         spawnEntities.initialiseConstants();
-        TaskHandler.addTask(spawnEntities);
+        TaskRunner.addTask(spawnEntities);
     }
 
     //Pass level as argument for logic calculations with tile collisions

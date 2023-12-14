@@ -1,15 +1,13 @@
 package tasks;
 
-import gameObjects.entities.Entity;
-
 import java.util.*;
 
 //Stores continuous background tasks that have to be updated e.g. updateBackground
-public class TaskHandler {
+public class TaskRunner {
     private static List<Task> activeTasks;
     public static Queue<Task> queuedTasks;
 
-    public TaskHandler() {
+    public TaskRunner() {
         activeTasks = new ArrayList<>();
         queuedTasks = new LinkedList<>();
     }

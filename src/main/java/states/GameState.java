@@ -1,26 +1,23 @@
 package states;
 
-import gameObjects.entities.player.Player;
-import gameObjects.entities.player.PlayerConstants;
 import levels.LevelConstants;
 import levels.LevelManager;
 import main.GamePanel;
-import tasks.TaskHandler;
+import tasks.TaskRunner;
 import ui.UI;
-import static inputs.KeyHandler.isPaused;
+
 import java.awt.*;
 
-import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.lockCursor;
 
 public class GameState extends State{
 
-    private TaskHandler taskHandler;
+    private TaskRunner taskHandler;
     private LevelManager levelManager;
     private UI gameUI;
 
     public void loadTestGame() {
-        taskHandler = new TaskHandler();
+        taskHandler = new TaskRunner();
         loadLevelManager();
         loadUI();
     }

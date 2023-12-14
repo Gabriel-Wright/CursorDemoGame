@@ -9,7 +9,7 @@ import java.security.Key;
 
 public class KeyHandler implements KeyListener {
 
-    public static boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed, escapePressed;
+    public static boolean upPressed, downPressed, leftPressed, rightPressed, spacePressed, escapePressed, qPressed;
     public static boolean isPaused;
     //Debug toggles
     public static boolean playerPosInfo = false, playerInventoryInfo = false, hitboxToggle = false,
@@ -40,6 +40,9 @@ public class KeyHandler implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 spacePressed = true;
+                break;
+            case KeyEvent.VK_Q:
+                qPressed = true;
                 break;
             //Pause the game
             case KeyEvent.VK_P, KeyEvent.VK_ESCAPE:
@@ -89,6 +92,9 @@ public class KeyHandler implements KeyListener {
                 break;
             case KeyEvent.VK_ESCAPE, KeyEvent.VK_P:
                 escapePressed = false;
+                break;
+            case KeyEvent.VK_Q:
+                qPressed = false;
                 break;
         }
 

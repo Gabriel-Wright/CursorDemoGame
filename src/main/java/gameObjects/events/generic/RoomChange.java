@@ -2,10 +2,9 @@ package gameObjects.events.generic;
 
 import gameObjects.entities.player.Player;
 import gameObjects.entities.player.Cursor;
-import gameObjects.events.generic.PositionalEvent;
 import gameObjects.handler.GameObjectHandler;
 import states.GameState;
-import tasks.TaskHandler;
+import tasks.TaskRunner;
 import tasks.backgroundColorTasks.BackGroundColorChange;
 
 import java.awt.*;
@@ -24,7 +23,7 @@ public class RoomChange extends PositionalEvent {
 
     @Override
     public void runEvent(Player player) {
-        TaskHandler.addTask(new BackGroundColorChange(UPS, GameState.getBackgroundColor(),backgroundColor));
+        TaskRunner.addTask(new BackGroundColorChange(UPS, GameState.getBackgroundColor(),backgroundColor));
         complete = true;
         GameObjectHandler.eventQueue.add(new TriggerAlarm(new Color[]{Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.PINK},12,12,2,2));
     }
