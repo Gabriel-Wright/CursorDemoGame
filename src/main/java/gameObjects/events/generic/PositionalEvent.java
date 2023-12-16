@@ -2,6 +2,8 @@ package gameObjects.events.generic;
 
 import gameObjects.events.generic.Event;
 import levels.Level;
+import tasks.TaskQueueConstants;
+import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
 
 import java.awt.*;
 
@@ -25,7 +27,6 @@ public abstract class PositionalEvent implements Event {
     protected int startY;
     protected int width;
     protected int height;
-
 //    public PositionalEvent(int startCol, int startRow, int numCols, int numRows) {
 //        this.startCol = startCol;
 //        this.startRow = startRow;
@@ -33,6 +34,9 @@ public abstract class PositionalEvent implements Event {
 //        this.numRows = numRows;
 //        triggerBox = new Rectangle(startCol*TILE_SIZE, startRow*TILE_SIZE, numCols*TILE_SIZE, numRows*TILE_SIZE);
 //    }
+    public PositionalEvent() {
+
+    }
 
     public PositionalEvent(int startX, int startY, int width, int height) {
         this.startX = startX;
@@ -45,6 +49,7 @@ public abstract class PositionalEvent implements Event {
         numRows = height/TILE_SIZE;
         triggerBox = new Rectangle(startX, startY, width, height);
     }
+
     public Rectangle getTriggerBox() {
         return triggerBox;
     }
@@ -80,5 +85,17 @@ public abstract class PositionalEvent implements Event {
         }
 
 
+    }
+
+    public void setPositionalEventSpawnInfo(TaskQueueConstants.PositionalEventSpawnInfo positionalEventSpawnInfo) {
+        this.startX = positionalEventSpawnInfo.x();
+        startCol = startX/TILE_SIZE;
+        this.startY = positionalEventSpawnInfo.y();
+        startRow = startY/TILE_SIZE;
+        this.width = positionalEventSpawnInfo.width();
+        numCols = width/TILE_SIZE;
+        this.height = positionalEventSpawnInfo.height();
+        numRows = height/TILE_SIZE;
+        triggerBox = new Rectangle(startX, startY, width, height);
     }
 }

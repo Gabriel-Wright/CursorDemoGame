@@ -32,11 +32,6 @@ public class GreenDeathConstants extends EntityConstants {
     }
 
     @Override
-    public int getMaxNumAnimationFrames() {
-        return 3;
-    }
-
-    @Override
     public int getAnimationStartXDimension(int entityAction) {
         return 0;
     }

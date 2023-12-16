@@ -12,8 +12,6 @@ public interface AnimationConstants {
 
     public int getNumAnimationFrames(int playerAction);
 
-    public int getMaxNumAnimationFrames();
-
     public int getAnimationStartXDimension(int playerAction);
 
     public int getAnimationStartYDimension(int playerAction);

@@ -9,7 +9,6 @@ import levels.Level;
 
 import java.awt.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import static inputs.KeyHandler.hitboxToggle;
@@ -39,19 +38,27 @@ public abstract class Entity {
     protected Rectangle bounds; // May need to create own class at some point for hitboxes
     private boolean deleted = false;
     private EntityEvent entityCollideEvents;
+
     public Entity(int x, int y, EntityConstants entityConstants) {
         this.x = x;
         this.y = y;
         this.entityConstants = entityConstants;
         bounds = new Rectangle(0, 0, entityWidth, entityHeight);
         if(entityConstants!=null) {
-            loadClassValuesFromConstants();
+            loadEntityValuesFromConstants();
             loadAnimations();
         }
         //Default bounds
     }
 
-    private void loadClassValuesFromConstants() {
+    public Entity(EntityConstants entityConstants) {
+        this.entityConstants = entityConstants;
+        if(entityConstants!=null){
+            loadAnimations();
+        }
+    }
+
+    public void loadEntityValuesFromConstants() {
         bounds.x = entityConstants.getHitboxXoffset();
         bounds.y = entityConstants.getHitboxYoffset();
         bounds.width = entityConstants.getHitboxWidth();

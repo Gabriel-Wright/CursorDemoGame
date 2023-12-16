@@ -7,6 +7,7 @@ import states.GameState;
 import tasks.taskQueue.SpawnTimedBombTask;
 import tasks.TaskRunner;
 import tasks.backgroundColorTasks.ContinuousBackGroundColorChange;
+import tasks.taskQueue.SpawnTimedCursorBomb;
 
 import java.awt.*;
 
@@ -24,6 +25,12 @@ public class CursorTimedBomb extends PositionalEvent{
         triggerBox = new Rectangle(x, y, width, height);
         continuousAlarm = new ContinuousBackGroundColorChange(UPS*6, GameState.getBackgroundColor(), transitionColors);
         this.spawnTimedBombEvent = spawnTimedBombEvent;
+    }
+
+    public CursorTimedBomb(Color[] transitionColors, int x, int y, int width, int height, SpawnTimedCursorBomb spawnTimedCursorBomb) {
+        super(x,y,width,height);
+        triggerBox = new Rectangle(x,y,width,height);
+        //Have to add spawnTimedCursorBomb
     }
 
     public void initialEffects() {
