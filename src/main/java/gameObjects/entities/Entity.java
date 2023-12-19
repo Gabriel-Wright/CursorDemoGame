@@ -54,11 +54,13 @@ public abstract class Entity {
     public Entity(EntityConstants entityConstants) {
         this.entityConstants = entityConstants;
         if(entityConstants!=null){
+            loadEntityValuesFromConstants();
             loadAnimations();
         }
     }
 
     public void loadEntityValuesFromConstants() {
+        bounds = new Rectangle(0, 0, 0, 0);
         bounds.x = entityConstants.getHitboxXoffset();
         bounds.y = entityConstants.getHitboxYoffset();
         bounds.width = entityConstants.getHitboxWidth();

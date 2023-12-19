@@ -19,6 +19,7 @@ public abstract class SpawnPositionalEvent extends SpawnTask{
         eventQueue.add(positionalEvent);
     }
 
+
     @Override
     protected boolean checkSpawnPurposeComplete() {
         return positionalEvent.isComplete();

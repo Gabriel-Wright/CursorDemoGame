@@ -42,11 +42,6 @@ public class PlayerConstants extends EntityConstants {
     }
 
     @Override
-    public int getMaxNumAnimationFrames() {
-        return 6;
-    }
-
-    @Override
     public int getAnimationStartXDimension(int playerAction) {
         return 0;
     }
