@@ -22,9 +22,12 @@ public class SpawnEntityConstants {
     public final static int GREEN_DEATH = 0;
 
     private SpawnEntity[] loadedEntitySpawns;
+    private int[] entityIndexes;
     private Point[] loadedEntitySpawnPositions;
 
-//    SpawnEntityConstants(int id) {this.id = id;}
+    public int[] getSavedEntityIndexes(){
+        return entityIndexes;
+    }
 
     //Provides you with the entities assigned to that level
     public int[] getLevelEntityIndexes(int id) {
@@ -44,6 +47,10 @@ public class SpawnEntityConstants {
 
     public void loadEntitySpawnsPositions(int id) {
         loadedEntitySpawnPositions = getEntitySpawnLocations(id);
+    }
+
+    public void loadEntityIndexes(int id){
+        entityIndexes = getLevelEntityIndexes(id);
     }
 
     private EntityConstants getEntityConstants(int entityIndex) {
@@ -81,9 +88,13 @@ public class SpawnEntityConstants {
             int i, entityIndex;
             for(i=0; i<numEntities; i++) {
                 entityIndex = levelEntityIndexes[i];
-                entitySpawnTasks[i] = new SpawnEntity(getEntityWorth(numEntities), getEntityCheckTick(entityIndex), getEntity(entityIndex));
+                entitySpawnTasks[i] = new SpawnEntity(getEntityWorth(entityIndex), getEntityCheckTick(entityIndex), getEntity(entityIndex));
             }
             loadedEntitySpawns = entitySpawnTasks;
+    }
+
+    public SpawnEntity getSpawnEntity(int entityIndex) {
+        return new SpawnEntity(getEntityWorth(entityIndex), getEntityCheckTick(entityIndex), getEntity(entityIndex));
     }
 
     public SpawnEntity[] getLoadedEntitySpawns() {

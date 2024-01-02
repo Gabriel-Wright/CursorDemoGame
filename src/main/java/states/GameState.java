@@ -10,6 +10,7 @@ import ui.UI;
 import java.awt.*;
 
 import static main.GamePanel.lockCursor;
+import static tasks.TaskRunner.queuedTasks;
 
 public class GameState extends State{
 
@@ -52,6 +53,7 @@ public class GameState extends State{
         waveManager = new WaveManager(waveRound, gameSeed);
         waveManager.loadSpawnConstants(level);
         waveManager.loadRandomGenerators();
+        TaskRunner.addTask(waveManager);
     }
 
     @Override

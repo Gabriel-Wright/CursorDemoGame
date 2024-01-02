@@ -346,9 +346,10 @@ public abstract class Entity {
     public Point getEntityNextAgroIndex(GameObjectGrid gameObjectGrid) {
         Point entityCellIndexes = getEntityCellIndexes();
         Cell gameObjectGridCell = gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y);
-        if(gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getNextAgroPathPoint() ==null) {
-            System.out.println("stop");
+        if(gameObjectGridCell==null || gameObjectGridCell.getNextAgroPathPoint() ==null) {
+            //Null next point?
+            return null;
         }
-        return gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y).getNextAgroPathPoint();
+        return gameObjectGrid.getCell(entityCellIndexes.x,entityCellIndexes.y).getNextAgroPathPoint();
     }
 }

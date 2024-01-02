@@ -70,9 +70,9 @@ public class GameObjectHandler {
 
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
-        Random taskHandlerRandom = new Random(1);
-        TaskQueueHandler taskQueueHandler = new TaskQueueHandler(taskHandlerRandom);
-        taskQueueHandler.initialiseTasks();
+//        Random taskHandlerRandom = new Random(1);
+//        TaskQueueHandler taskQueueHandler = new TaskQueueHandler(taskHandlerRandom);
+//        taskQueueHandler.initialiseTasks();
 //        SpawnTimedBombEvent spawnTimedBombEvent = new SpawnTimedBombEvent();
 //        spawnTimedBombEvent.initialiseTask();
 //        TaskHandler.addTask(spawnTimedBombEvent);
@@ -93,10 +93,10 @@ public class GameObjectHandler {
 //        GreenDeathConstants greenDeathConstants1 = new GreenDeathConstants();
 //        GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE, 15*TILE_SIZE,greenDeathConstants1);
 //        entities.add(greenDeath);
-        Random entitySpawnRandom = new Random(0);
-        SpawnEntities spawnEntities = new SpawnEntities(entitySpawnRandom);
-        spawnEntities.initialiseConstants();
-        TaskRunner.addTask(spawnEntities);
+//        Random entitySpawnRandom = new Random(0);
+//        SpawnEntities spawnEntities = new SpawnEntities(entitySpawnRandom);
+//        spawnEntities.initialiseConstants();
+//        TaskRunner.addTask(spawnEntities);
     }
 
     //Pass level as argument for logic calculations with tile collisions

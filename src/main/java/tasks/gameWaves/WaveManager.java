@@ -33,7 +33,8 @@ public class WaveManager extends Task {
     private final int eventValue = 25;
 
     //Entity spawn Randomiser, location and points
-    private SpawnEntity[] entitySpawnTasks;
+//    private SpawnEntity[] entitySpawnTasks;
+    private int[] entityIndexes;
     private Point[] entitySpawnLocation;
 
     private Random entityRandom;
@@ -56,7 +57,8 @@ public class WaveManager extends Task {
     }
 
     private void loadEntitySpawnInfo() {
-        entitySpawnTasks = spawnConstants.getSpawnEntityConstants().getLoadedEntitySpawns();
+//        entitySpawnTasks = spawnConstants.getSpawnEntityConstants().getLoadedEntitySpawns();
+        entityIndexes = spawnConstants.getSpawnEntityConstants().getSavedEntityIndexes();
         entitySpawnLocation = spawnConstants.getSpawnEntityConstants().getLoadedEntitySpawnPositions();
     }
 
@@ -87,19 +89,24 @@ public class WaveManager extends Task {
 
     private void spawnNewEntity() {
         Point entitySpawnPosition = getRandomEntityLocation();
-        SpawnEntity entitySpawnTask = getRandomEntitySpawn();
+        int entityIndex = getRandomEntityIndex();
+        SpawnEntity entitySpawnTask = spawnConstants.getSpawnEntityConstants().getSpawnEntity(entityIndex);
         entitySpawnTask.initialiseEntitySpawn(entitySpawnPosition);
         updatePoints(entitySpawnTask);
         TaskRunner.addTask(entitySpawnTask);
+    }
+
+    private int getRandomEntityIndex() {
+        return entityIndexes[entityRandom.nextInt(entityIndexes.length)];
     }
 
     private Point getRandomEntityLocation() {
         return entitySpawnLocation[entityRandom.nextInt(entitySpawnLocation.length)];
     }
 
-    private SpawnEntity getRandomEntitySpawn() {
-        return entitySpawnTasks[entityRandom.nextInt(entitySpawnTasks.length)];
-    }
+//    private SpawnEntity getRandomEntitySpawn() {
+//        return entitySpawnTasks[entityRandom.nextInt(entitySpawnTasks.length)];
+//    }
 
     private void updatePoints(SpawnEntity spawnEntity) {
             wavePoints -= spawnEntity.getTaskValue();
