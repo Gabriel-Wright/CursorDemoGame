@@ -6,6 +6,7 @@ public abstract class SpawnTask extends Task {
 
     private int taskValue;
     private int completionCheckTick;
+    private int spawnTickBuffer;
     public SpawnTask(int taskValue, int completeCheck) {
         this.taskValue = taskValue;
         this.completionCheckTick = completeCheck;

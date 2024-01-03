@@ -3,15 +3,15 @@ package tasks.gameWaves;
 import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import tasks.Task;
-import tasks.TaskQueueConstants;
 import tasks.TaskRunner;
+import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.gameWaves.spawnConstants.SpawnConstants;
 import tasks.gameWaves.spawnTasks.SpawnEntity;
+import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
 import tasks.gameWaves.spawnTasks.SpawnTask;
 
 import java.awt.*;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import static gameObjects.handler.GameObjectHandler.entityQueue;
 import static main.GamePanel.UPS;
@@ -26,7 +26,8 @@ public class WaveManager extends Task {
     SpawnConstants spawnConstants;
 
 
-    private int wavePoints;
+    private int wavePoints=100;
+    private boolean roundEnded=false;
     private final int entityValue = 8;
     private final int objectValue = 2;
     private final int bufferValue = 5;
@@ -36,6 +37,9 @@ public class WaveManager extends Task {
 //    private SpawnEntity[] entitySpawnTasks;
     private int[] entityIndexes;
     private Point[] entitySpawnLocation;
+
+    private int[] eventIndexes;
+    private Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
 
     private Random entityRandom;
     private Random objectRandom;
@@ -63,7 +67,8 @@ public class WaveManager extends Task {
     }
 
     private void loadEventSpawnInfo() {
-
+        eventIndexes = spawnConstants.getSpawnPositionalEventConstants().getEventIndexes();
+        eventSpawnPositions = spawnConstants.getSpawnPositionalEventConstants().getEventSpawnPositions();
     }
 
     private void loadObjectSpawnInfo() {
@@ -78,13 +83,52 @@ public class WaveManager extends Task {
 
     @Override
     public void runTask() {
-        if(tick==nextSpawnTick) {
+        if(tick==nextSpawnTick&&!roundEnded) {
             spawnNewTask();
+        }
+        checkRoundEnd();
+    }
+
+    private void checkRoundEnd() {
+        if(wavePoints==0&!roundEnded) {
+            System.out.println("ROUND ENDED");
+            roundEnded = true;
         }
     }
 
     private void spawnNewTask() {
-        spawnNewEntity();
+        Random random = new Random();
+        if(random.nextInt(2)==0) {
+            spawnNewEntity();
+            return;
+        }
+        spawnNewEvent();
+
+    }
+
+    private void spawnNewEvent() {
+        int eventIndex = getRandomEventIndex();
+        ArrayList<PositionalEventSpawnInfo> eventSpawns = getRandomEventSpawnPositions(eventIndex);
+
+    }
+
+    private ArrayList<PositionalEventSpawnInfo> getRandomEventSpawnPositions(int eventIndex) {
+        ArrayList<PositionalEventSpawnInfo> eventSpawns = new ArrayList<>();
+        Map<Integer, ArrayList<PositionalEventSpawnInfo>> positionalEventSpawnInfoMap = eventSpawnPositions.get(eventIndex);
+        return getRandomMapSpawnList(positionalEventSpawnInfoMap);
+    }
+
+    private ArrayList<PositionalEventSpawnInfo> getRandomMapSpawnList(Map<Integer, ArrayList<PositionalEventSpawnInfo>> positionalEventSpawnInfoMap) {
+        //Should probably leave as set or unsure?
+        ArrayList<Integer> spawnPositionKeys = (ArrayList<Integer>) positionalEventSpawnInfoMap.keySet();
+        int numSpawnCombinations = spawnPositionKeys.size();
+        //randomly choose an index of the map
+        int spawnPositionsIndex = spawnPositionKeys.get(eventRandom.nextInt(numSpawnCombinations));
+        return positionalEventSpawnInfoMap.get(spawnPositionsIndex);
+    }
+
+    private int getRandomEventIndex() {
+        return eventIndexes[eventRandom.nextInt(eventIndexes.length)];
     }
 
     private void spawnNewEntity() {
@@ -93,9 +137,11 @@ public class WaveManager extends Task {
         SpawnEntity entitySpawnTask = spawnConstants.getSpawnEntityConstants().getSpawnEntity(entityIndex);
         entitySpawnTask.initialiseEntitySpawn(entitySpawnPosition);
         updatePoints(entitySpawnTask);
+        updateSpawnTick(entitySpawnTask);
         TaskRunner.addTask(entitySpawnTask);
     }
 
+    //This should weigh up how much tasks are worth to decide which ones to go for
     private int getRandomEntityIndex() {
         return entityIndexes[entityRandom.nextInt(entityIndexes.length)];
     }
@@ -108,14 +154,15 @@ public class WaveManager extends Task {
 //        return entitySpawnTasks[entityRandom.nextInt(entitySpawnTasks.length)];
 //    }
 
-    private void updatePoints(SpawnEntity spawnEntity) {
-            wavePoints -= spawnEntity.getTaskValue();
-            tick=0;
-            updateSpawnTick(spawnEntity.getTaskValue());
+
+    private void updateSpawnTick(SpawnEntity spawnTask) {
+        nextSpawnTick = UPS*3;
+        tick=0;
     }
 
-    private void updateSpawnTick(int taskValue) {
-        nextSpawnTick -= 10;
+    private void updatePoints(SpawnTask spawnTask) {
+        wavePoints -= spawnTask.getTaskValue();
+        System.out.println("Points remaining:"+wavePoints);
     }
     @Override
     public void checkComplete() {

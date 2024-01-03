@@ -2,7 +2,7 @@ package gameObjects.events.generic;
 
 import gameObjects.events.generic.Event;
 import levels.Level;
-import tasks.TaskQueueConstants;
+import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
 
 import java.awt.*;
@@ -87,7 +87,7 @@ public abstract class PositionalEvent implements Event {
 
     }
 
-    public void setPositionalEventSpawnInfo(TaskQueueConstants.PositionalEventSpawnInfo positionalEventSpawnInfo) {
+    public void setPositionalEventSpawnInfo(PositionalEventSpawnInfo positionalEventSpawnInfo) {
         this.startX = positionalEventSpawnInfo.x();
         startCol = startX/TILE_SIZE;
         this.startY = positionalEventSpawnInfo.y();

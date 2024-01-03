@@ -14,6 +14,10 @@ public class DecreaseChargeTrigger extends PositionalEvent{
         super(startX, startY, width, height);
     }
 
+    public DecreaseChargeTrigger() {
+        super();
+    }
+
     @Override
     public void runEvent(Player player) {
 

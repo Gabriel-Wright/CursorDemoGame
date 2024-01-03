@@ -141,7 +141,7 @@ public abstract class Entity {
 
     public void update(Level level, GameObjectGrid gameObjectGrid) {
         //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
-        System.out.println(getEntityCellIndexes());
+//        System.out.println(getEntityCellIndexes());
 
         if(onPath&&getEntityNextAgroIndex(gameObjectGrid)!=null) {
             moveTowardsTile(getEntityNextAgroIndex(gameObjectGrid), level);
@@ -166,9 +166,9 @@ public abstract class Entity {
 
     private void moveTowardsTile(Point nextTileIndex, Level level) {
 
-        if(nextTileIndex ==null) {
-            System.out.println("Stop");
-        }
+//        if(nextTileIndex ==null) {
+//            System.out.println("Stop");
+//        }
         int nextX = nextTileIndex.x * TILE_SIZE;
         int nextY = nextTileIndex.y * TILE_SIZE;
 

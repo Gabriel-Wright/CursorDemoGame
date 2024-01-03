@@ -17,11 +17,13 @@ public class SpawnConstants {
         spawnEntityConstants = new SpawnEntityConstants();
         spawnEntityConstants.loadEntitySpawnsPositions(id);
         spawnEntityConstants.loadEntityIndexes(id);
-//        spawnEntityConstants.loadEntitySpawnTasks(id);
+//
     }
 
     private void loadSpawnPositionalEventConstants(int id) {
-
+        spawnPositionalEventConstants = new SpawnPositionalEventConstants();
+        spawnPositionalEventConstants.loadEventIndexes(id);
+        spawnPositionalEventConstants.loadEventSpawnPositions(id);
     }
 
     private void loadSpawnobjectConstants(int id) {

@@ -80,6 +80,7 @@ public class SpawnEntityConstants {
             default -> UPS;
         };
     }
+
     //For each level get the possible array of entity spawn tasks (minus their spawn positions, or with spawn positions) ?
     public void loadEntitySpawnTasks(int id) {
             int[] levelEntityIndexes = getLevelEntityIndexes(id);

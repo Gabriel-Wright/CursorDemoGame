@@ -1,7 +1,7 @@
 package tasks.gameWaves.spawnTasks;
 
 import gameObjects.events.generic.PositionalEvent;
-import tasks.TaskQueueConstants;
+import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 
 import static gameObjects.handler.GameObjectHandler.eventQueue;
 import static main.GamePanel.UPS;
@@ -14,7 +14,7 @@ public abstract class SpawnPositionalEvent extends SpawnTask{
         this.positionalEvent = positionalEvent;
     }
 
-    public void initialisePositionalEventSpawn(TaskQueueConstants.PositionalEventSpawnInfo positionalEventSpawnInfo) {
+    public void initialisePositionalEventSpawn(PositionalEventSpawnInfo positionalEventSpawnInfo) {
         positionalEvent.setPositionalEventSpawnInfo(positionalEventSpawnInfo);
         eventQueue.add(positionalEvent);
     }
