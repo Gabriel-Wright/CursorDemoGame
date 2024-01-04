@@ -8,8 +8,8 @@ import static gameObjects.handler.GameObjectHandler.eventQueue;
 public class SpawnPositionEvent extends SpawnTask{
     private PositionalEvent positionalEvent;
 
-    public SpawnPositionEvent(int taskValue, int completeCheck, PositionalEvent positionalEvent) {
-        super(taskValue,completeCheck);
+    public SpawnPositionEvent(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, PositionalEvent positionalEvent) {
+        super(taskValue,entitySpawnTickBuffer, eventSpawnTickBuffer, completeCheck);
         this.positionalEvent = positionalEvent;
     }
 

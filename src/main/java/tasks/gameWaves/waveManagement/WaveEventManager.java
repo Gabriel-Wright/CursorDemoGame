@@ -14,6 +14,10 @@ public class WaveEventManager {
     private int[] eventIndexes;
     private Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
 
+    private int pointsBuffer;
+    private int eventTickBuffer;
+    private int entityTickBuffer;
+
 
     public WaveEventManager(SpawnPositionalEventConstants spawnPositionalEventConstants, Random eventRandom) {
         this.spawnPositionalEventConstants =spawnPositionalEventConstants;
@@ -27,6 +31,9 @@ public class WaveEventManager {
         ArrayList<PositionalEventSpawnInfo> eventSpawns = getRandomEventSpawnPositions(eventIndex);
         ArrayList<SpawnPositionEvent> newSpawnEvents = loadNewSpawnEvents(eventIndex, eventSpawns);
         addNewEventsToTaskRunner(newSpawnEvents);
+        pointsBuffer = spawnPositionalEventConstants.findEventWorth(eventIndex);
+        entityTickBuffer = spawnPositionalEventConstants.findEntitySpawnTickBuffer(eventIndex);
+        eventTickBuffer = spawnPositionalEventConstants.findEventSpawnTickBuffer(eventIndex);
     }
 
     private void addNewEventsToTaskRunner(ArrayList<SpawnPositionEvent> newSpawnEvents) {
@@ -64,4 +71,17 @@ public class WaveEventManager {
     private int getRandomEventIndex() {
         return eventIndexes[eventRandom.nextInt(eventIndexes.length)];
     }
+
+    public int getPointsBuffer() {
+        return pointsBuffer;
+    }
+
+    public int getEntityTickBuffer() {
+        return entityTickBuffer;
+    }
+
+    public int getEventTickBuffer() {
+        return eventTickBuffer;
+    }
+
 }

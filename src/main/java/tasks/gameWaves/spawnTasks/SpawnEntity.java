@@ -11,8 +11,9 @@ public class SpawnEntity extends SpawnTask{
 
     private Entity entity;
     private int entityDeletionCheck = UPS;
-    public SpawnEntity(int taskValue, int completeCheck, Entity entity) {
-        super(taskValue, completeCheck);
+    public SpawnEntity(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, Entity entity) {
+        super(taskValue, entitySpawnTickBuffer, eventSpawnTickBuffer, completeCheck);
+
         this.entity = entity;
     }
 

@@ -7,14 +7,16 @@ import tasks.gameWaves.spawnTasks.SpawnEntity;
 import java.awt.*;
 import java.util.Random;
 
-import static tasks.gameWaves.waveManagement.WaveManager.updatePoints;
-
 public class WaveEntityManager {
 
     private SpawnEntityConstants spawnEntityConstants;
     private Random entityRandom;
     private int[] entityIndexes;
     private Point[] entitySpawnLocations;
+
+    private int pointsBuffer;
+    private int eventTickBuffer;
+    private int entityTickBuffer;
 
     public WaveEntityManager(SpawnEntityConstants spawnEntityConstants, Random entityRandom) {
         this.spawnEntityConstants = spawnEntityConstants;
@@ -28,8 +30,9 @@ public class WaveEntityManager {
         int entityIndex = getRandomEntityIndex();
         SpawnEntity entitySpawnTask = spawnEntityConstants.findSpawnEntity(entityIndex);
         entitySpawnTask.initialiseEntitySpawn(entitySpawnPosition);
-        updatePoints(entitySpawnTask);
-//        updateSpawnTick(entitySpawnTask);
+        pointsBuffer = entitySpawnTask.getTaskValue();
+        entityTickBuffer = entitySpawnTask.getEntitySpawnTickBuffer();
+        eventTickBuffer = entitySpawnTask.getEventSpawnTickBuffer();
         TaskRunner.addTask(entitySpawnTask);
     }
 
@@ -42,4 +45,15 @@ public class WaveEntityManager {
         return entitySpawnLocations[entityRandom.nextInt(entitySpawnLocations.length)];
     }
 
+    public int getPointsBuffer() {
+        return pointsBuffer;
+    }
+
+    public int getEntityTickBuffer() {
+        return entityTickBuffer;
+    }
+
+    public int getEventTickBuffer() {
+        return eventTickBuffer;
+    }
 }

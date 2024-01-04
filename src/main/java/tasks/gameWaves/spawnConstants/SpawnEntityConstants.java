@@ -72,9 +72,23 @@ public class SpawnEntityConstants {
         };
     }
 
+    private int findEntitySpawnTickBuffer(int entityIndex) {
+        return switch(entityIndex) {
+            case GREEN_DEATH -> UPS*2;
+            default ->UPS;
+        };
+    }
+
+    private int findEventSpawnTickBuffer(int entityIndex) {
+        return switch(entityIndex) {
+            case GREEN_DEATH -> UPS;
+            default -> UPS;
+        };
+    }
 
     public SpawnEntity findSpawnEntity(int entityIndex) {
-        return new SpawnEntity(findEntityWorth(entityIndex), findEntityCheckTick(entityIndex), findEntity(entityIndex));
+        return new SpawnEntity(findEntityWorth(entityIndex), findEntitySpawnTickBuffer(entityIndex), findEventSpawnTickBuffer(entityIndex),
+                findEntityCheckTick(entityIndex), findEntity(entityIndex));
     }
 
     /*

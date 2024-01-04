@@ -6,14 +6,25 @@ public abstract class SpawnTask extends Task {
 
     private int taskValue;
     private int completionCheckTick;
-    private int spawnTickBuffer;
-    public SpawnTask(int taskValue, int completeCheck) {
+    private int entitySpawnTickBuffer;
+    private int eventSpawnTickBuffer;
+    public SpawnTask(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck) {
         this.taskValue = taskValue;
+        this.entitySpawnTickBuffer = entitySpawnTickBuffer;
+        this.eventSpawnTickBuffer = eventSpawnTickBuffer;
         this.completionCheckTick = completeCheck;
     }
 
     public int getTaskValue() {
         return taskValue;
+    }
+
+    public int getEntitySpawnTickBuffer() {
+        return entitySpawnTickBuffer;
+    }
+
+    public int getEventSpawnTickBuffer() {
+        return eventSpawnTickBuffer;
     }
 
     public void setTaskValue(int taskValue) {
@@ -26,6 +37,7 @@ public abstract class SpawnTask extends Task {
             complete = true;
         }
     }
+
 
     protected abstract boolean checkSpawnPurposeComplete();
 }

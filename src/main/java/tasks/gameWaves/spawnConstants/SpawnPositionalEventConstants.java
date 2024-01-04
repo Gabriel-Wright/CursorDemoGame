@@ -10,6 +10,7 @@ import java.util.Map;
 
 import static levels.LevelConstants.TEST_DEMICHROME;
 import static main.GamePanel.TILE_SIZE;
+import static main.GamePanel.UPS;
 
 ;
 
@@ -49,7 +50,7 @@ public class SpawnPositionalEventConstants {
     }
 
     //
-    public PositionalEventSpawnInfo[] findBoxSpawnLocations(int id) {
+    private PositionalEventSpawnInfo[] findBoxSpawnLocations(int id) {
         return switch (id) {
             case TEST_DEMICHROME -> new PositionalEventSpawnInfo[]{new PositionalEventSpawnInfo(TILE_SIZE * 14, TILE_SIZE * 17, TILE_SIZE * 2, TILE_SIZE * 2),
                     new PositionalEventSpawnInfo(TILE_SIZE * 28, TILE_SIZE * 11, TILE_SIZE * 2, TILE_SIZE * 2),
@@ -59,7 +60,7 @@ public class SpawnPositionalEventConstants {
         };
     }
 
-    public Map<Integer, ArrayList<PositionalEventSpawnInfo>> findDecreaseZoneLocations(int id) {
+    private Map<Integer, ArrayList<PositionalEventSpawnInfo>> findDecreaseZoneLocations(int id) {
         return switch(id) {
             case TEST_DEMICHROME -> {
                 Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
@@ -74,7 +75,7 @@ public class SpawnPositionalEventConstants {
         };
     }
 
-    public int findPositionalEventCompleteCheck(int positionalEventIndex) {
+    private int findPositionalEventCompleteCheck(int positionalEventIndex) {
         return switch(positionalEventIndex){
             case RED_ZONE -> 10;
             default -> 0;
@@ -85,7 +86,7 @@ public class SpawnPositionalEventConstants {
         int eventWorth = findEventWorth(positionalEventIndex);
         int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
         return switch(positionalEventIndex) {
-            case RED_ZONE -> new SpawnPositionEvent(eventWorth, eventCompleteCheck, findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo)) {
+            case RED_ZONE -> new SpawnPositionEvent(eventWorth, eventCompleteCheck, findEntitySpawnTickBuffer(positionalEventIndex), findEventSpawnTickBuffer(positionalEventIndex), findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo)) {
             };
             default -> null;
         };
@@ -105,6 +106,19 @@ public class SpawnPositionalEventConstants {
         };
     }
 
+    public int findEntitySpawnTickBuffer(int eventIndex) {
+        return switch(eventIndex){
+            case RED_ZONE -> UPS/2;
+            default -> 0;
+        };
+    }
+
+    public int findEventSpawnTickBuffer(int eventIndex) {
+        return switch(eventIndex) {
+            case RED_ZONE -> UPS;
+            default ->UPS;
+        };
+    }
 
     /*
     *  LOADERS - load possible event indexes that can spawn in the level, and the map of all positions for those levels
