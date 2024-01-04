@@ -1,9 +1,7 @@
 package gameObjects.events.generic;
 
-import gameObjects.events.generic.Event;
 import levels.Level;
 import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
-import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
 
 import java.awt.*;
 

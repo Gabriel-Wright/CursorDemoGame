@@ -5,7 +5,7 @@ import java.util.*;
 //Stores continuous background tasks that have to be updated e.g. updateBackground
 public class TaskRunner {
     private static List<Task> activeTasks;
-    public static Queue<Task> queuedTasks;
+    private static Queue<Task> queuedTasks;
 
     public TaskRunner() {
         activeTasks = new ArrayList<>();

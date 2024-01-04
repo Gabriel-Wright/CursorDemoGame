@@ -1,8 +1,8 @@
 package tasks.gameWaves.spawnConstants;
 
 import gameObjects.events.generic.DecreaseChargeTrigger;
-import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
-import tasks.gameWaves.spawnTasks.positionalEvents.SpawnDecreaseZones;
+import gameObjects.events.generic.PositionalEvent;
+import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class SpawnPositionalEventConstants {
 
     private int[] getPositionalEventIndexes(int id) {
         return switch(id) {
-            case TEST_DEMICHROME -> new int[] {CURSOR_TIMER, PLAYER_TIMER, RED_ZONE, CHARGE_ZONE};
+            case TEST_DEMICHROME -> new int[] {RED_ZONE};
             default -> new int[]{CHARGE_ZONE};
         };
     }
@@ -86,8 +86,8 @@ public class SpawnPositionalEventConstants {
                 Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
                 ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
                 //First combo of positions
-                tempList1.add(new PositionalEventSpawnInfo(25*TILE_SIZE, 14*TILE_SIZE, (TILE_SIZE*3), (4*TILE_SIZE-3*TILE_SIZE)/4));
-                tempList1.add(new PositionalEventSpawnInfo(25*TILE_SIZE, (56*TILE_SIZE+3*TILE_SIZE)/4,TILE_SIZE*3, 4*TILE_SIZE-3*(TILE_SIZE)/4));
+                tempList1.add(new PositionalEventSpawnInfo(25*TILE_SIZE, 14*TILE_SIZE, (TILE_SIZE*3), TILE_SIZE));
+                tempList1.add(new PositionalEventSpawnInfo(27*TILE_SIZE, 25*TILE_SIZE,TILE_SIZE*3, TILE_SIZE));
                 map.put(1, tempList1);
                 yield map;
             }
@@ -95,36 +95,27 @@ public class SpawnPositionalEventConstants {
         };
     }
 
-    public SpawnPositionalEvent[] getPositionalEventSpawnTasks(int[] positionalEventIndexes) {
-        int numEvents = positionalEventIndexes.length;
-        SpawnPositionalEvent[] positionalEventSpawnTasks = new SpawnPositionalEvent[numEvents];
-        int i, eventIndex;
-        for (i = 0; i < numEvents; i++) {
-            eventIndex = positionalEventIndexes[i];
-            //positionalEventSpawnTasks[i] =
-        }
-        return null;
-    }
-
     public int getPositionalEventCompleteCheck(int positionalEventIndex) {
         return switch(positionalEventIndex){
+            case RED_ZONE -> 10;
             default -> 0;
         };
     }
 
-    public SpawnPositionalEvent getPositionalEvent(int positionalEventIndex) {
+    public SpawnPositionEvent getPositionalEventSpawnTask(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         int eventWorth = getEventWorth(positionalEventIndex);
         int eventCompleteCheck = getPositionalEventCompleteCheck(positionalEventIndex);
         return switch(positionalEventIndex) {
-            case RED_ZONE -> new SpawnDecreaseZones(eventWorth, eventCompleteCheck, new DecreaseChargeTrigger());
+            case RED_ZONE -> new SpawnPositionEvent(eventWorth, eventCompleteCheck, getPositionalEvent(positionalEventIndex, positionalEventSpawnInfo)) {
+            };
             default -> null;
         };
     }
 
-    public SpawnPositionalEvent getPositionalEvent(int positionalEventIndex, ArrayList<PositionalEventSpawnInfo> positionalEventSpawnInfoList) {
-//        return switch(positionalEventIndex){
-//            case RED_ZONE -> return new
-//        }
-        return null;
+    private PositionalEvent getPositionalEvent(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
+        return switch(positionalEventIndex){
+            case RED_ZONE -> new DecreaseChargeTrigger(positionalEventSpawnInfo);
+            default -> throw new IllegalStateException("Unexpected value: " + positionalEventIndex);
+        };
     }
 }

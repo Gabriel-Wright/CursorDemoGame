@@ -5,8 +5,6 @@ import gameObjects.entities.constants.EntityConstants;
 import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import tasks.gameWaves.spawnTasks.SpawnEntity;
-import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
-import tasks.gameWaves.spawnTasks.SpawnTask;
 
 import java.awt.*;
 

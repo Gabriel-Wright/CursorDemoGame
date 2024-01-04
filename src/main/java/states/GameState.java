@@ -10,7 +10,6 @@ import ui.UI;
 import java.awt.*;
 
 import static main.GamePanel.lockCursor;
-import static tasks.TaskRunner.queuedTasks;
 
 public class GameState extends State{
 

@@ -10,14 +10,13 @@ public class SpawnConstants {
     public void loadSpawnConstants(int id) {
         loadSpawnEntityConstants(id);
         loadSpawnPositionalEventConstants(id);
-        loadSpawnobjectConstants(id);
+        loadSpawnObjectConstants(id);
     }
 
     private void loadSpawnEntityConstants(int id) {
         spawnEntityConstants = new SpawnEntityConstants();
         spawnEntityConstants.loadEntitySpawnsPositions(id);
         spawnEntityConstants.loadEntityIndexes(id);
-//
     }
 
     private void loadSpawnPositionalEventConstants(int id) {
@@ -26,7 +25,7 @@ public class SpawnConstants {
         spawnPositionalEventConstants.loadEventSpawnPositions(id);
     }
 
-    private void loadSpawnobjectConstants(int id) {
+    private void loadSpawnObjectConstants(int id) {
 
     }
 

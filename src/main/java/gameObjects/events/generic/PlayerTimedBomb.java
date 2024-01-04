@@ -6,7 +6,7 @@ import levels.Level;
 import states.GameState;
 import tasks.TaskRunner;
 import tasks.backgroundColorTasks.ContinuousBackGroundColorChange;
-import tasks.taskQueue.SpawnTimedBombTask;
+//import tasks.taskQueue.SpawnTimedBombTask;
 
 import java.awt.*;
 
@@ -17,12 +17,11 @@ import static main.GamePanel.UPS;
 public class PlayerTimedBomb extends PositionalEvent{
     private Color[] transitionColors;
     private ContinuousBackGroundColorChange continuousAlarm;
-    private SpawnTimedBombTask spawnTimedBombEvent;
-    public PlayerTimedBomb(Color[] transitionColors, int x, int y, int width, int height, SpawnTimedBombTask spawnTimedBombEvent) {
+//    private SpawnTimedBombTask spawnTimedBombEvent;
+    public PlayerTimedBomb(Color[] transitionColors, int x, int y, int width, int height) {
         super(x,y,width,height);
         triggerBox = new Rectangle(x, y, width, height);
         continuousAlarm = new ContinuousBackGroundColorChange(UPS*6, GameState.getBackgroundColor(), transitionColors);
-        this.spawnTimedBombEvent = spawnTimedBombEvent;
     }
 
     public void initialEffects() {
@@ -32,7 +31,6 @@ public class PlayerTimedBomb extends PositionalEvent{
     public void runEvent(Player player) {
         System.out.println("player event");
         continuousAlarm.setComplete();
-        spawnTimedBombEvent.setComplete();
         GameState.updateGameBackground(Color.BLACK);
         eventRemoveQueue.add(this);
         ;

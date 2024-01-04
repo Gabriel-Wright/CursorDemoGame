@@ -3,6 +3,7 @@ package gameObjects.events.generic;
 import gameObjects.entities.player.Cursor;
 import gameObjects.entities.player.Player;
 import levels.Level;
+import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 
 import java.awt.*;
 
@@ -14,6 +15,9 @@ public class DecreaseChargeTrigger extends PositionalEvent{
         super(startX, startY, width, height);
     }
 
+    public DecreaseChargeTrigger(PositionalEventSpawnInfo positionalEventSpawnInfo) {
+        super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
+    }
     public DecreaseChargeTrigger() {
         super();
     }

@@ -1,19 +1,17 @@
 package tasks.gameWaves;
 
-import gameObjects.entities.enemies.GreenDeath.GreenDeath;
-import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import tasks.Task;
 import tasks.TaskRunner;
 import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.gameWaves.spawnConstants.SpawnConstants;
 import tasks.gameWaves.spawnTasks.SpawnEntity;
-import tasks.gameWaves.spawnTasks.SpawnPositionalEvent;
+import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
 import tasks.gameWaves.spawnTasks.SpawnTask;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
-import static gameObjects.handler.GameObjectHandler.entityQueue;
 import static main.GamePanel.UPS;
 
 public class WaveManager extends Task {
@@ -58,6 +56,7 @@ public class WaveManager extends Task {
         spawnConstants = new SpawnConstants();
         spawnConstants.loadSpawnConstants(id);
         loadEntitySpawnInfo();
+        loadEventSpawnInfo();
     }
 
     private void loadEntitySpawnInfo() {
@@ -109,7 +108,24 @@ public class WaveManager extends Task {
     private void spawnNewEvent() {
         int eventIndex = getRandomEventIndex();
         ArrayList<PositionalEventSpawnInfo> eventSpawns = getRandomEventSpawnPositions(eventIndex);
+        ArrayList<SpawnPositionEvent> newSpawnEvents = loadNewSpawnEvents(eventIndex, eventSpawns);
+        addNewEventsToTaskRunner(newSpawnEvents);
+        tick = 0;
+    }
 
+    private void addNewEventsToTaskRunner(ArrayList<SpawnPositionEvent> newSpawnEvents) {
+        for(SpawnPositionEvent newSpawnEvent: newSpawnEvents) {
+            TaskRunner.addTask(newSpawnEvent);
+            newSpawnEvent.initialiseEventSpawn();
+        }
+    }
+
+    private ArrayList<SpawnPositionEvent> loadNewSpawnEvents(int eventIndex, ArrayList<PositionalEventSpawnInfo> eventSpawnPositions) {
+        ArrayList<SpawnPositionEvent> newSpawnPositionEvents = new ArrayList<>();
+        for(PositionalEventSpawnInfo positionalEventSpawnInfo: eventSpawnPositions) {
+            newSpawnPositionEvents.add(spawnConstants.getSpawnPositionalEventConstants().getPositionalEventSpawnTask(eventIndex,positionalEventSpawnInfo));
+        }
+        return newSpawnPositionEvents;
     }
 
     private ArrayList<PositionalEventSpawnInfo> getRandomEventSpawnPositions(int eventIndex) {
@@ -120,10 +136,12 @@ public class WaveManager extends Task {
 
     private ArrayList<PositionalEventSpawnInfo> getRandomMapSpawnList(Map<Integer, ArrayList<PositionalEventSpawnInfo>> positionalEventSpawnInfoMap) {
         //Should probably leave as set or unsure?
-        ArrayList<Integer> spawnPositionKeys = (ArrayList<Integer>) positionalEventSpawnInfoMap.keySet();
+        Set<Integer> spawnPositionKeys = positionalEventSpawnInfoMap.keySet();
         int numSpawnCombinations = spawnPositionKeys.size();
         //randomly choose an index of the map
-        int spawnPositionsIndex = spawnPositionKeys.get(eventRandom.nextInt(numSpawnCombinations));
+        // Convert the set to a list for random access
+        List<Integer> spawnPositionList = new ArrayList<>(spawnPositionKeys);
+        int spawnPositionsIndex = spawnPositionList.get(eventRandom.nextInt(numSpawnCombinations));
         return positionalEventSpawnInfoMap.get(spawnPositionsIndex);
     }
 
