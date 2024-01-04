@@ -5,7 +5,7 @@ import gameObjects.entities.player.Player;
 import levels.Level;
 import states.GameState;
 import tasks.TaskRunner;
-import tasks.backgroundColorTasks.ContinuousBackGroundColorChange;
+import tasks.visualTasks.backgroundColorTasks.ContinuousBackGroundColorChange;
 //import tasks.taskQueue.SpawnTimedBombTask;
 
 import java.awt.*;

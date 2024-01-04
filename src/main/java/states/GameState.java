@@ -4,7 +4,7 @@ import levels.LevelConstants;
 import levels.LevelManager;
 import main.GamePanel;
 import tasks.TaskRunner;
-import tasks.gameWaves.WaveManager;
+import tasks.gameWaves.waveManagement.WaveManager;
 import ui.UI;
 
 import java.awt.*;
@@ -50,8 +50,8 @@ public class GameState extends State{
     private void loadWaveManager(int waveRound) {
         //Will be 0 - as the game has just been
         waveManager = new WaveManager(waveRound, gameSeed);
-        waveManager.loadSpawnConstants(level);
         waveManager.loadRandomGenerators();
+        waveManager.loadSpawnConstants(level);
         TaskRunner.addTask(waveManager);
     }
 

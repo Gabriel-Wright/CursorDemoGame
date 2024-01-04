@@ -24,26 +24,12 @@ public class SpawnPositionalEventConstants {
     private int[] eventIndexes;
     private Map<Integer,Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
 
-    public void loadEventIndexes(int id) {
-        eventIndexes = getPositionalEventIndexes(id);
-    }
+    /*
+    * FINDERS - find all data stored for spawn events that are constants e.g. the corresponding events, what events are assigned to what level
+    * the position of the events within each level
+     */
 
-    public int[] getEventIndexes() {
-        return eventIndexes;
-    }
-
-    private int[] getPositionalEventIndexes(int id) {
-        return switch(id) {
-            case TEST_DEMICHROME -> new int[] {RED_ZONE};
-            default -> new int[]{CHARGE_ZONE};
-        };
-    }
-
-    public Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> getEventSpawnPositions() {
-        return eventSpawnPositions;
-    }
-
-    public int getEventWorth(int entityIndex) {
+    public int findEventWorth(int entityIndex) {
         return switch(entityIndex) {
             case CURSOR_TIMER -> 25;
             case PLAYER_TIMER -> 30;
@@ -53,24 +39,17 @@ public class SpawnPositionalEventConstants {
         };
     }
 
-    //Map<Integer,Map<Integer, PositionalEventSpawnInfo>
 
-    //Map which is indexed by the event Index - then refers to all possible spawn positions
-    public void loadEventSpawnPositions(int id) {
-        eventSpawnPositions = new HashMap<>();
-        for (int eventIndex : eventIndexes) {
-            eventSpawnPositions.put(eventIndex,getEventSpawnPostionMaps(eventIndex, id));
-        }
-    }
-
-    private Map<Integer,ArrayList<PositionalEventSpawnInfo>> getEventSpawnPostionMaps(int index, int id) {
+    //Returns the inner map that contains all possible spawn combinations for a given event
+    private Map<Integer,ArrayList<PositionalEventSpawnInfo>> findEventSpawnPostionMaps(int index, int id) {
         return switch(index) {
-            case RED_ZONE -> getDecreaseZoneLocations(id);
+            case RED_ZONE -> findDecreaseZoneLocations(id);
             default -> throw new IllegalStateException("Unexpected value: " + index);
         };
     }
 
-    public PositionalEventSpawnInfo[] getBoxSpawnLocations(int id) {
+    //
+    public PositionalEventSpawnInfo[] findBoxSpawnLocations(int id) {
         return switch (id) {
             case TEST_DEMICHROME -> new PositionalEventSpawnInfo[]{new PositionalEventSpawnInfo(TILE_SIZE * 14, TILE_SIZE * 17, TILE_SIZE * 2, TILE_SIZE * 2),
                     new PositionalEventSpawnInfo(TILE_SIZE * 28, TILE_SIZE * 11, TILE_SIZE * 2, TILE_SIZE * 2),
@@ -80,7 +59,7 @@ public class SpawnPositionalEventConstants {
         };
     }
 
-    public Map<Integer, ArrayList<PositionalEventSpawnInfo>> getDecreaseZoneLocations(int id) {
+    public Map<Integer, ArrayList<PositionalEventSpawnInfo>> findDecreaseZoneLocations(int id) {
         return switch(id) {
             case TEST_DEMICHROME -> {
                 Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
@@ -95,27 +74,66 @@ public class SpawnPositionalEventConstants {
         };
     }
 
-    public int getPositionalEventCompleteCheck(int positionalEventIndex) {
+    public int findPositionalEventCompleteCheck(int positionalEventIndex) {
         return switch(positionalEventIndex){
             case RED_ZONE -> 10;
             default -> 0;
         };
     }
 
-    public SpawnPositionEvent getPositionalEventSpawnTask(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
-        int eventWorth = getEventWorth(positionalEventIndex);
-        int eventCompleteCheck = getPositionalEventCompleteCheck(positionalEventIndex);
+    public SpawnPositionEvent findPositionalEventSpawnTask(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
+        int eventWorth = findEventWorth(positionalEventIndex);
+        int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
         return switch(positionalEventIndex) {
-            case RED_ZONE -> new SpawnPositionEvent(eventWorth, eventCompleteCheck, getPositionalEvent(positionalEventIndex, positionalEventSpawnInfo)) {
+            case RED_ZONE -> new SpawnPositionEvent(eventWorth, eventCompleteCheck, findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo)) {
             };
             default -> null;
         };
     }
 
-    private PositionalEvent getPositionalEvent(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
+    private PositionalEvent findPositionalEvent(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         return switch(positionalEventIndex){
             case RED_ZONE -> new DecreaseChargeTrigger(positionalEventSpawnInfo);
             default -> throw new IllegalStateException("Unexpected value: " + positionalEventIndex);
         };
     }
+
+    private int[] findPositionalEventIndexes(int id) {
+        return switch(id) {
+            case TEST_DEMICHROME -> new int[] {RED_ZONE};
+            default -> new int[]{CHARGE_ZONE};
+        };
+    }
+
+
+    /*
+    *  LOADERS - load possible event indexes that can spawn in the level, and the map of all positions for those levels
+     */
+
+    //Map<Integer,Map<Integer, PositionalEventSpawnInfo>
+
+    //Map which is indexed by the event Index - then refers to all possible spawn positions
+    public void loadEventSpawnPositions(int id) {
+        eventSpawnPositions = new HashMap<>();
+        for (int eventIndex : eventIndexes) {
+            eventSpawnPositions.put(eventIndex, findEventSpawnPostionMaps(eventIndex, id));
+        }
+    }
+
+    public void loadEventIndexes(int id) {
+        eventIndexes = findPositionalEventIndexes(id);
+    }
+
+    /*
+    * GETTERS - Return data stored about events that is saved within this constant class
+     */
+    public int[] getEventIndexes() {
+        return eventIndexes;
+    }
+
+
+    public Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> getEventSpawnPositions() {
+        return eventSpawnPositions;
+    }
+
 }

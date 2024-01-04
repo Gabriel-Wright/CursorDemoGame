@@ -23,78 +23,75 @@ public class SpawnEntityConstants {
     private int[] entityIndexes;
     private Point[] loadedEntitySpawnPositions;
 
-    public int[] getSavedEntityIndexes(){
-        return entityIndexes;
-    }
+    /*
+    * FINDERS - find all data stored for entities that are constants e.g. spawn positions, assigned to levels etc.
+     */
 
     //Provides you with the entities assigned to that level
-    public int[] getLevelEntityIndexes(int id) {
+    public int[] findLevelEntityIndexes(int id) {
         return switch(id) {
             case TEST_DEMICHROME -> new int[]{GREEN_DEATH};
             default -> new int[]{GREEN_DEATH};
         };
     }
 
+
     //For now we will have entities spawn in the same positions I think
-    public Point[] getEntitySpawnLocations(int id) {
+    public Point[] findEntitySpawnLocations(int id) {
         return switch(id) {
             case TEST_DEMICHROME -> new Point[]{new Point(2*TILE_SIZE, 15*TILE_SIZE), new Point(31*TILE_SIZE, 3*TILE_SIZE), new Point(25*TILE_SIZE,29*TILE_SIZE)};
             default -> new Point[]{new Point(0,0)};
         };
     }
 
-    public void loadEntitySpawnsPositions(int id) {
-        loadedEntitySpawnPositions = getEntitySpawnLocations(id);
-    }
-
-    public void loadEntityIndexes(int id){
-        entityIndexes = getLevelEntityIndexes(id);
-    }
-
-    private EntityConstants getEntityConstants(int entityIndex) {
+    private EntityConstants findEntityConstants(int entityIndex) {
         return switch(entityIndex) {
             case GREEN_DEATH -> new GreenDeathConstants();
             default -> new GreenDeathConstants();
         };
     }
 
-    private Entity getEntity(int entityIndex) {
+    private Entity findEntity(int entityIndex) {
         return switch(entityIndex) {
-            case GREEN_DEATH -> new GreenDeath(getEntityConstants(entityIndex));
-            default ->new GreenDeath(getEntityConstants(GREEN_DEATH));
+            case GREEN_DEATH -> new GreenDeath(findEntityConstants(entityIndex));
+            default ->new GreenDeath(findEntityConstants(GREEN_DEATH));
         };
     }
 
-    private int getEntityWorth(int entityIndex) {
+    private int findEntityWorth(int entityIndex) {
         return switch(entityIndex) {
             case GREEN_DEATH -> 10;
             default ->10;
         };
     }
 
-    private int getEntityCheckTick(int entityIndex) {
+    private int findEntityCheckTick(int entityIndex) {
         return switch(entityIndex) {
             case GREEN_DEATH -> UPS*5;
             default -> UPS;
         };
     }
 
-    //For each level get the possible array of entity spawn tasks (minus their spawn positions, or with spawn positions) ?
-    public void loadEntitySpawnTasks(int id) {
-            int[] levelEntityIndexes = getLevelEntityIndexes(id);
-            int numEntities = levelEntityIndexes.length;
-            SpawnEntity[] entitySpawnTasks = new SpawnEntity[numEntities];
-            int i, entityIndex;
-            for(i=0; i<numEntities; i++) {
-                entityIndex = levelEntityIndexes[i];
-                entitySpawnTasks[i] = new SpawnEntity(getEntityWorth(entityIndex), getEntityCheckTick(entityIndex), getEntity(entityIndex));
-            }
-            loadedEntitySpawns = entitySpawnTasks;
+
+    public SpawnEntity findSpawnEntity(int entityIndex) {
+        return new SpawnEntity(findEntityWorth(entityIndex), findEntityCheckTick(entityIndex), findEntity(entityIndex));
     }
 
-    public SpawnEntity getSpawnEntity(int entityIndex) {
-        return new SpawnEntity(getEntityWorth(entityIndex), getEntityCheckTick(entityIndex), getEntity(entityIndex));
+    /*
+    * LOADERS - load entity spawn position and indexes based on the id of the level
+     */
+
+    public void loadEntitySpawnsPositions(int id) {
+        loadedEntitySpawnPositions = findEntitySpawnLocations(id);
     }
+
+    public void loadEntityIndexes(int id){
+        entityIndexes = findLevelEntityIndexes(id);
+    }
+
+    /*
+    * GETTERS - Return data stored about the entities that is saved to the constants class
+     */
 
     public SpawnEntity[] getLoadedEntitySpawns() {
         return loadedEntitySpawns;
@@ -103,4 +100,10 @@ public class SpawnEntityConstants {
     public Point[] getLoadedEntitySpawnPositions() {
         return loadedEntitySpawnPositions;
     }
+
+    public int[] getSavedEntityIndexes(){
+        return entityIndexes;
+    }
+
+
 }

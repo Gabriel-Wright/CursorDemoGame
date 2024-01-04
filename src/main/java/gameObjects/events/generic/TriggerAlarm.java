@@ -4,7 +4,7 @@ import gameObjects.entities.player.Cursor;
 import gameObjects.entities.player.Player;
 import states.GameState;
 import tasks.TaskRunner;
-import tasks.backgroundColorTasks.ContinuousBackGroundColorChange;
+import tasks.visualTasks.backgroundColorTasks.ContinuousBackGroundColorChange;
 
 import java.awt.*;
 

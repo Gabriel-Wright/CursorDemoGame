@@ -1,4 +1,4 @@
-package tasks.backgroundColorTasks;
+package tasks.visualTasks.backgroundColorTasks;
 
 import main.GamePanel;
 import states.GameState;

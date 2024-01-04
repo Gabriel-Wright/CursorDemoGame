@@ -1,4 +1,4 @@
-package tasks.backgroundColorTasks;
+package tasks.visualTasks.backgroundColorTasks;
 
 import states.GameState;
 import tasks.Task;
