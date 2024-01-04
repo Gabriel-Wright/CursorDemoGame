@@ -23,6 +23,6 @@ public class SpawnPositionEvent extends SpawnTask{
 
     @Override
     public void runTask() {
-        System.out.println("Event task triggered");
+//        System.out.println("Event task triggered");
     }
 }

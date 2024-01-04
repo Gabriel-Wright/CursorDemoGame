@@ -7,33 +7,27 @@ import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
 
 import java.util.*;
 
-public class WaveEventManager {
+public class WaveEventManager extends WaveSpawnManager{
 
     private SpawnPositionalEventConstants spawnPositionalEventConstants;
-    private Random eventRandom;
     private int[] eventIndexes;
     private Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
 
-    private int pointsBuffer;
-    private int eventTickBuffer;
-    private int entityTickBuffer;
-
-
     public WaveEventManager(SpawnPositionalEventConstants spawnPositionalEventConstants, Random eventRandom) {
+        super(eventRandom);
         this.spawnPositionalEventConstants =spawnPositionalEventConstants;
-        this.eventRandom = eventRandom;
         eventIndexes = spawnPositionalEventConstants.getEventIndexes();
         eventSpawnPositions = spawnPositionalEventConstants.getEventSpawnPositions();
     }
 
-    public void spawnNewEvent() {
+    public void spawnNew() {
         int eventIndex = getRandomEventIndex();
         ArrayList<PositionalEventSpawnInfo> eventSpawns = getRandomEventSpawnPositions(eventIndex);
         ArrayList<SpawnPositionEvent> newSpawnEvents = loadNewSpawnEvents(eventIndex, eventSpawns);
         addNewEventsToTaskRunner(newSpawnEvents);
-        pointsBuffer = spawnPositionalEventConstants.findEventWorth(eventIndex);
-        entityTickBuffer = spawnPositionalEventConstants.findEntitySpawnTickBuffer(eventIndex);
-        eventTickBuffer = spawnPositionalEventConstants.findEventSpawnTickBuffer(eventIndex);
+        setPointsBuffer(spawnPositionalEventConstants.findEventWorth(eventIndex));
+        setEntityTickBuffer(spawnPositionalEventConstants.findEntitySpawnTickBuffer(eventIndex));
+        setEventTickBuffer(spawnPositionalEventConstants.findEventSpawnTickBuffer(eventIndex));
     }
 
     private void addNewEventsToTaskRunner(ArrayList<SpawnPositionEvent> newSpawnEvents) {
@@ -64,24 +58,11 @@ public class WaveEventManager {
         //randomly choose an index of the map
         // Convert the set to a list for random access
         List<Integer> spawnPositionList = new ArrayList<>(spawnPositionKeys);
-        int spawnPositionsIndex = spawnPositionList.get(eventRandom.nextInt(numSpawnCombinations));
+        int spawnPositionsIndex = spawnPositionList.get(random.nextInt(numSpawnCombinations));
         return positionalEventSpawnInfoMap.get(spawnPositionsIndex);
     }
 
     private int getRandomEventIndex() {
-        return eventIndexes[eventRandom.nextInt(eventIndexes.length)];
+        return eventIndexes[random.nextInt(eventIndexes.length)];
     }
-
-    public int getPointsBuffer() {
-        return pointsBuffer;
-    }
-
-    public int getEntityTickBuffer() {
-        return entityTickBuffer;
-    }
-
-    public int getEventTickBuffer() {
-        return eventTickBuffer;
-    }
-
 }

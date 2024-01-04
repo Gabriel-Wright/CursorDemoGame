@@ -14,7 +14,7 @@ import static main.GamePanel.UPS;
 
 ;
 
-public class SpawnPositionalEventConstants {
+public class SpawnPositionalEventConstants{
 
     //Event flags
     public final static int CURSOR_TIMER = 0;

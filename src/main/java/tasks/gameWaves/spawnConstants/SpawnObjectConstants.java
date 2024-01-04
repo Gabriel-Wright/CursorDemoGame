@@ -1,4 +1,4 @@
 package tasks.gameWaves.spawnConstants;
 
-public class SpawnObjectConstants {
+public class SpawnObjectConstants{
 }

@@ -12,7 +12,7 @@ import static levels.LevelConstants.TEST_DEMICHROME;
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
 
-public class SpawnEntityConstants {
+public class SpawnEntityConstants{
 
 //    private final int id;
 
