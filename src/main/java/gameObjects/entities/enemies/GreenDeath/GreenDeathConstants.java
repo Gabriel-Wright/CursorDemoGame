@@ -5,8 +5,7 @@ import gameObjects.entities.constants.EntityConstants;
 import gameObjects.events.entity.EntityEvent;
 import gameObjects.events.entity.GreenDeathEvents;
 
-import static main.GamePanel.TILE_SIZE;
-import static main.GamePanel.UPS;
+import static main.GamePanel.*;
 
 
 public class GreenDeathConstants extends EntityConstants {
@@ -64,7 +63,7 @@ public class GreenDeathConstants extends EntityConstants {
 
     @Override
     public int getAnimationSpeed() {
-        return UPS/2;
+        return FPS/2;
     }
 
     @Override

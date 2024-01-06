@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import static main.GamePanel.TILE_SIZE;
 import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class GameObjectGrid {
@@ -66,15 +67,17 @@ public class GameObjectGrid {
 
     private void addTriggerEventsToCells(List<PositionalEvent> triggerEvents) {
         for(PositionalEvent triggerEvent: triggerEvents) {
-            int startCol = triggerEvent.getStartCol();
-            int startRow = triggerEvent.getStartRow();
-            int numCols = triggerEvent.getNumCols();
-            int numRows = triggerEvent.getNumRows();
-            for(int i =0; i<numCols; i++) {
-                for(int j=0; j<numRows; j++) {
-                    addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
-                }
-            }
+//            int startCol = triggerEvent.getStartCol();
+//            int startRow = triggerEvent.getStartRow();
+//            int numCols = triggerEvent.getNumCols();
+//            int numRows = triggerEvent.getNumRows();
+//            for(int i =0; i<numCols; i++) {
+//                for(int j=0; j<numRows; j++) {
+//                    addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
+//                }
+//            }
+//        }
+            addTriggerEventToCell(triggerEvent);
         }
     }
 
@@ -93,13 +96,22 @@ public class GameObjectGrid {
     }
 
     public void addTriggerEventToCell(PositionalEvent triggerEvent) {
-        int startCol = triggerEvent.getStartCol();
-        int startRow = triggerEvent.getStartRow();
-        int numCols = triggerEvent.getNumCols();
-        int numRows = triggerEvent.getNumRows();
-        for(int i =0; i<numCols; i++) {
-            for(int j=0; j<numRows; j++) {
-                addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
+//        int startCol = triggerEvent.getStartCol();
+//        int startRow = triggerEvent.getStartRow();
+//        int numCols = triggerEvent.getNumCols();
+//        int numRows = triggerEvent.getNumRows();
+//        for(int i =0; i<numCols; i++) {
+//            for(int j=0; j<numRows; j++) {
+//                addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
+//            }
+//        }
+        int startTileX = triggerEvent.getTriggerBox().x / TILE_SIZE;
+        int startTileY = triggerEvent.getTriggerBox().y / TILE_SIZE;
+        int endTileX = triggerEvent.getTriggerBox().x + triggerEvent.getTriggerBox().width - 1;
+        int endTileY = triggerEvent.getTriggerBox().y + triggerEvent.getTriggerBox().height - 1;
+        for(int tileX = startTileX; tileX <= endTileX; tileX++) {
+            for(int tileY = startTileY; tileY <= endTileY; tileY++) {
+                addTriggerEventToCell(tileX, tileY, triggerEvent);
             }
         }
     }

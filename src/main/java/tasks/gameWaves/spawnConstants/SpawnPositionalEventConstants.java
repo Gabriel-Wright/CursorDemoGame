@@ -1,5 +1,6 @@
 package tasks.gameWaves.spawnConstants;
 
+import gameObjects.events.generic.ChargingPort;
 import gameObjects.events.generic.DecreaseChargeTrigger;
 import gameObjects.events.generic.PositionalEvent;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
@@ -45,6 +46,7 @@ public class SpawnPositionalEventConstants{
     private Map<Integer,ArrayList<PositionalEventSpawnInfo>> findEventSpawnPostionMaps(int index, int id) {
         return switch(index) {
             case RED_ZONE -> findDecreaseZoneLocations(id);
+            case CHARGE_ZONE -> findIncreaseZoneLocations(id);
             default -> throw new IllegalStateException("Unexpected value: " + index);
         };
     }
@@ -66,16 +68,37 @@ public class SpawnPositionalEventConstants{
                 Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
                 ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
                 //First combo of positions
-                tempList1.add(new PositionalEventSpawnInfo(25*TILE_SIZE, 14*TILE_SIZE, (TILE_SIZE*3), TILE_SIZE));
-                tempList1.add(new PositionalEventSpawnInfo(27*TILE_SIZE, 25*TILE_SIZE,TILE_SIZE*3, TILE_SIZE));
+                tempList1.add(new PositionalEventSpawnInfo(6*TILE_SIZE+TILE_SIZE/2, 8*TILE_SIZE+TILE_SIZE/2,3*TILE_SIZE/4, TILE_SIZE*3));
+                tempList1.add(new PositionalEventSpawnInfo(8*TILE_SIZE+3*TILE_SIZE/4, 8*TILE_SIZE+TILE_SIZE/2, 3*TILE_SIZE/4, TILE_SIZE*3));
                 map.put(1, tempList1);
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                tempList2.add(new PositionalEventSpawnInfo(31*TILE_SIZE,11*TILE_SIZE + 4*TILE_SIZE/5, 10*TILE_SIZE,2*TILE_SIZE/5));
+                tempList2.add(new PositionalEventSpawnInfo(32*TILE_SIZE, 10*TILE_SIZE + 4*TILE_SIZE/5, 4*TILE_SIZE, 2*TILE_SIZE/5));
+                tempList2.add(new PositionalEventSpawnInfo(37*TILE_SIZE, 10*TILE_SIZE + 4*TILE_SIZE/5, TILE_SIZE*5, 2*TILE_SIZE/5));
+                map.put(2,tempList2);
                 yield map;
             }
             default -> throw new IllegalStateException("Unexpected value: " + id);
         };
     }
 
-    private int findPositionalEventCompleteCheck(int positionalEventIndex) {
+    private Map<Integer, ArrayList<PositionalEventSpawnInfo>> findIncreaseZoneLocations(int id) {
+        return switch(id) {
+            case TEST_DEMICHROME -> {
+                Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
+                ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
+                tempList1.add(new PositionalEventSpawnInfo(37*TILE_SIZE, 18*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE));
+                map.put(1, tempList1);
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                tempList2.add(new PositionalEventSpawnInfo(14*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE));
+                map.put(2, tempList2);
+                yield map;
+            }
+            default -> throw new IllegalStateException("Unexpected value:" + id);
+        };
+    }
+
+        private int findPositionalEventCompleteCheck(int positionalEventIndex) {
         return switch(positionalEventIndex){
             case RED_ZONE -> 10;
             default -> 0;
@@ -85,37 +108,34 @@ public class SpawnPositionalEventConstants{
     public SpawnPositionEvent findPositionalEventSpawnTask(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         int eventWorth = findEventWorth(positionalEventIndex);
         int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
-        return switch(positionalEventIndex) {
-            case RED_ZONE -> new SpawnPositionEvent(eventWorth, eventCompleteCheck, findEntitySpawnTickBuffer(positionalEventIndex), findEventSpawnTickBuffer(positionalEventIndex), findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo)) {
-            };
-            default -> null;
-        };
+        return new SpawnPositionEvent(eventWorth, eventCompleteCheck, findEntitySpawnTickBuffer(positionalEventIndex), findEventSpawnTickBuffer(positionalEventIndex), findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo));
     }
 
     private PositionalEvent findPositionalEvent(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         return switch(positionalEventIndex){
             case RED_ZONE -> new DecreaseChargeTrigger(positionalEventSpawnInfo);
+            case CHARGE_ZONE -> new ChargingPort(positionalEventSpawnInfo);
             default -> throw new IllegalStateException("Unexpected value: " + positionalEventIndex);
         };
     }
 
     private int[] findPositionalEventIndexes(int id) {
         return switch(id) {
-            case TEST_DEMICHROME -> new int[] {RED_ZONE};
+            case TEST_DEMICHROME -> new int[] {RED_ZONE, CHARGE_ZONE};
             default -> new int[]{CHARGE_ZONE};
         };
     }
 
     public int findEntitySpawnTickBuffer(int eventIndex) {
         return switch(eventIndex){
-            case RED_ZONE -> UPS/2;
+            case RED_ZONE, CHARGE_ZONE -> UPS/2;
             default -> 0;
         };
     }
 
     public int findEventSpawnTickBuffer(int eventIndex) {
         return switch(eventIndex) {
-            case RED_ZONE -> UPS;
+            case RED_ZONE, CHARGE_ZONE -> UPS;
             default ->UPS;
         };
     }

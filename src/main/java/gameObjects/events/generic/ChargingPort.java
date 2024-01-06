@@ -3,6 +3,7 @@ package gameObjects.events.generic;
 import gameObjects.entities.player.Cursor;
 import gameObjects.entities.player.Player;
 import levels.Level;
+import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 
 import java.awt.*;
 
@@ -12,6 +13,10 @@ import static main.GamePanel.TILE_SIZE;
 public class ChargingPort extends PositionalEvent{
     public ChargingPort(int startCol, int startRow, int numCols, int numRows) {
         super(startCol, startRow, numCols, numRows);
+    }
+
+    public ChargingPort(PositionalEventSpawnInfo positionalEventSpawnInfo) {
+        super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
     }
 
     @Override
