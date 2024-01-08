@@ -5,6 +5,7 @@ import gameObjects.events.generic.PositionalEvent;
 import java.util.ArrayList;
 
 import static gameObjects.handler.GameObjectHandler.eventQueue;
+import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 
 public class SpawnPositionEvents extends SpawnTask{
     private ArrayList<PositionalEvent> positionalEvents;
@@ -25,6 +26,13 @@ public class SpawnPositionEvents extends SpawnTask{
     @Override
     public void runTask() {
 //        System.out.println("Event task triggered");
+    }
+
+    public void reset() {
+        setComplete();
+        for(PositionalEvent positionalEvent: positionalEvents) {
+            eventRemoveQueue.add(positionalEvent);
+        }
     }
 
 }

@@ -291,16 +291,17 @@ public class GameObjectGrid {
     }
 
     public void removeEventFromCells(PositionalEvent positionalEvent) {
-            int startCol = positionalEvent.getStartCol();
-            int startRow = positionalEvent.getStartRow();
-            int numCols = positionalEvent.getNumCols();
-            int numRows = positionalEvent.getNumRows();
-            for(int i =0; i<numCols; i++) {
-                for(int j=0; j<numRows; j++) {
-                    getCell(startCol+i, startRow+j).removePositionalEvent(positionalEvent);
-                }
+        int startTileX = positionalEvent.getTriggerBox().x / TILE_SIZE;
+        int startTileY = positionalEvent.getTriggerBox().y / TILE_SIZE;
+        int endTileX = positionalEvent.getTriggerBox().x + positionalEvent.getTriggerBox().width - 1;
+        int endTileY = positionalEvent.getTriggerBox().y + positionalEvent.getTriggerBox().height - 1;
+        for(int tileX = startTileX; tileX <= endTileX; tileX++) {
+            for(int tileY = startTileY; tileY <= endTileY; tileY++) {
+                getCell(tileX, tileY).removePositionalEvent(positionalEvent);
             }
+        }
     }
+
 
 
     public void removeEntityFromCells(Entity entity) {

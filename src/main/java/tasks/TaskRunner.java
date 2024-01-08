@@ -31,7 +31,7 @@ public class TaskRunner {
             task.updateTask();
             if (task.complete) {
                 // If task has been completed - remove it
-                taskIterator.remove();
+               taskIterator.remove();
             }
         }
 

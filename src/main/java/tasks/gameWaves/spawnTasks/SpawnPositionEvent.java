@@ -26,4 +26,8 @@ public class SpawnPositionEvent extends SpawnTask{
     public void runTask() {
 //        System.out.println("Event task triggered");
     }
+
+    public void resetEvents() {
+
+    }
 }
