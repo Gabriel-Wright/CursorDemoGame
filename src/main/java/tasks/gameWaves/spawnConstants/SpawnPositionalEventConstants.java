@@ -4,10 +4,12 @@ import gameObjects.events.generic.ChargingPort;
 import gameObjects.events.generic.DecreaseChargeTrigger;
 import gameObjects.events.generic.PositionalEvent;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
+import tasks.gameWaves.spawnTasks.SpawnPositionEvents;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static levels.LevelConstants.TEST_DEMICHROME;
 import static main.GamePanel.TILE_SIZE;
@@ -24,12 +26,25 @@ public class SpawnPositionalEventConstants{
     public final static int CHARGE_ZONE = 3;
 
     private int[] eventIndexes;
-    private Map<Integer,Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
-
+//    private Map<Integer,Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositionsMap;
+    //Outer index refers to the event indexes i.e. event flags
+    //Inner index is just the different references for where PositionalEvents can spawn
+//    private Map<Integer,Map<Integer, ArrayList<PositionalEvent>>> positionalEventMap;
+    private Map<Integer, ArrayList<SpawnPositionEvents>> spawnEventsMap;
+    private Map<Integer, Map<Integer, SpawnPositionEvents>> spawnPositionsEventsMap;
     /*
     * FINDERS - find all data stored for spawn events that are constants e.g. the corresponding events, what events are assigned to what level
     * the position of the events within each level
      */
+
+    //Returns the inner map that contains all possible spawn combinations for a given event
+    private Map<Integer,ArrayList<PositionalEventSpawnInfo>> findEventSpawnPostionMaps(int index, int id) {
+        return switch(index) {
+            case RED_ZONE -> findDecreaseZoneLocations(id);
+            case CHARGE_ZONE -> findIncreaseZoneLocations(id);
+            default -> throw new IllegalStateException("Unexpected value: " + index);
+        };
+    }
 
     public int findEventWorth(int entityIndex) {
         return switch(entityIndex) {
@@ -42,14 +57,6 @@ public class SpawnPositionalEventConstants{
     }
 
 
-    //Returns the inner map that contains all possible spawn combinations for a given event
-    private Map<Integer,ArrayList<PositionalEventSpawnInfo>> findEventSpawnPostionMaps(int index, int id) {
-        return switch(index) {
-            case RED_ZONE -> findDecreaseZoneLocations(id);
-            case CHARGE_ZONE -> findIncreaseZoneLocations(id);
-            default -> throw new IllegalStateException("Unexpected value: " + index);
-        };
-    }
 
     //
     private PositionalEventSpawnInfo[] findBoxSpawnLocations(int id) {
@@ -100,15 +107,51 @@ public class SpawnPositionalEventConstants{
 
         private int findPositionalEventCompleteCheck(int positionalEventIndex) {
         return switch(positionalEventIndex){
-            case RED_ZONE -> 10;
+            case RED_ZONE, CHARGE_ZONE -> 10;
             default -> 0;
         };
     }
+
+    //Finds the full positionalEventMap - used
+    private Map<Integer, Map<Integer, ArrayList<PositionalEvent>>> findPositionalEventMap(int id) {
+        Map<Integer, Map<Integer, ArrayList<PositionalEvent>>> positionalEventMap = new HashMap<>();
+        for(int eventIndex: eventIndexes) {
+            positionalEventMap.put(eventIndex, findPositionalEvents(eventIndex, id));
+        }
+        return positionalEventMap;
+    }
+
+    //Finds positional events per eventIndex for the inner of the positionalEventMap
+    private Map<Integer,ArrayList<PositionalEvent>> findPositionalEvents(int eventIndex, int id) {
+        Map<Integer, ArrayList<PositionalEventSpawnInfo>> positionalSpawnInfoMap = findEventSpawnPostionMaps(eventIndex, id);
+        Set<Integer> outerKeySet = positionalSpawnInfoMap.keySet();
+        Map<Integer, ArrayList<PositionalEvent>> positionalEventsInnerMap = new HashMap<>();
+        for (int key: outerKeySet) {
+            ArrayList<PositionalEvent> innerMapPositionalEvents = new ArrayList<>();
+            ArrayList<PositionalEventSpawnInfo> spawnInfoList = positionalSpawnInfoMap.get(key);
+            for (PositionalEventSpawnInfo spawnInfo : spawnInfoList) {
+                PositionalEvent tempPositionalEvent = findPositionalEvent(eventIndex, spawnInfo);
+                innerMapPositionalEvents.add(tempPositionalEvent);
+            }
+            positionalEventsInnerMap.put(key, innerMapPositionalEvents);
+        }
+        return positionalEventsInnerMap;
+    }
+
 
     public SpawnPositionEvent findPositionalEventSpawnTask(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         int eventWorth = findEventWorth(positionalEventIndex);
         int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
         return new SpawnPositionEvent(eventWorth, eventCompleteCheck, findEntitySpawnTickBuffer(positionalEventIndex), findEventSpawnTickBuffer(positionalEventIndex), findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo));
+    }
+
+    public SpawnPositionEvents returnPositionalSpawnEvents(int positionalEventIndex, ArrayList<PositionalEvent> positionalEvents) {
+        int eventWorth = findEventWorth(positionalEventIndex);
+        int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
+        int entitySpawnBuffer = findEntitySpawnTickBuffer(positionalEventIndex);
+        int eventSpawnBuffer = findEventSpawnTickBuffer(positionalEventIndex);
+
+        return new SpawnPositionEvents(eventWorth, entitySpawnBuffer, eventSpawnBuffer, eventCompleteCheck, positionalEvents);
     }
 
     private PositionalEvent findPositionalEvent(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
@@ -118,6 +161,7 @@ public class SpawnPositionalEventConstants{
             default -> throw new IllegalStateException("Unexpected value: " + positionalEventIndex);
         };
     }
+
 
     private int[] findPositionalEventIndexes(int id) {
         return switch(id) {
@@ -144,13 +188,20 @@ public class SpawnPositionalEventConstants{
     *  LOADERS - load possible event indexes that can spawn in the level, and the map of all positions for those levels
      */
 
-    //Map<Integer,Map<Integer, PositionalEventSpawnInfo>
-
-    //Map which is indexed by the event Index - then refers to all possible spawn positions
-    public void loadEventSpawnPositions(int id) {
-        eventSpawnPositions = new HashMap<>();
-        for (int eventIndex : eventIndexes) {
-            eventSpawnPositions.put(eventIndex, findEventSpawnPostionMaps(eventIndex, id));
+    public void loadSpawnEventsMap(int id) {
+        spawnPositionsEventsMap = new HashMap<>();
+        spawnEventsMap = new HashMap<>();
+        Map<Integer, Map<Integer, ArrayList<PositionalEvent>>> positionalEventsMap = findPositionalEventMap(id);
+        for(int i : positionalEventsMap.keySet()) {
+            Map<Integer, SpawnPositionEvents> innerMap = new HashMap<>();
+            ArrayList<SpawnPositionEvents> tempList = new ArrayList<>();
+            for(int j: positionalEventsMap.get(i).keySet()) {
+                ArrayList<PositionalEvent> positionalEventsInMap = positionalEventsMap.get(i).get(j);
+                innerMap.put(j, returnPositionalSpawnEvents(i, positionalEventsInMap));
+                tempList.add(returnPositionalSpawnEvents(i, positionalEventsInMap));
+            }
+            spawnEventsMap.put(i, tempList);
+            spawnPositionsEventsMap.put(i, innerMap);
         }
     }
 
@@ -166,8 +217,15 @@ public class SpawnPositionalEventConstants{
     }
 
 
-    public Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> getEventSpawnPositions() {
-        return eventSpawnPositions;
+//    public Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> getEventSpawnPositionsMap() {
+//        return eventSpawnPositionsMap;
+//    }
+
+    public Map<Integer, ArrayList<SpawnPositionEvents>> getSpawnEventsMap() {
+        return spawnEventsMap;
     }
 
+    public Map<Integer, Map<Integer, SpawnPositionEvents>> getSpawnPositionsEventsMap() {
+        return spawnPositionsEventsMap;
+    }
 }

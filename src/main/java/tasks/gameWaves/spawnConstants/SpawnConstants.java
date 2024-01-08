@@ -22,7 +22,9 @@ public class SpawnConstants {
     private void loadSpawnPositionalEventConstants(int id) {
         spawnPositionalEventConstants = new SpawnPositionalEventConstants();
         spawnPositionalEventConstants.loadEventIndexes(id);
-        spawnPositionalEventConstants.loadEventSpawnPositions(id);
+        spawnPositionalEventConstants.loadSpawnEventsMap(id);
+//        spawnPositionalEventConstants.loadEventSpawnPositions(id);
+//        spawnPositionalEventConstants.findPositionalEventMap(id);
     }
 
     private void loadSpawnObjectConstants(int id) {

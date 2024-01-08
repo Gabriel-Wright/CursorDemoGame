@@ -1,9 +1,11 @@
 package tasks.gameWaves.waveManagement;
 
+import gameObjects.events.generic.PositionalEvent;
 import tasks.TaskRunner;
 import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.gameWaves.spawnConstants.SpawnPositionalEventConstants;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
+import tasks.gameWaves.spawnTasks.SpawnPositionEvents;
 
 import java.util.*;
 
@@ -11,44 +13,48 @@ public class WaveEventManager extends WaveSpawnManager{
 
     private SpawnPositionalEventConstants spawnPositionalEventConstants;
     private int[] eventIndexes;
-    private Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
+//    private Map<Integer, Map<Integer, ArrayList<PositionalEventSpawnInfo>>> eventSpawnPositions;
+//    private Map<Integer, Map<Integer, ArrayList<PositionalEvent>>> positionalSpawnEvents;
+//    private Map<Integer, ArrayList<SpawnPositionEvents>> spawnEventsMap;
+    private Map<Integer, Map<Integer, SpawnPositionEvents>> spawnPositionalEventsMap;
 
     public WaveEventManager(SpawnPositionalEventConstants spawnPositionalEventConstants, Random eventRandom) {
         super(eventRandom);
         this.spawnPositionalEventConstants =spawnPositionalEventConstants;
         eventIndexes = spawnPositionalEventConstants.getEventIndexes();
-        eventSpawnPositions = spawnPositionalEventConstants.getEventSpawnPositions();
+//        spawnEventsMap = spawnPositionalEventConstants.getSpawnEventsMap();
+        spawnPositionalEventsMap = spawnPositionalEventConstants.getSpawnPositionsEventsMap();
+//        eventSpawnPositions = spawnPositionalEventConstants.getEventSpawnPositionsMap();
     }
 
     public void spawnNew() {
         int eventIndex = getRandomEventIndex();
-        ArrayList<PositionalEventSpawnInfo> eventSpawns = getRandomEventSpawnPositions(eventIndex);
-        ArrayList<SpawnPositionEvent> newSpawnEvents = loadNewSpawnEvents(eventIndex, eventSpawns);
-        addNewEventsToTaskRunner(newSpawnEvents);
+        SpawnPositionEvents nextEvents = getRandomSpawnEvents(eventIndex);
+        addNewEventsToTaskRunner(nextEvents);
         setPointsBuffer(spawnPositionalEventConstants.findEventWorth(eventIndex));
         setEntityTickBuffer(spawnPositionalEventConstants.findEntitySpawnTickBuffer(eventIndex));
         setEventTickBuffer(spawnPositionalEventConstants.findEventSpawnTickBuffer(eventIndex));
     }
 
-    private void addNewEventsToTaskRunner(ArrayList<SpawnPositionEvent> newSpawnEvents) {
-        for(SpawnPositionEvent newSpawnEvent: newSpawnEvents) {
-            TaskRunner.addTask(newSpawnEvent);
-            newSpawnEvent.initialiseEventSpawn();
-        }
+    private void addNewEventsToTaskRunner(SpawnPositionEvents spawnPositionEvents) {
+        spawnPositionEvents.initialiseEventSpawn();
+        TaskRunner.addTask(spawnPositionEvents);
     }
 
-    private ArrayList<SpawnPositionEvent> loadNewSpawnEvents(int eventIndex, ArrayList<PositionalEventSpawnInfo> eventSpawnPositions) {
-        ArrayList<SpawnPositionEvent> newSpawnPositionEvents = new ArrayList<>();
-        for(PositionalEventSpawnInfo positionalEventSpawnInfo: eventSpawnPositions) {
-            newSpawnPositionEvents.add(spawnPositionalEventConstants.findPositionalEventSpawnTask(eventIndex,positionalEventSpawnInfo));
-        }
-        return newSpawnPositionEvents;
-    }
+//    private ArrayList<SpawnPositionEvent> loadNewSpawnEvents(int eventIndex, ArrayList<PositionalEventSpawnInfo> eventSpawnPositions) {
+//        ArrayList<SpawnPositionEvent> newSpawnPositionEvents = new ArrayList<>();
+//        for(PositionalEventSpawnInfo positionalEventSpawnInfo: eventSpawnPositions) {
+//            newSpawnPositionEvents.add(spawnPositionalEventConstants.findPositionalEventSpawnTask(eventIndex,positionalEventSpawnInfo));
+//        }
+//        return newSpawnPositionEvents;
+//    }
 
-    private ArrayList<PositionalEventSpawnInfo> getRandomEventSpawnPositions(int eventIndex) {
-        ArrayList<PositionalEventSpawnInfo> eventSpawns = new ArrayList<>();
-        Map<Integer, ArrayList<PositionalEventSpawnInfo>> positionalEventSpawnInfoMap = eventSpawnPositions.get(eventIndex);
-        return getRandomMapSpawnList(positionalEventSpawnInfoMap);
+    private SpawnPositionEvents getRandomSpawnEvents(int eventIndex) {
+        Set<Integer> keySet = spawnPositionalEventsMap.get(eventIndex).keySet();
+        int numKeys = keySet.size();
+        List<Integer> spawnKeyList = new ArrayList<>(keySet);
+        int nextIndex = spawnKeyList.get(random.nextInt(numKeys));
+        return spawnPositionalEventsMap.get(eventIndex).get(nextIndex);
     }
 
     private ArrayList<PositionalEventSpawnInfo> getRandomMapSpawnList(Map<Integer, ArrayList<PositionalEventSpawnInfo>> positionalEventSpawnInfoMap) {

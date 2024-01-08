@@ -6,6 +6,7 @@ import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import static gameObjects.handler.GameObjectHandler.eventQueue;
 
 public class SpawnPositionEvent extends SpawnTask{
+    //Could I refactor to store multiple positionalEvents?
     private PositionalEvent positionalEvent;
 
     public SpawnPositionEvent(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, PositionalEvent positionalEvent) {
