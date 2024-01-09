@@ -1,10 +1,7 @@
 package tasks.gameWaves.waveManagement;
 
-import gameObjects.events.generic.PositionalEvent;
 import tasks.TaskRunner;
-import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.gameWaves.spawnConstants.SpawnPositionalEventConstants;
-import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvents;
 
 import java.awt.*;
@@ -52,7 +49,7 @@ public class WaveEventManager extends WaveSpawnManager{
         int eventIndex = spawnIndexes.x;
         int innerIndex = spawnIndexes.y;
         adjustActiveKeys(spawnIndexes);
-        addNewEventsToTaskRunner(spawnPositionalEventsMap.get(eventIndex).get(innerIndex));
+        addNewEventsToTaskRunner(spawnPositionalEventsMap.get(eventIndex).get(innerIndex), spawnIndexes);
         setPointsBuffer(spawnPositionalEventConstants.findEventWorth(eventIndex));
         setEntityTickBuffer(spawnPositionalEventConstants.findEntitySpawnTickBuffer(eventIndex));
         setEventTickBuffer(spawnPositionalEventConstants.findEventSpawnTickBuffer(eventIndex));
@@ -64,14 +61,15 @@ public class WaveEventManager extends WaveSpawnManager{
         setEventTickBuffer(noKeysEventBuffer);
         setEventTickBuffer(noKeysEntityBuffer);
     }
+
     private void adjustActiveKeys(Point spawnIndexes) {
         activeKeys.add(spawnIndexes);
         availableEvents--;
     }
 
-    private void addNewEventsToTaskRunner(SpawnPositionEvents spawnPositionEvents) {
+    private void addNewEventsToTaskRunner(SpawnPositionEvents spawnPositionEvents, Point spawnIndexes) {
         activeEvents.add(spawnPositionEvents);
-        spawnPositionEvents.initialiseEventSpawn();
+        spawnPositionEvents.initialiseEventSpawn(spawnIndexes);
         TaskRunner.addTask(spawnPositionEvents);
     }
     private Point getRandomSpawnIndexes() {
@@ -82,14 +80,34 @@ public class WaveEventManager extends WaveSpawnManager{
             return getRandomSpawnIndexes();
         }
         return mapKeys;
-
     }
+
     private int getRandomSpawnEventIndex(int eventIndex) {
         Set<Integer> keySet = spawnPositionalEventsMap.get(eventIndex).keySet();
         int numKeys = keySet.size();
         List<Integer> spawnKeyList = new ArrayList<>(keySet);
         int nextIndex = spawnKeyList.get(random.nextInt(numKeys));
         return nextIndex;
+    }
+
+    private int getRandomEventIndex() {
+        return eventIndexes[random.nextInt(eventIndexes.length)];
+    }
+
+    //Check whether spawn tasks are completed
+    public void checkSpawnTasksComplete() {
+        Iterator<SpawnPositionEvents> iterator = activeEvents.iterator();
+
+        while (iterator.hasNext()) {
+            SpawnPositionEvents activeEventTask = iterator.next();
+            //Here run a check on the activeTasks to see whether they are complete? Or does it just get done automatically with taskrunner?
+            activeEventTask.checkCompleteEvents();
+            if (activeEventTask.isComplete()) {
+                iterator.remove();
+                availableEvents++;
+                activeKeys.remove(activeEventTask.getSpawnIndexes());
+            }
+        }
     }
 
     public void resetManager() {
@@ -100,7 +118,4 @@ public class WaveEventManager extends WaveSpawnManager{
         activeKeys = new HashSet<>();
     }
 
-    private int getRandomEventIndex() {
-        return eventIndexes[random.nextInt(eventIndexes.length)];
-    }
 }

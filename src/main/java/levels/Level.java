@@ -1,7 +1,7 @@
 package levels;
 
 import gameObjects.objects.SuperObject;
-import tile.Tile;
+import levels.tile.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

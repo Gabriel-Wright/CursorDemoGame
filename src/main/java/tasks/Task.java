@@ -24,4 +24,8 @@ public abstract class Task {
     public void setComplete() {
         complete = true;
     }
+
+    public boolean isComplete() {
+        return complete;
+    }
 }

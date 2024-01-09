@@ -39,5 +39,6 @@ public abstract class SpawnTask extends Task {
     }
 
 
+
     protected abstract boolean checkSpawnPurposeComplete();
 }

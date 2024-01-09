@@ -7,8 +7,6 @@ import gameObjects.entities.player.PlayerConstants;
 import gameObjects.events.generic.PositionalEvent;
 import levels.Level;
 import gameObjects.objects.SuperObject;
-import tasks.TaskRunner;
-//import tasks.taskQueue.TaskQueueHandler;
 import ui.UI;
 import utils.PathFinder;
 
@@ -23,13 +21,11 @@ public class GameObjectHandler {
 
     //Used to store all data of cells maps from (x,y) -> Cell
     private GameObjectGrid gameObjectGrid;
-    private GameObjectLoader gameObjectLoader;
     private List<Entity> entities;
     private List<SuperObject> objects;
     private List<PositionalEvent> positionalEvents;
     private Player player;
     private PlayerConstants playerConstants;
-    private GreenDeathConstants greenDeathConstants;
     private PathFinder pathFinder;
 
     //Queues of entities, objects and positionalEvents that are added
@@ -69,33 +65,10 @@ public class GameObjectHandler {
 
     private void loadTestEvents() {
         positionalEvents = new ArrayList<>();
-//        Random taskHandlerRandom = new Random(1);
-//        TaskQueueHandler taskQueueHandler = new TaskQueueHandler(taskHandlerRandom);
-//        taskQueueHandler.initialiseTasks();
-//        SpawnTimedBombEvent spawnTimedBombEvent = new SpawnTimedBombEvent();
-//        spawnTimedBombEvent.initialiseTask();
-//        TaskHandler.addTask(spawnTimedBombEvent);
-//        RoomChange testEvent = new RoomChange(Color.GREEN, 7*TILE_SIZE, 7*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-//        RoomChange testEvent2 = new RoomChange(Color.RED, 10*TILE_SIZE, 10*TILE_SIZE, TILE_SIZE, TILE_SIZE);
-//        positionalEvents.add(testEvent);
-//        positionalEvents.add(testEvent2);
-//        ChargingPort chargingPort = new ChargingPort(43*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE);
-//        positionalEvents.add(chargingPort);
-//        DecreaseChargeTrigger decreaseChargeTrigger = new DecreaseChargeTrigger(42*TILE_SIZE,12*TILE_SIZE, (9 * TILE_SIZE) /8,8*TILE_SIZE);
-//        DecreaseChargeTrigger decreaseChargeTrigger2 = new DecreaseChargeTrigger(44*TILE_SIZE-TILE_SIZE/8,12*TILE_SIZE, (float) (10 * TILE_SIZE) /8,8*TILE_SIZE);
-//        positionalEvents.add(decreaseChargeTrigger);
-//        positionalEvents.add(decreaseChargeTrigger2);
     }
 
     private void loadTestEntities() {
         entities = new ArrayList<>();
-//        GreenDeathConstants greenDeathConstants1 = new GreenDeathConstants();
-//        GreenDeath greenDeath = new GreenDeath(2*TILE_SIZE, 15*TILE_SIZE,greenDeathConstants1);
-//        entities.add(greenDeath);
-//        Random entitySpawnRandom = new Random(0);
-//        SpawnEntities spawnEntities = new SpawnEntities(entitySpawnRandom);
-//        spawnEntities.initialiseConstants();
-//        TaskRunner.addTask(spawnEntities);
     }
 
     //Pass level as argument for logic calculations with tile collisions
@@ -137,7 +110,6 @@ public class GameObjectHandler {
 
     private void updateEntityPaths() {
         gameObjectGrid.updateEntityAgroPaths(pathFinder, gameObjectGrid.getAssignedCells(player).get(0));
-//        gameObjectGrid.updateEntityAgroPaths(pathFinder,new Point(43,3));
     }
 
     private void gameObjectQueueUpdate() {

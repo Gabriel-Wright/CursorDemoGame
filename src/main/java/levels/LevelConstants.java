@@ -1,7 +1,7 @@
 package levels;
 
 import gameObjects.objects.ObjectConstants;
-import tile.TileConstants;
+import levels.tile.TileConstants;
 
 import static utils.LoadFiles.readCsvTiles;
 import static utils.LoadFiles.readJsonTiles;

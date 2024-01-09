@@ -2,14 +2,10 @@ package levels;
 
 import gameObjects.handler.GameObjectHandler;
 import gameObjects.objects.ObjectManager;
-import tile.TileManager;
-import utils.PathFinder;
+import levels.tile.TileManager;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-
-import static main.GamePanel.TILE_SIZE;
 
 public class LevelManager {
 

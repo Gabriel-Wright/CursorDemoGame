@@ -1,8 +1,5 @@
-package tile;
+package levels.tile;
 
-import utils.LoadFiles;
-
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 

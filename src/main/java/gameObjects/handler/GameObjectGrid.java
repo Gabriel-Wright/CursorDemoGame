@@ -6,7 +6,6 @@ import gameObjects.entities.player.Cursor;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.objects.SuperObject;
 import levels.Level;
-import utils.FindOvelapTiles;
 import utils.PathFinder;
 
 import java.awt.*;
@@ -17,7 +16,9 @@ import static main.GamePanel.TILE_SIZE;
 import static utils.FindOvelapTiles.FindOverlapTiles;
 
 public class GameObjectGrid {
+
     private Map<Integer, Map<Integer,Cell>> cells;
+
     public GameObjectGrid() {
         cells = new HashMap<>();
     }
@@ -57,7 +58,7 @@ public class GameObjectGrid {
     }
     private void addEntitiesToCells(List<Entity> entities) {
         for(Entity entity: entities) {
-            //Find corner positions of entity and add it to all of the overlapping tiles
+            //Find corner positions of entity and add it to all the overlapping tiles
             Point[] cellIndexes = FindOverlapTiles(entity);
             for(Point cellIndex: cellIndexes) {
                 addEntityToCell(cellIndex.x, cellIndex.y, entity);
@@ -65,54 +66,45 @@ public class GameObjectGrid {
         }
     }
 
+    public Point[] getAssignedCells(PositionalEvent event) {
+        return FindOverlapTiles(event.getTriggerBox());
+    }
+
     private void addTriggerEventsToCells(List<PositionalEvent> triggerEvents) {
         for(PositionalEvent triggerEvent: triggerEvents) {
-//            int startCol = triggerEvent.getStartCol();
-//            int startRow = triggerEvent.getStartRow();
-//            int numCols = triggerEvent.getNumCols();
-//            int numRows = triggerEvent.getNumRows();
-//            for(int i =0; i<numCols; i++) {
-//                for(int j=0; j<numRows; j++) {
-//                    addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
-//                }
-//            }
-//        }
             addTriggerEventToCell(triggerEvent);
         }
+    }
+
+    public void addTriggerEventToCell(PositionalEvent triggerEvent) {
+        int startTileX = triggerEvent.getTriggerBox().x / TILE_SIZE;
+        int startTileY = triggerEvent.getTriggerBox().y / TILE_SIZE;
+        int endTileX = (triggerEvent.getTriggerBox().x + triggerEvent.getTriggerBox().width - 1) / TILE_SIZE;
+        int endTileY = (triggerEvent.getTriggerBox().y + triggerEvent.getTriggerBox().height - 1) / TILE_SIZE;
+        for(int tileX = startTileX; tileX <= endTileX; tileX++) {
+            for(int tileY = startTileY; tileY <= endTileY; tileY++) {
+                addTriggerEventToCell(tileX, tileY, triggerEvent);
+            }
+        }
+    }
+
+    private void addTriggerEventToCell(int x, int y, PositionalEvent positionalEvent) {
+        if(!cells.containsKey(x)) {
+            cells.put(x, new HashMap<>());
+            addCell(x,y);
+        }
+
+        if(!cells.get(x).containsKey((y))) {
+            cells.get(x).put(y, new Cell(x,y));
+        }
+
+        getCell(x,y).addPositionalEvent(positionalEvent);
     }
 
     public void addObjectToCell(SuperObject object) {
         Point[] cellIndexes = FindOverlapTiles(object.getObjectCollisionBox());
         for(Point cellIndex: cellIndexes) {
             addObjectToCell(cellIndex.x, cellIndex.y, object);
-        }
-    }
-
-    public void addEntityToCell(Entity entity) {
-        Point[] cellIndexes = FindOverlapTiles(entity);
-        for(Point cellIndex: cellIndexes) {
-            addEntityToCell(cellIndex.x, cellIndex.y, entity);
-        }
-    }
-
-    public void addTriggerEventToCell(PositionalEvent triggerEvent) {
-//        int startCol = triggerEvent.getStartCol();
-//        int startRow = triggerEvent.getStartRow();
-//        int numCols = triggerEvent.getNumCols();
-//        int numRows = triggerEvent.getNumRows();
-//        for(int i =0; i<numCols; i++) {
-//            for(int j=0; j<numRows; j++) {
-//                addTriggerEventToCell(startCol+i, startRow+j, triggerEvent);
-//            }
-//        }
-        int startTileX = triggerEvent.getTriggerBox().x / TILE_SIZE;
-        int startTileY = triggerEvent.getTriggerBox().y / TILE_SIZE;
-        int endTileX = triggerEvent.getTriggerBox().x + triggerEvent.getTriggerBox().width - 1;
-        int endTileY = triggerEvent.getTriggerBox().y + triggerEvent.getTriggerBox().height - 1;
-        for(int tileX = startTileX; tileX <= endTileX; tileX++) {
-            for(int tileY = startTileY; tileY <= endTileY; tileY++) {
-                addTriggerEventToCell(tileX, tileY, triggerEvent);
-            }
         }
     }
 
@@ -130,6 +122,14 @@ public class GameObjectGrid {
 
     }
 
+    public void addEntityToCell(Entity entity) {
+        Point[] cellIndexes = FindOverlapTiles(entity);
+        for(Point cellIndex: cellIndexes) {
+            addEntityToCell(cellIndex.x, cellIndex.y, entity);
+        }
+    }
+
+
     private void addPlayerToCell(int x, int y, Player player) {
         // Initialize inside map if it does not exist (i.e. map between y and Cell)
         if (!cells.containsKey(x)) {
@@ -141,19 +141,6 @@ public class GameObjectGrid {
             cells.get(x).put(y, new Cell(x,y));
         }
         getCell(x,y).setPlayer(player);
-    }
-
-    private void addTriggerEventToCell(int x, int y, PositionalEvent positionalEvent) {
-        if(!cells.containsKey(x)) {
-            cells.put(x, new HashMap<>());
-            addCell(x,y);
-        }
-
-        if(!cells.get(x).containsKey((y))) {
-            cells.get(x).put(y, new Cell(x,y));
-        }
-
-        getCell(x,y).addPositionalEvent(positionalEvent);
     }
 
     public void addEntityToCell(int x, int y, Entity entity) {
@@ -273,7 +260,6 @@ public class GameObjectGrid {
 //    xOffset and yOffset represent the camera offset, as cursor position is screen based not level based
     public List<Point> getAssignedCells(Cursor cursor, float xOffset, float yOffset) {
         List<Point> assignedCells = new ArrayList<>();
-
         Point[] cellIndexes = FindOverlapTiles(cursor, xOffset, yOffset);
         for (Point cellIndex : cellIndexes) {
             if (getCell(cellIndex.x, cellIndex.y) != null) {
@@ -282,19 +268,14 @@ public class GameObjectGrid {
         }
 
         return assignedCells;
-
-
     }
 
-    public Point[] getAssignedCells(PositionalEvent event) {
-        return FindOverlapTiles(event.getTriggerBox());
-    }
 
     public void removeEventFromCells(PositionalEvent positionalEvent) {
         int startTileX = positionalEvent.getTriggerBox().x / TILE_SIZE;
         int startTileY = positionalEvent.getTriggerBox().y / TILE_SIZE;
-        int endTileX = positionalEvent.getTriggerBox().x + positionalEvent.getTriggerBox().width - 1;
-        int endTileY = positionalEvent.getTriggerBox().y + positionalEvent.getTriggerBox().height - 1;
+        int endTileX = (positionalEvent.getTriggerBox().x + positionalEvent.getTriggerBox().width - 1)/TILE_SIZE;
+        int endTileY = (positionalEvent.getTriggerBox().y + positionalEvent.getTriggerBox().height - 1)/TILE_SIZE;
         for(int tileX = startTileX; tileX <= endTileX; tileX++) {
             for(int tileY = startTileY; tileY <= endTileY; tileY++) {
                 getCell(tileX, tileY).removePositionalEvent(positionalEvent);
@@ -311,12 +292,6 @@ public class GameObjectGrid {
         }
     }
 
-//    public void removeEventFromCells(PositionalEvent event) {
-//        Point[] assignedCells = getAssignedCells(event);
-//        for(Point assignedCell: assignedCells) {
-//            getCell(assignedCell.x, assignedCell.y).removePositionalEvent(event);
-//        }
-//    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

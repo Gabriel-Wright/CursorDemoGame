@@ -10,10 +10,9 @@ import java.awt.*;
 import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
 
-public class ChargingPort extends PositionalEvent{
-    public ChargingPort(int startCol, int startRow, int numCols, int numRows) {
-        super(startCol, startRow, numCols, numRows);
-    }
+public class ChargingPort extends PositionalEvent {
+
+    private int totalPoints = 500;
 
     public ChargingPort(PositionalEventSpawnInfo positionalEventSpawnInfo) {
         super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
@@ -27,6 +26,14 @@ public class ChargingPort extends PositionalEvent{
     @Override
     public void runEvent(Cursor cursor) {
         cursor.increaseKillMetre();
+        totalPoints--;
+        checkComplete();
+    }
+
+    private void checkComplete() {
+        if(totalPoints ==0) {
+            setComplete();
+        }
     }
 
     public void render(Graphics g, Level level) {
@@ -41,5 +48,4 @@ public class ChargingPort extends PositionalEvent{
             g.drawRect(entityXPos, entityYPos, width, height);
         }
     }
-
 }

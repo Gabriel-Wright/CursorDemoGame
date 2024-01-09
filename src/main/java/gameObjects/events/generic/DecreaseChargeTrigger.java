@@ -8,18 +8,11 @@ import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import java.awt.*;
 
 import static inputs.KeyHandler.hitboxToggle;
-import static main.GamePanel.TILE_SIZE;
 
-public class DecreaseChargeTrigger extends PositionalEvent{
-    public DecreaseChargeTrigger(int startX, int startY, int width, int height) {
-        super(startX, startY, width, height);
-    }
+public class DecreaseChargeTrigger extends PositionalEvent {
 
     public DecreaseChargeTrigger(PositionalEventSpawnInfo positionalEventSpawnInfo) {
         super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
-    }
-    public DecreaseChargeTrigger() {
-        super();
     }
 
     @Override
@@ -44,5 +37,4 @@ public class DecreaseChargeTrigger extends PositionalEvent{
             g.drawRect(entityXPos, entityYPos, width, height);
         }
     }
-
 }

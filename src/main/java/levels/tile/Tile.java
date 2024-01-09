@@ -1,4 +1,4 @@
-package tile;
+package levels.tile;
 
 import animations.EntityAnimations;
 
