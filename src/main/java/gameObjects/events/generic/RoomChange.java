@@ -33,4 +33,8 @@ public class RoomChange extends PositionalEvent {
         System.out.println("Event collides with cursor");
     }
 
+    @Override
+    public void reset() {
+
+    }
 }

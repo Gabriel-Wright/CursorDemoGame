@@ -37,6 +37,8 @@ public abstract class PositionalEvent implements Event {
     public void setComplete() {
         complete = true;
     }
+
+    public abstract void reset();
     public void render(Graphics g, Level level) {
 
         int entityXPos = (int) (startX - level.getLevelCamera().getxOffset());

@@ -27,4 +27,9 @@ public class TriggerAlarm extends PositionalEvent{
     public void runEvent(Cursor cursor) {
         System.out.println("Trigger alarm cursor");
     }
+
+    @Override
+    public void reset() {
+
+    }
 }

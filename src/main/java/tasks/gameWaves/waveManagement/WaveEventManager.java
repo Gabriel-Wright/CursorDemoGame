@@ -15,10 +15,10 @@ public class WaveEventManager extends WaveSpawnManager{
     private SpawnPositionalEventConstants spawnPositionalEventConstants;
     private int[] eventIndexes;
     private Map<Integer, Map<Integer, SpawnPositionEvents>> spawnPositionalEventsMap;
-    private int availableEvents;
     private final int noKeysEventBuffer = UPS*5;
     private final int noKeysEntityBuffer = UPS*5;
 
+    private List<Point> availableKeys = new ArrayList<>();
     private Set<Point> activeKeys = new HashSet<>();
     private Set<SpawnPositionEvents> activeEvents = new HashSet<>();
     public WaveEventManager(SpawnPositionalEventConstants spawnPositionalEventConstants, Random eventRandom) {
@@ -26,22 +26,22 @@ public class WaveEventManager extends WaveSpawnManager{
         this.spawnPositionalEventConstants =spawnPositionalEventConstants;
         eventIndexes = spawnPositionalEventConstants.getEventIndexes();
         spawnPositionalEventsMap = spawnPositionalEventConstants.getSpawnPositionsEventsMap();
-        availableEvents = calculateTotalNumberEvents();
+        loadAvailablEvents();
+        System.out.println("Available events.size:" + availableKeys.size());
     }
 
-    private int calculateTotalNumberEvents() {
-        int totalsize = 0;
+    private void loadAvailablEvents() {
         List<Integer> outerKeys = new ArrayList<>(spawnPositionalEventsMap.keySet());
-        for(int key: outerKeys) {
-            int innerKeySize = spawnPositionalEventsMap.get(key).keySet().size();
-            totalsize += innerKeySize;
+        for(int outerKey: outerKeys) {
+            for(int innerKey: spawnPositionalEventsMap.get(outerKey).keySet()) {
+                availableKeys.add(new Point(outerKey, innerKey));
+            }
         }
-        return totalsize;
     }
 
     public void spawnNew() {
         //If no available events to spawn then spawn 0
-        if(availableEvents == 0) {
+        if(availableKeys.isEmpty()) {
             noSpawn();
             return;
         }
@@ -64,14 +64,17 @@ public class WaveEventManager extends WaveSpawnManager{
 
     private void adjustActiveKeys(Point spawnIndexes) {
         activeKeys.add(spawnIndexes);
-        availableEvents--;
+        availableKeys.remove(spawnIndexes);
     }
 
     private void addNewEventsToTaskRunner(SpawnPositionEvents spawnPositionEvents, Point spawnIndexes) {
         activeEvents.add(spawnPositionEvents);
         spawnPositionEvents.initialiseEventSpawn(spawnIndexes);
+        System.out.println(spawnPositionEvents.toString());
+        System.out.println(activeKeys);
         TaskRunner.addTask(spawnPositionEvents);
     }
+
     private Point getRandomSpawnIndexes() {
         int eventIndex = getRandomEventIndex();
         int innerIndex = getRandomSpawnEventIndex(eventIndex);
@@ -96,6 +99,8 @@ public class WaveEventManager extends WaveSpawnManager{
 
     //Check whether spawn tasks are completed
     public void checkSpawnTasksComplete() {
+//        System.out.println("Available keys pre completeCheck:" + availableKeys);
+//        System.out.println("Active keys pre completeChecK:" + activeKeys);
         Iterator<SpawnPositionEvents> iterator = activeEvents.iterator();
 
         while (iterator.hasNext()) {
@@ -103,11 +108,14 @@ public class WaveEventManager extends WaveSpawnManager{
             //Here run a check on the activeTasks to see whether they are complete? Or does it just get done automatically with taskrunner?
             activeEventTask.checkCompleteEvents();
             if (activeEventTask.isComplete()) {
-                iterator.remove();
-                availableEvents++;
+                availableKeys.add(activeEventTask.getSpawnIndexes());
                 activeKeys.remove(activeEventTask.getSpawnIndexes());
+//                System.out.println("Removing spawnEvent:" + activeEventTask);
+                iterator.remove();
             }
         }
+//        System.out.println("Available keys post completeCheck:" + availableKeys);
+//        System.out.println("Active keys post completeCheck:" + activeKeys);
     }
 
     public void resetManager() {

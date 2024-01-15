@@ -25,6 +25,11 @@ public class DecreaseChargeTrigger extends PositionalEvent {
         cursor.decreaseKillMetre();
     }
 
+    @Override
+    public void reset() {
+
+    }
+
     public void render(Graphics g, Level level) {
         int entityXPos = (int) (startX - level.getLevelCamera().getxOffset());
         int entityYPos = (int) (startY - level.getLevelCamera().getyOffset());

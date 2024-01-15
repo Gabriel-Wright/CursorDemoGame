@@ -42,6 +42,11 @@ public class PlayerTimedBomb extends PositionalEvent{
     }
 
     @Override
+    public void reset() {
+
+    }
+
+    @Override
     public void render(Graphics g, Level level) {
 
         int entityXPos = (int) (startX - level.getLevelCamera().getxOffset());

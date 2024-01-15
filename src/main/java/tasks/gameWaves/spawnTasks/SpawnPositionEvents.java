@@ -16,7 +16,6 @@ public class SpawnPositionEvents extends SpawnTask{
     public SpawnPositionEvents(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, ArrayList<PositionalEvent> positionalEvents) {
         super(taskValue,entitySpawnTickBuffer, eventSpawnTickBuffer, completeCheck);
         this.positionalEvents = positionalEvents;
-        activeEventFlags = loadEventFlags(positionalEvents.size());
     }
 
     private ArrayList<Integer> loadEventFlags(int num) {
@@ -29,9 +28,12 @@ public class SpawnPositionEvents extends SpawnTask{
 
     public void initialiseEventSpawn(Point spawnIndexes) {
         complete = false;
+        activeEventFlags = loadEventFlags(positionalEvents.size());
         this.spawnIndexes = spawnIndexes;
+        System.out.println("Adding positionalEvents:" + positionalEvents.size());
         eventQueue.addAll((positionalEvents));
     }
+
     @Override
     protected boolean checkSpawnPurposeComplete() {
         return false;
@@ -57,6 +59,7 @@ public class SpawnPositionEvents extends SpawnTask{
             reset();
         }
     }
+
     public void reset() {
         setComplete();
         for(int eventIndex: activeEventFlags) {
@@ -64,9 +67,24 @@ public class SpawnPositionEvents extends SpawnTask{
                 eventRemoveQueue.add(positionalEvents.get(eventIndex));
             }
         }
+        for(PositionalEvent positionalEvent: positionalEvents) {
+            positionalEvent.reset();
+        }
     }
 
     public Point getSpawnIndexes() {
         return spawnIndexes;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SpawnPositionEvents{");
+        sb.append(", positionalEvents=").append(positionalEvents);
+        sb.append(", activeEventFlags=").append(activeEventFlags);
+        sb.append(", spawnIndexes=").append(spawnIndexes);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }

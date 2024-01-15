@@ -36,6 +36,12 @@ public class ChargingPort extends PositionalEvent {
         }
     }
 
+    @Override
+    public void reset() {
+        totalPoints = 500;
+        complete = false;
+    }
+
     public void render(Graphics g, Level level) {
         int entityXPos = (int) (startX - level.getLevelCamera().getxOffset());
         int entityYPos = (int) (startY - level.getLevelCamera().getyOffset());

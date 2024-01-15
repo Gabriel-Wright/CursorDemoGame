@@ -245,7 +245,7 @@ public class GamePanel extends JPanel implements Runnable {
             //Checks FPS & UPS every second
             if (System.currentTimeMillis() - lastCheck >= 1000) {
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: " + frames + "| UPS: " + updates);
+//                System.out.println("FPS: " + frames + "| UPS: " + updates);
                 UI.UPSLOCAL = updates;
                 UI.FPSLOCAL = frames;
                 frames = 0;
