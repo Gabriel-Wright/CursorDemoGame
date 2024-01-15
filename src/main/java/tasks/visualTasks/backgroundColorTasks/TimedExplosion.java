@@ -1,19 +1,24 @@
 package tasks.visualTasks.backgroundColorTasks;
 
+import main.GamePanel;
+import org.apache.commons.collections.set.PredicatedSet;
 import states.GameState;
 import tasks.Task;
 
 import java.awt.*;
 
-public class ContinuousBackGroundColorChange extends Task{
+public class TimedExplosion extends Task{
 
     private Color[] newColors;
     private Color oldColor;
     private Color newColor;
     private Color lerpedColor;
+    private int transitionTick=0;
     private int transitionRate;
+    private int explosionRate;
     private int colorIndex;
-    public ContinuousBackGroundColorChange(int transitionRate, Color oldColor, Color[] newColors) {
+    public TimedExplosion(int explosionRate, int transitionRate, Color oldColor, Color[] newColors) {
+        this.explosionRate = explosionRate;
         this.transitionRate = transitionRate;
         this.oldColor = oldColor;
         this.newColors = newColors;
@@ -22,7 +27,8 @@ public class ContinuousBackGroundColorChange extends Task{
 
     @Override
     public void runTask() {
-        float progressRatio = (float) (tick) / transitionRate;
+
+        float progressRatio = (float) (transitionTick) / transitionRate;
 
         //Interpolate values of rgb, based on ratio
         int r = (int) (oldColor.getRed() * (1 - progressRatio) + newColor.getRed() * progressRatio);
@@ -34,23 +40,23 @@ public class ContinuousBackGroundColorChange extends Task{
 
         reassignColors();
         GameState.updateGameBackground(lerpedColor);
+        transitionTick++;
 
     }
 
-    @Override
-    public void updateTask() {
-        runTask();
-        tick++;
-    }
 
     @Override
     public void checkComplete() {
-
+        if(tick == explosionRate) {
+            complete = true;
+            System.out.println("GAME OVER");
+            GamePanel.gameOver();
+        }
     }
 
     private void reassignColors() {
-        if(tick%transitionRate==0) {
-            tick = 0;
+        if(transitionTick%transitionRate==0) {
+            transitionTick = 0;
             oldColor = newColor;
             indexSwitch();
             newColor = newColors[colorIndex];
@@ -64,5 +70,12 @@ public class ContinuousBackGroundColorChange extends Task{
         } else {
             colorIndex = 0;
         }
+    }
+
+    public void reset() {
+        tick = 0;
+        this.transitionTick = 0;
+        complete = false;
+
     }
 }

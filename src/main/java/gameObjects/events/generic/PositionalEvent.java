@@ -26,6 +26,8 @@ public abstract class PositionalEvent implements Event {
         triggerBox = new Rectangle(startX, startY, width, height);
     }
 
+    public abstract void initialEffects();
+    
     public Rectangle getTriggerBox() {
         return triggerBox;
     }

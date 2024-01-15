@@ -5,23 +5,22 @@ import gameObjects.entities.player.Player;
 import levels.Level;
 import states.GameState;
 import tasks.TaskRunner;
-import tasks.visualTasks.backgroundColorTasks.ContinuousBackGroundColorChange;
+import tasks.visualTasks.backgroundColorTasks.TimedExplosion;
 //import tasks.taskQueue.SpawnTimedBombTask;
 
 import java.awt.*;
 
 import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 import static inputs.KeyHandler.hitboxToggle;
-import static main.GamePanel.UPS;
 
 public class PlayerTimedBomb extends PositionalEvent{
     private Color[] transitionColors;
-    private ContinuousBackGroundColorChange continuousAlarm;
+    private TimedExplosion continuousAlarm;
 //    private SpawnTimedBombTask spawnTimedBombEvent;
     public PlayerTimedBomb(Color[] transitionColors, int x, int y, int width, int height) {
         super(x,y,width,height);
         triggerBox = new Rectangle(x, y, width, height);
-        continuousAlarm = new ContinuousBackGroundColorChange(UPS*6, GameState.getBackgroundColor(), transitionColors);
+//        continuousAlarm = new ContinuousBackGroundColorChange(UPS*6, GameState.getBackgroundColor(), transitionColors);
     }
 
     public void initialEffects() {

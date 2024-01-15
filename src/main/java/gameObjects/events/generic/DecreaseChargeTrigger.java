@@ -26,6 +26,11 @@ public class DecreaseChargeTrigger extends PositionalEvent {
     }
 
     @Override
+    public void initialEffects() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

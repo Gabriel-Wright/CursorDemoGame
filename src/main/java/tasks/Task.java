@@ -28,4 +28,8 @@ public abstract class Task {
     public boolean isComplete() {
         return complete;
     }
+
+    public void setTick(int tick) {
+        this.tick = tick;
+    }
 }

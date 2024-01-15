@@ -2,13 +2,8 @@ package gameObjects.events.generic;
 
 import gameObjects.entities.player.Cursor;
 import gameObjects.entities.player.Player;
-import states.GameState;
-import tasks.TaskRunner;
-import tasks.visualTasks.backgroundColorTasks.ContinuousBackGroundColorChange;
 
 import java.awt.*;
-
-import static main.GamePanel.UPS;
 
 public class TriggerAlarm extends PositionalEvent{
 
@@ -20,12 +15,17 @@ public class TriggerAlarm extends PositionalEvent{
 
     @Override
     public void runEvent(Player player) {
-        TaskRunner.addTask(new ContinuousBackGroundColorChange(UPS*2, GameState.getBackgroundColor(), transitionColors));
+//        TaskRunner.addTask(new ContinuousBackGroundColorChange(UPS*2, GameState.getBackgroundColor(), transitionColors));
     }
 
     @Override
     public void runEvent(Cursor cursor) {
         System.out.println("Trigger alarm cursor");
+    }
+
+    @Override
+    public void initialEffects() {
+
     }
 
     @Override

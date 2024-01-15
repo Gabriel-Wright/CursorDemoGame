@@ -13,9 +13,11 @@ public class SpawnPositionEvents extends SpawnTask{
     private ArrayList<PositionalEvent> positionalEvents;
     private ArrayList<Integer> activeEventFlags;
     private Point spawnIndexes;
-    public SpawnPositionEvents(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, ArrayList<PositionalEvent> positionalEvents) {
+    private boolean skippable;
+    public SpawnPositionEvents(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, ArrayList<PositionalEvent> positionalEvents, boolean skippable) {
         super(taskValue,entitySpawnTickBuffer, eventSpawnTickBuffer, completeCheck);
         this.positionalEvents = positionalEvents;
+        this.skippable = skippable;
     }
 
     private ArrayList<Integer> loadEventFlags(int num) {
@@ -30,8 +32,15 @@ public class SpawnPositionEvents extends SpawnTask{
         complete = false;
         activeEventFlags = loadEventFlags(positionalEvents.size());
         this.spawnIndexes = spawnIndexes;
+        loadInitialEvents();
         System.out.println("Adding positionalEvents:" + positionalEvents.size());
         eventQueue.addAll((positionalEvents));
+    }
+
+    private void loadInitialEvents(){
+        for(PositionalEvent positionalEvent: positionalEvents) {
+            positionalEvent.initialEffects();
+        }
     }
 
     @Override
@@ -74,6 +83,10 @@ public class SpawnPositionEvents extends SpawnTask{
 
     public Point getSpawnIndexes() {
         return spawnIndexes;
+    }
+
+    public boolean isSkippable() {
+        return skippable;
     }
 
     @Override

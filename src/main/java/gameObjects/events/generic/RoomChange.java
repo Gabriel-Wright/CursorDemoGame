@@ -34,6 +34,11 @@ public class RoomChange extends PositionalEvent {
     }
 
     @Override
+    public void initialEffects() {
+
+    }
+
+    @Override
     public void reset() {
 
     }

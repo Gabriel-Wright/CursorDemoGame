@@ -18,7 +18,7 @@ public class GameState extends State{
     private WaveManager waveManager;
     private UI gameUI;
     private int level;
-    private int gameSeed = 0;
+    private int gameSeed = 1;
     public void loadTestGame() {
         taskHandler = new TaskRunner();
         loadLevelManager();

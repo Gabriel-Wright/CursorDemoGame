@@ -37,6 +37,11 @@ public class ChargingPort extends PositionalEvent {
     }
 
     @Override
+    public void initialEffects() {
+        complete = false;
+    }
+
+    @Override
     public void reset() {
         totalPoints = 500;
         complete = false;

@@ -20,6 +20,8 @@ public class WaveEventManager extends WaveSpawnManager{
 
     private List<Point> availableKeys = new ArrayList<>();
     private Set<Point> activeKeys = new HashSet<>();
+    private Set<Point> activeUnskippableKeys = new HashSet<>();
+
     private Set<SpawnPositionEvents> activeEvents = new HashSet<>();
     public WaveEventManager(SpawnPositionalEventConstants spawnPositionalEventConstants, Random eventRandom) {
         super(eventRandom);
@@ -48,7 +50,7 @@ public class WaveEventManager extends WaveSpawnManager{
         Point spawnIndexes = getRandomSpawnIndexes();
         int eventIndex = spawnIndexes.x;
         int innerIndex = spawnIndexes.y;
-        adjustActiveKeys(spawnIndexes);
+        addEventAdjustActiveKeys(spawnIndexes);
         addNewEventsToTaskRunner(spawnPositionalEventsMap.get(eventIndex).get(innerIndex), spawnIndexes);
         setPointsBuffer(spawnPositionalEventConstants.findEventWorth(eventIndex));
         setEntityTickBuffer(spawnPositionalEventConstants.findEntitySpawnTickBuffer(eventIndex));
@@ -62,9 +64,20 @@ public class WaveEventManager extends WaveSpawnManager{
         setEventTickBuffer(noKeysEntityBuffer);
     }
 
-    private void adjustActiveKeys(Point spawnIndexes) {
+    private void addEventAdjustActiveKeys(Point spawnIndexes) {
         activeKeys.add(spawnIndexes);
+        if(!spawnPositionalEventsMap.get(spawnIndexes.x).get(spawnIndexes.y).isSkippable()) {
+            activeUnskippableKeys.add(spawnIndexes);
+        }
         availableKeys.remove(spawnIndexes);
+    }
+
+    private void removeEventAdjustActiveKeys(Point spawnIndexes) {
+        availableKeys.add(spawnIndexes);
+        activeKeys.remove(spawnIndexes);
+        if(activeUnskippableKeys.contains(spawnIndexes)) {
+            activeUnskippableKeys.remove(spawnIndexes);
+        }
     }
 
     private void addNewEventsToTaskRunner(SpawnPositionEvents spawnPositionEvents, Point spawnIndexes) {
@@ -108,14 +121,11 @@ public class WaveEventManager extends WaveSpawnManager{
             //Here run a check on the activeTasks to see whether they are complete? Or does it just get done automatically with taskrunner?
             activeEventTask.checkCompleteEvents();
             if (activeEventTask.isComplete()) {
-                availableKeys.add(activeEventTask.getSpawnIndexes());
-                activeKeys.remove(activeEventTask.getSpawnIndexes());
-//                System.out.println("Removing spawnEvent:" + activeEventTask);
+                Point spawnIndexes = activeEventTask.getSpawnIndexes();
+                removeEventAdjustActiveKeys(spawnIndexes);
                 iterator.remove();
             }
         }
-//        System.out.println("Available keys post completeCheck:" + availableKeys);
-//        System.out.println("Active keys post completeCheck:" + activeKeys);
     }
 
     public void resetManager() {
@@ -126,4 +136,7 @@ public class WaveEventManager extends WaveSpawnManager{
         activeKeys = new HashSet<>();
     }
 
+    public Set<Point> getActiveUnskippableKeys() {
+        return activeUnskippableKeys;
+    }
 }
