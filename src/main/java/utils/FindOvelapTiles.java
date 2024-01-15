@@ -77,9 +77,6 @@ public class FindOvelapTiles {
             for(int y= startY; y <=endY; y++) {
                 tileIndexes[i] = new Point(x,y);
                 i++;
-                if(x==15&&y==13) {
-                    System.out.println("STOP");
-                }
             }
         }
         return tileIndexes;
@@ -97,9 +94,6 @@ public class FindOvelapTiles {
         for(int x = startX; x<=endX; x++) {
             for(int y= startY; y <=endY; y++) {
                 tileIndexes[i] = new Point(x,y);
-                if(x==15&&y==13) {
-                    System.out.println("STOP");
-                }
                 i++;
             }
         }

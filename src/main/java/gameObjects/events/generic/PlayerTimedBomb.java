@@ -21,7 +21,7 @@ public class PlayerTimedBomb extends PositionalEvent{
 //    private SpawnTimedBombTask spawnTimedBombEvent;
     public PlayerTimedBomb(Color[] transitionColors, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
-        continuousAlarm = new TimedExplosion(UPS*15, UPS*2, GameState.getBackgroundColor(), transitionColors);
+        continuousAlarm = new TimedExplosion(UPS*20, UPS*2, GameState.getBackgroundColor(), transitionColors);
     }
 
     public void initialEffects() {

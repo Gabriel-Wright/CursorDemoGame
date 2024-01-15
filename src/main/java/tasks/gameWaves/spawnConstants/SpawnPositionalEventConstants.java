@@ -202,7 +202,7 @@ public class SpawnPositionalEventConstants{
     public int findEventSpawnTickBuffer(int eventIndex) {
         return switch(eventIndex) {
             case RED_ZONE, CHARGE_ZONE -> UPS;
-            case CURSOR_TIMER, PLAYER_TIMER -> UPS*7;
+            case CURSOR_TIMER, PLAYER_TIMER -> UPS*4;
             default ->UPS;
         };
     }

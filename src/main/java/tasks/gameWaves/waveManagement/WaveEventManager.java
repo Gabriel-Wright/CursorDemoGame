@@ -83,8 +83,8 @@ public class WaveEventManager extends WaveSpawnManager{
     private void addNewEventsToTaskRunner(SpawnPositionEvents spawnPositionEvents, Point spawnIndexes) {
         activeEvents.add(spawnPositionEvents);
         spawnPositionEvents.initialiseEventSpawn(spawnIndexes);
-        System.out.println(spawnPositionEvents.toString());
-        System.out.println(activeKeys);
+//        System.out.println(spawnPositionEvents.toString());
+//        System.out.println(activeKeys);
         TaskRunner.addTask(spawnPositionEvents);
     }
 
@@ -112,8 +112,6 @@ public class WaveEventManager extends WaveSpawnManager{
 
     //Check whether spawn tasks are completed - if an event has already been completed, it will already have been removed from the event m
     public void checkSpawnTasksComplete() {
-//        System.out.println("Available keys pre completeCheck:" + availableKeys);
-//        System.out.println("Active keys pre completeChecK:" + activeKeys);
         Iterator<SpawnPositionEvents> iterator = activeEvents.iterator();
 
         while (iterator.hasNext()) {

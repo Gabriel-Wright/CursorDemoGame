@@ -24,7 +24,7 @@ public class GameOverState extends State{
 
     @Override
     public void initialiseState() {
-        fontSize = 41;
+        fontSize = 100;
         font = new Font("Arial", Font.PLAIN, fontSize);
         xMessagePos = TILE_SIZE*20;
         yMessagePos = TILE_SIZE*10;
@@ -38,7 +38,7 @@ public class GameOverState extends State{
 
     @Override
     public void update() {
-        gameState.update();
+//        gameState.update();
         if(escapePressed) {
             GamePanel.returnMenu();
         }
