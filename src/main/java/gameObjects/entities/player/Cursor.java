@@ -251,7 +251,7 @@ public class Cursor {
             //If tile overlapping the right bound of the entity is solid then change the xMove value so that the player lines up
             //Maybe adjust this so that the xValue is set here?
             if(tx <0) {
-                System.out.println("Break");
+//                System.out.println("Break");
             }
             if (level.isSolidTile(tx, (int) (mouseY + level.getLevelCamera().getyOffset() - radius) / TILE_SIZE) || level.isSolidTile(tx, (int) (mouseY + level.getLevelCamera().getyOffset() - radius) / TILE_SIZE)) {
                 deltaX = (int) (tx * TILE_SIZE - level.getLevelCamera().getxOffset() - radius - 1 - mouseX);

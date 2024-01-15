@@ -16,9 +16,11 @@ public abstract class Task {
     public abstract void checkComplete();
 
     public void updateTask() {
-        runTask();
-        tick++;
-        checkComplete();
+        if(!complete) {
+            runTask();
+            tick++;
+            checkComplete();
+        }
     }
 
     public void setComplete() {

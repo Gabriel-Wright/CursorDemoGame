@@ -5,6 +5,7 @@ import gameObjects.entities.player.Player;
 import levels.Level;
 import states.GameState;
 import tasks.TaskRunner;
+import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.visualTasks.backgroundColorTasks.TimedExplosion;
 //import tasks.taskQueue.SpawnTimedBombTask;
 
@@ -12,27 +13,29 @@ import java.awt.*;
 
 import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 import static inputs.KeyHandler.hitboxToggle;
+import static main.GamePanel.UPS;
 
 public class PlayerTimedBomb extends PositionalEvent{
     private Color[] transitionColors;
     private TimedExplosion continuousAlarm;
 //    private SpawnTimedBombTask spawnTimedBombEvent;
-    public PlayerTimedBomb(Color[] transitionColors, int x, int y, int width, int height) {
-        super(x,y,width,height);
-        triggerBox = new Rectangle(x, y, width, height);
-//        continuousAlarm = new ContinuousBackGroundColorChange(UPS*6, GameState.getBackgroundColor(), transitionColors);
+    public PlayerTimedBomb(Color[] transitionColors, PositionalEventSpawnInfo positionalEventSpawnInfo) {
+        super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
+        continuousAlarm = new TimedExplosion(UPS*15, UPS*2, GameState.getBackgroundColor(), transitionColors);
     }
 
     public void initialEffects() {
+        complete = false;
+        continuousAlarm.reset();
         TaskRunner.addTask(continuousAlarm);
     }
+
     @Override
     public void runEvent(Player player) {
-        System.out.println("player event");
         continuousAlarm.setComplete();
+        setComplete();
         GameState.updateGameBackground(Color.BLACK);
         eventRemoveQueue.add(this);
-        ;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class PlayerTimedBomb extends PositionalEvent{
 
     @Override
     public void reset() {
-
+        continuousAlarm.setComplete();
     }
 
     @Override

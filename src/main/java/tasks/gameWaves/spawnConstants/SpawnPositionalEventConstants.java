@@ -1,9 +1,6 @@
 package tasks.gameWaves.spawnConstants;
 
-import gameObjects.events.generic.ChargingPort;
-import gameObjects.events.generic.CursorTimedBomb;
-import gameObjects.events.generic.DecreaseChargeTrigger;
-import gameObjects.events.generic.PositionalEvent;
+import gameObjects.events.generic.*;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvents;
 
@@ -41,7 +38,7 @@ public class SpawnPositionalEventConstants{
 
     private int[] findPositionalEventIndexes(int id) {
         return switch(id) {
-            case TEST_DEMICHROME -> new int[] {RED_ZONE, CHARGE_ZONE, CURSOR_TIMER};
+            case TEST_DEMICHROME -> new int[] {RED_ZONE, CHARGE_ZONE, CURSOR_TIMER, PLAYER_TIMER};
             default -> new int[]{CHARGE_ZONE};
         };
     }
@@ -61,6 +58,7 @@ public class SpawnPositionalEventConstants{
             case RED_ZONE -> findDecreaseZoneLocations(id);
             case CHARGE_ZONE -> findIncreaseZoneLocations(id);
             case CURSOR_TIMER -> findCursorTimerLocations(id);
+            case PLAYER_TIMER -> findPlayerTimerLocations(id);
             default -> throw new IllegalStateException("Unexpected value: " + index);
         };
     }
@@ -76,8 +74,22 @@ public class SpawnPositionalEventConstants{
     }
 
 
+    private Map<Integer, ArrayList<PositionalEventSpawnInfo>> findPlayerTimerLocations(int id) {
+        return switch(id) {
+            case TEST_DEMICHROME -> {
+                Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
+                ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
+                tempList1.add(new PositionalEventSpawnInfo(12*TILE_SIZE, 7*TILE_SIZE, 2*TILE_SIZE, 2*TILE_SIZE));
+                map.put(1,tempList1);
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                tempList2.add(new PositionalEventSpawnInfo(44*TILE_SIZE, 23*TILE_SIZE, TILE_SIZE, 2*TILE_SIZE));
+                map.put(2,tempList2);
+                yield map;
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + id);
+        };
+    }
 
-    //
     private Map<Integer, ArrayList<PositionalEventSpawnInfo>> findCursorTimerLocations(int id) {
         return switch(id) {
             case TEST_DEMICHROME -> {
@@ -137,7 +149,7 @@ public class SpawnPositionalEventConstants{
         return switch(positionalEventIndex){
             case RED_ZONE, CHARGE_ZONE -> 10;
             case CURSOR_TIMER -> 1;
-            default -> 0;
+            default -> 1;
         };
     }
 
@@ -159,11 +171,6 @@ public class SpawnPositionalEventConstants{
     }
 
 
-    public SpawnPositionEvent findPositionalEventSpawnTask(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {
-        int eventWorth = findEventWorth(positionalEventIndex);
-        int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
-        return new SpawnPositionEvent(eventWorth, eventCompleteCheck, findEntitySpawnTickBuffer(positionalEventIndex), findEventSpawnTickBuffer(positionalEventIndex), findPositionalEvent(positionalEventIndex, positionalEventSpawnInfo));
-    }
 
     public SpawnPositionEvents returnPositionalSpawnEvents(int positionalEventIndex, ArrayList<PositionalEvent> positionalEvents) {
         int eventWorth = findEventWorth(positionalEventIndex);
@@ -179,6 +186,7 @@ public class SpawnPositionalEventConstants{
             case RED_ZONE -> new DecreaseChargeTrigger(positionalEventSpawnInfo);
             case CHARGE_ZONE -> new ChargingPort(positionalEventSpawnInfo);
             case CURSOR_TIMER -> new CursorTimedBomb(new Color[]{Color.YELLOW, Color.ORANGE},positionalEventSpawnInfo);
+            case PLAYER_TIMER -> new PlayerTimedBomb(new Color[]{Color.PINK, Color.WHITE}, positionalEventSpawnInfo);
             default -> throw new IllegalStateException("Unexpected value: " + positionalEventIndex);
         };
     }
@@ -195,7 +203,7 @@ public class SpawnPositionalEventConstants{
     public int findEventSpawnTickBuffer(int eventIndex) {
         return switch(eventIndex) {
             case RED_ZONE, CHARGE_ZONE -> UPS;
-            case CURSOR_TIMER -> UPS*7;
+            case CURSOR_TIMER, PLAYER_TIMER -> UPS*7;
             default ->UPS;
         };
     }
@@ -203,7 +211,7 @@ public class SpawnPositionalEventConstants{
     private boolean findSkippable(int eventIndex) {
         return switch(eventIndex) {
             case RED_ZONE, CHARGE_ZONE -> true;
-            case CURSOR_TIMER -> false;
+            case CURSOR_TIMER, PLAYER_TIMER -> false;
             default -> true;
         };
     }

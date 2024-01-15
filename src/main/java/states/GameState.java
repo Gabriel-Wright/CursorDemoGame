@@ -49,7 +49,7 @@ public class GameState extends State{
 
     private void loadWaveManager(int waveRound) {
         //Will be 0 - as the game has just been
-        waveManager = new WaveManager(waveRound, gameSeed);
+        waveManager = new WaveManager(waveRound, 500, gameSeed);
         waveManager.loadRandomGenerators();
         waveManager.loadSpawnConstants(level);
         TaskRunner.addTask(waveManager);

@@ -110,7 +110,7 @@ public class WaveEventManager extends WaveSpawnManager{
         return eventIndexes[random.nextInt(eventIndexes.length)];
     }
 
-    //Check whether spawn tasks are completed
+    //Check whether spawn tasks are completed - if an event has already been completed, it will already have been removed from the event m
     public void checkSpawnTasksComplete() {
 //        System.out.println("Available keys pre completeCheck:" + availableKeys);
 //        System.out.println("Active keys pre completeChecK:" + activeKeys);

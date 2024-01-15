@@ -11,29 +11,29 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     public static boolean mouseClickHeld = false;
      @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Mouse click");
+//        System.out.println("Mouse click");
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Mouse pressed");
+//        System.out.println("Mouse pressed");
         mouseClickHeld = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("Mouse released");
+//        System.out.println("Mouse released");
         mouseClickHeld = false;
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println("Mouse entered?");
+//        System.out.println("Mouse entered?");
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        System.out.println("mouse exit");
+//        System.out.println("mouse exit");
     }
 
     @Override

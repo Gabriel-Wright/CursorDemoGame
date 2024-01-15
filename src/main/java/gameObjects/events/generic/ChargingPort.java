@@ -7,6 +7,7 @@ import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 
 import java.awt.*;
 
+import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.TILE_SIZE;
 
@@ -32,6 +33,7 @@ public class ChargingPort extends PositionalEvent {
 
     private void checkComplete() {
         if(totalPoints ==0) {
+            eventRemoveQueue.add(this);
             setComplete();
         }
     }

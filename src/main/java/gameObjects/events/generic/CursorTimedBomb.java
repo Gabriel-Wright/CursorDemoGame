@@ -12,6 +12,7 @@ import tasks.visualTasks.backgroundColorTasks.TimedExplosion;
 
 import java.awt.*;
 
+import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.UPS;
 
@@ -44,10 +45,11 @@ public class CursorTimedBomb extends PositionalEvent{
 
     @Override
     public void runEvent(Cursor cursor) {
-        System.out.println("Cursor event run");
+//        System.out.println("Cursor event run");
         continuousAlarm.setComplete();
         setComplete();
         GameState.updateGameBackground(Color.BLACK);
+        eventRemoveQueue.add(this);
     }
 
     @Override

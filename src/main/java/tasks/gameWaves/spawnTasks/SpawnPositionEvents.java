@@ -60,7 +60,7 @@ public class SpawnPositionEvents extends SpawnTask{
             PositionalEvent positionalEvent = positionalEvents.get(iterator.next());
 
             if (positionalEvent.isComplete()) {
-                eventRemoveQueue.add(positionalEvent);
+//                eventRemoveQueue.add(positionalEvent);
                 iterator.remove();
             }
         }
