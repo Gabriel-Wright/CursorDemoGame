@@ -31,9 +31,10 @@ public class BackGroundColorChange extends Task {
         lerpedColor = new Color(r, g, b);
 
         GameState.updateGameBackground(lerpedColor);
+        checkComplete();
     }
 
-    @Override
+//    @Override
     public void checkComplete() {
         complete = (tick ==maxTick);
     }

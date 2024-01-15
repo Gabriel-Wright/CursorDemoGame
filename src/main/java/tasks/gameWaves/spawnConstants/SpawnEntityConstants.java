@@ -88,7 +88,7 @@ public class SpawnEntityConstants{
 
     public SpawnEntity findSpawnEntity(int entityIndex) {
         return new SpawnEntity(findEntityWorth(entityIndex), findEntitySpawnTickBuffer(entityIndex), findEventSpawnTickBuffer(entityIndex),
-                findEntityCheckTick(entityIndex), findEntity(entityIndex));
+                findEntity(entityIndex));
     }
 
     /*

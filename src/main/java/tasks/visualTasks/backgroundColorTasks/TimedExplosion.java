@@ -41,11 +41,10 @@ public class TimedExplosion extends Task{
         reassignColors();
         GameState.updateGameBackground(lerpedColor);
         transitionTick++;
-
+        checkComplete();
     }
 
 
-    @Override
     public void checkComplete() {
         if(tick == explosionRate) {
             complete = true;

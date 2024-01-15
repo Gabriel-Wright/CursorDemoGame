@@ -13,13 +13,13 @@ public abstract class Task {
 
     public abstract void runTask();
 
-    public abstract void checkComplete();
+//    public abstract void checkComplete();
 
     public void updateTask() {
         if(!complete) {
             runTask();
             tick++;
-            checkComplete();
+//            checkComplete();
         }
     }
 

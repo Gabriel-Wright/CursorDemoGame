@@ -1,7 +1,6 @@
 package tasks.gameWaves.spawnConstants;
 
 import gameObjects.events.generic.*;
-import tasks.gameWaves.spawnTasks.SpawnPositionEvent;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvents;
 
 import java.awt.*;
@@ -174,11 +173,11 @@ public class SpawnPositionalEventConstants{
 
     public SpawnPositionEvents returnPositionalSpawnEvents(int positionalEventIndex, ArrayList<PositionalEvent> positionalEvents) {
         int eventWorth = findEventWorth(positionalEventIndex);
-        int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
+//        int eventCompleteCheck = findPositionalEventCompleteCheck(positionalEventIndex);
         int entitySpawnBuffer = findEntitySpawnTickBuffer(positionalEventIndex);
         int eventSpawnBuffer = findEventSpawnTickBuffer(positionalEventIndex);
         boolean skippable = findSkippable(positionalEventIndex);
-        return new SpawnPositionEvents(eventWorth, entitySpawnBuffer, eventSpawnBuffer, eventCompleteCheck, positionalEvents, skippable);
+        return new SpawnPositionEvents(eventWorth, entitySpawnBuffer, eventSpawnBuffer, positionalEvents, skippable);
     }
 
     private PositionalEvent findPositionalEvent(int positionalEventIndex, PositionalEventSpawnInfo positionalEventSpawnInfo) {

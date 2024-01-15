@@ -5,14 +5,12 @@ import tasks.Task;
 public abstract class SpawnTask extends Task {
 
     private int taskValue;
-    private int completionCheckTick;
     private int entitySpawnTickBuffer;
     private int eventSpawnTickBuffer;
-    public SpawnTask(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck) {
+    public SpawnTask(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer) {
         this.taskValue = taskValue;
         this.entitySpawnTickBuffer = entitySpawnTickBuffer;
         this.eventSpawnTickBuffer = eventSpawnTickBuffer;
-        this.completionCheckTick = completeCheck;
     }
 
     public int getTaskValue() {
@@ -29,13 +27,6 @@ public abstract class SpawnTask extends Task {
 
     public void setTaskValue(int taskValue) {
         this.taskValue = taskValue;
-    }
-
-    @Override
-    public void checkComplete() {
-        if(tick%completionCheckTick==0 && checkSpawnPurposeComplete()) {
-            complete = true;
-        }
     }
 
 

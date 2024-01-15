@@ -14,8 +14,8 @@ public class SpawnPositionEvents extends SpawnTask{
     private ArrayList<Integer> activeEventFlags;
     private Point spawnIndexes;
     private boolean skippable;
-    public SpawnPositionEvents(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, int completeCheck, ArrayList<PositionalEvent> positionalEvents, boolean skippable) {
-        super(taskValue,entitySpawnTickBuffer, eventSpawnTickBuffer, completeCheck);
+    public SpawnPositionEvents(int taskValue, int entitySpawnTickBuffer, int eventSpawnTickBuffer, ArrayList<PositionalEvent> positionalEvents, boolean skippable) {
+        super(taskValue,entitySpawnTickBuffer, eventSpawnTickBuffer);
         this.positionalEvents = positionalEvents;
         this.skippable = skippable;
     }
