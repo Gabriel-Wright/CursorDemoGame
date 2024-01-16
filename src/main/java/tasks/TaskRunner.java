@@ -21,7 +21,6 @@ public class TaskRunner {
             Task task = queuedTasks.poll();
             activeTasks.add(task);
         }
-
     }
 
     private void runActiveTasks() {
@@ -34,7 +33,6 @@ public class TaskRunner {
                taskIterator.remove();
             }
         }
-
     }
 
     public void updateTasks() {

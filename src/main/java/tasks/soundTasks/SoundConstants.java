@@ -1,4 +1,4 @@
-package sound;
+package tasks.soundTasks;
 
 public class SoundConstants {
 

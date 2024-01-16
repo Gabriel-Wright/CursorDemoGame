@@ -3,7 +3,7 @@ package states;
 import sound.SoundManager;
 
 import static main.GamePanel.*;
-import static sound.SoundConstants.PAUSE_RESUME;
+import static tasks.soundTasks.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
 
 public class PauseState extends State{
