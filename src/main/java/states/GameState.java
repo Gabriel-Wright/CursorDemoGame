@@ -20,6 +20,7 @@ public class GameState extends State{
     private UI gameUI;
     private int level;
     private int gameSeed = 1;
+
     public void loadTestGame() {
         taskHandler = new TaskRunner();
         loadLevelManager();

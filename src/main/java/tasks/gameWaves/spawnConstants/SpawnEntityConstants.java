@@ -5,6 +5,7 @@ import gameObjects.entities.constants.EntityConstants;
 import gameObjects.entities.enemies.GreenDeath.GreenDeath;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
 import tasks.gameWaves.spawnTasks.SpawnEntity;
+import ui.PointPair;
 
 import java.awt.*;
 
@@ -22,7 +23,7 @@ public class SpawnEntityConstants{
     private SpawnEntity[] loadedEntitySpawns;
     private int[] entityIndexes;
     private Point[] loadedEntitySpawnPositions;
-
+    private PointPair[] loadedPointPairs;
     /*
     * FINDERS - find all data stored for entities that are constants e.g. spawn positions, assigned to levels etc.
      */
@@ -41,6 +42,15 @@ public class SpawnEntityConstants{
         return switch(id) {
             case TEST_DEMICHROME -> new Point[]{new Point(2*TILE_SIZE, 15*TILE_SIZE), new Point(31*TILE_SIZE, 3*TILE_SIZE), new Point(25*TILE_SIZE,29*TILE_SIZE)};
             default -> new Point[]{new Point(0,0)};
+        };
+    }
+
+    public PointPair[] findEntitySpawnLocationsP(int id) {
+        return switch(id) {
+            case TEST_DEMICHROME -> new PointPair[]{new PointPair(new Point(2*TILE_SIZE,15*TILE_SIZE),new Point(3*TILE_SIZE,15*TILE_SIZE)),
+                    new PointPair(new Point(31*TILE_SIZE, 3*TILE_SIZE), new Point(27*TILE_SIZE,5*TILE_SIZE)),
+                    new PointPair(new Point(25*TILE_SIZE, 29*TILE_SIZE), new Point(22*TILE_SIZE, 27*TILE_SIZE))};
+            default -> new PointPair[] {new PointPair(new Point(0,0), new Point(1,1))};
         };
     }
 
@@ -99,6 +109,10 @@ public class SpawnEntityConstants{
         loadedEntitySpawnPositions = findEntitySpawnLocations(id);
     }
 
+    public void loadEntitySpawnPositionsP(int id) {
+        loadedPointPairs = findEntitySpawnLocationsP(id);
+    }
+
     public void loadEntityIndexes(int id){
         entityIndexes = findLevelEntityIndexes(id);
     }
@@ -109,6 +123,10 @@ public class SpawnEntityConstants{
 
     public SpawnEntity[] getLoadedEntitySpawns() {
         return loadedEntitySpawns;
+    }
+
+    public PointPair[] getLoadedPointPairs() {
+        return loadedPointPairs;
     }
 
     public Point[] getLoadedEntitySpawnPositions() {

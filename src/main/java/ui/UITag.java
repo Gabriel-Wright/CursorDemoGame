@@ -14,7 +14,7 @@ public class UITag {
     private int messageTicks = 0;
     private int yChangeTick;
     private String tagFlair;
-    private int originalX = -TILE_SIZE;
+    private int originalX = -TILE_SIZE*8;
     private int x;
     private int y = TARGET_SCREEN_HEIGHT / 4;
     private int destX = TILE_SIZE;

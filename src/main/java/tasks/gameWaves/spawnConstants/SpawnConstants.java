@@ -16,6 +16,7 @@ public class SpawnConstants {
     private void loadSpawnEntityConstants(int id) {
         spawnEntityConstants = new SpawnEntityConstants();
         spawnEntityConstants.loadEntitySpawnsPositions(id);
+        spawnEntityConstants.loadEntitySpawnPositionsP(id);
         spawnEntityConstants.loadEntityIndexes(id);
     }
 
