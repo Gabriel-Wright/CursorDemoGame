@@ -58,6 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int numUpdatesPerToggleCheck = 1;
     Thread gameThread;
     //GameStates
+    public static boolean gameActive;
     private static GameState gameState;
     private static PauseState pauseState;
     private static GameOverState gameOverState;
@@ -108,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState.initialiseState();
         pauseState = new PauseState(gameState);
         gameOverState = new GameOverState(gameState);
-
+        gameActive = true;
         setCurrentState(gameState);
     }
 
@@ -117,15 +118,18 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public static void togglePause() {
         if(currentState == gameState) {
+            gameActive = false;
             setCurrentState(pauseState);
             return;
         }
         if(currentState == pauseState) {
+            gameActive = true;
             setCurrentState(gameState);
         }
     }
 
     public static void gameOver() {
+        gameActive = false;
         setCurrentState(gameOverState);
     }
 

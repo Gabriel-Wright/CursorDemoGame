@@ -46,7 +46,7 @@ public class KeyHandler implements KeyListener {
                 break;
             //Pause the game
             case KeyEvent.VK_P, KeyEvent.VK_ESCAPE:
-                GamePanel.togglePause();
+//                GamePanel.togglePause();
                 isPaused = !isPaused;
                 escapePressed = true;
                 break;

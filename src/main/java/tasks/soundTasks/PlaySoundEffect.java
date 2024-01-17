@@ -4,6 +4,7 @@ import tasks.Task;
 
 import javax.sound.sampled.Clip;
 
+import static main.GamePanel.gameActive;
 import static tasks.soundTasks.SoundConstants.getSoundFilePath;
 import static utils.LoadFiles.importSound;
 
@@ -28,14 +29,22 @@ public class PlaySoundEffect extends Task {
             cloneClip.setFramePosition(0);
             cloneClip.start();
         }
-
     }
 
     //Checks whether sound has finished playing - if so task is removed
     @Override
     public void runTask() {
-        if(!sound.isRunning()) {
-            setComplete();
+        if(gameActive) {
+            if (!sound.isRunning()) {
+                sound.start();
+                if(sound.getFramePosition() == sound.getFrameLength()) {
+                    setComplete();
+                }
+            }
+        } else {
+            if (sound.isRunning()) {
+                sound.stop();
+            }
         }
     }
 }

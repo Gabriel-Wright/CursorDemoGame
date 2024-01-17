@@ -2,6 +2,7 @@ package states;
 
 import sound.SoundManager;
 
+import static inputs.KeyHandler.isPaused;
 import static main.GamePanel.*;
 import static tasks.soundTasks.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
@@ -36,8 +37,16 @@ public class PauseState extends State{
         pauseSounds.play(i);
     }
 
+    private void checkResume() {
+        if(!isPaused) {
+            togglePause();
+            endState();
+        }
+    }
+
     @Override
     public void update() {
+        checkResume();
     }
 
     //This renders the background image expected from the gameData that we have, this image will not update as there

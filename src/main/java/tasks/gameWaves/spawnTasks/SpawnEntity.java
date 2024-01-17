@@ -10,6 +10,7 @@ import java.awt.*;
 import static gameObjects.handler.GameObjectHandler.entityQueue;
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
+import static tasks.soundTasks.SoundConstants.ENTITY_SPAWN;
 import static tasks.soundTasks.SoundConstants.PAUSE_RESUME;
 
 public class SpawnEntity extends SpawnTask{
@@ -23,7 +24,7 @@ public class SpawnEntity extends SpawnTask{
         uiTag = new UITagTask("Entity spawned!");
         uiWarningTag = new UIWarningTag("!!!!");
         this.entity = entity;
-        spawnSound = new PlaySoundEffect(PAUSE_RESUME);
+        spawnSound = new PlaySoundEffect(ENTITY_SPAWN);
     }
 
     public void initialiseEntitySpawn(PointPair spawnPoint) {

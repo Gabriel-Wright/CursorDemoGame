@@ -10,7 +10,9 @@ import ui.UI;
 import java.awt.*;
 import java.util.Random;
 
+import static inputs.KeyHandler.isPaused;
 import static main.GamePanel.lockCursor;
+import static main.GamePanel.togglePause;
 
 public class GameState extends State{
 
@@ -59,6 +61,12 @@ public class GameState extends State{
         TaskRunner.addTask(waveManager);
     }
 
+    private void checkPauseState() {
+        if(isPaused) {
+            togglePause();
+        }
+    }
+
     @Override
     public void initialiseState() {
         loadTestGame();
@@ -71,6 +79,8 @@ public class GameState extends State{
 
     @Override
     public void update() {
+        //Might cause error?
+        checkPauseState();
         levelManager.update();
         taskHandler.updateTasks();
     }
