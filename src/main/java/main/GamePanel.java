@@ -2,6 +2,7 @@ package main;
 
 import inputs.KeyHandler;
 import inputs.MouseHandler;
+import sound.SoundConstants;
 import states.*;
 import ui.UI;
 
@@ -65,6 +66,8 @@ public class GamePanel extends JPanel implements Runnable {
     private static MenuState menuState;
     private static State currentState;
 
+    private SoundConstants soundConstants;
+
     public static Color backGroundColor = Color.black;
 
     public GamePanel() {
@@ -83,9 +86,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseMotionListener(mouseH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
 
+        soundConstants = new SoundConstants();
+
         //Initial menu gameStates - other gameStates are loaded at gameStart
         menuState = new MenuState();
-
+        soundConstants = new SoundConstants();
         setCurrentState(menuState);
 
         //Initial display mode

@@ -4,7 +4,7 @@ import sound.SoundManager;
 
 import static inputs.KeyHandler.isPaused;
 import static main.GamePanel.*;
-import static tasks.soundTasks.SoundConstants.PAUSE_RESUME;
+import static sound.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
 
 public class PauseState extends State{

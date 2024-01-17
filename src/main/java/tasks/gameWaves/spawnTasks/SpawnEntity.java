@@ -8,10 +8,7 @@ import ui.*;
 import java.awt.*;
 
 import static gameObjects.handler.GameObjectHandler.entityQueue;
-import static main.GamePanel.TILE_SIZE;
-import static main.GamePanel.UPS;
-import static tasks.soundTasks.SoundConstants.ENTITY_SPAWN;
-import static tasks.soundTasks.SoundConstants.PAUSE_RESUME;
+import static sound.SoundConstants.ENTITY_SPAWN;
 
 public class SpawnEntity extends SpawnTask{
 
