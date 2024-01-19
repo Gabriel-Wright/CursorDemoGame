@@ -2,7 +2,7 @@ package gameObjects.events.entity;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.enemies.GreenDeath.GreenDeathConstants;
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.entities.player.Player;
 import main.GamePanel;
 
@@ -33,7 +33,7 @@ public class GreenDeathEvents implements EntityEvent{
     }
 
     @Override
-    public void RunEntityCursorCollideEvent(Entity entity, Cursor cursor) {
+    public void RunEntityCursorCollideEvent(Entity entity, GameCursor cursor) {
         entity.die();
     }
 }

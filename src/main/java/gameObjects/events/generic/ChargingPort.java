@@ -1,6 +1,6 @@
 package gameObjects.events.generic;
 
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.entities.player.Player;
 import levels.Level;
 import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
@@ -9,7 +9,6 @@ import java.awt.*;
 
 import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 import static inputs.KeyHandler.hitboxToggle;
-import static main.GamePanel.TILE_SIZE;
 
 public class ChargingPort extends PositionalEvent {
 
@@ -25,7 +24,7 @@ public class ChargingPort extends PositionalEvent {
     }
 
     @Override
-    public void runEvent(Cursor cursor) {
+    public void runEvent(GameCursor cursor) {
         cursor.increaseKillMetre();
         totalPoints--;
         checkComplete();

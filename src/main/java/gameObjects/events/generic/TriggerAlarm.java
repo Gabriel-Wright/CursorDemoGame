@@ -1,6 +1,6 @@
 package gameObjects.events.generic;
 
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.entities.player.Player;
 
 import java.awt.*;
@@ -19,7 +19,7 @@ public class TriggerAlarm extends PositionalEvent{
     }
 
     @Override
-    public void runEvent(Cursor cursor) {
+    public void runEvent(GameCursor cursor) {
         System.out.println("Trigger alarm cursor");
     }
 

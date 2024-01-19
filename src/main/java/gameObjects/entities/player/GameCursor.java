@@ -20,10 +20,10 @@ import static inputs.KeyHandler.hitboxToggle;
 import static main.GamePanel.*;
 import static main.Main.WINDOW_IN_FOCUS;
 
-public class Cursor {
+public class GameCursor {
 
     //Max world distance that software cursor can move in a single update
-    private final int maxDelta = TILE_SIZE/4;
+    private final int maxDelta;
     private static int SENSITIVITY_FACTOR = 1;
     //Software positions of mouse calculated each update using the difference in distance from in game :O
     private int mouseX;
@@ -39,8 +39,9 @@ public class Cursor {
     private final int maxKillMetre = UPS*3;
     private int mouseKillMetre = maxKillMetre; //3 seconds worth of use
     private Rectangle cursorHitbox;
-    public Cursor(int radius) {
+    public GameCursor(int radius, int maxDelta) {
         this.radius = radius;
+        this.maxDelta = maxDelta;
         mouseX = TARGET_SCREEN_WIDTH/2;
         mouseY = TARGET_SCREEN_HEIGHT/2;
         // Create an AlphaComposite with 70% transparency
@@ -64,6 +65,17 @@ public class Cursor {
             handleLocalEventTriggers(level, gameObjectGrid);
             handleLocalEntityCollisions(level, gameObjectGrid);
             handleLocalObjectCollisions(level, gameObjectGrid);
+        }
+    }
+
+    public void menuUpdate() {
+        if(WINDOW_IN_FOCUS) {
+            //Handle mouse's position
+            displaceSoftwareMouse();
+            checkScreenEdges();
+            mouseY += deltaY;
+            mouseX += deltaX;
+            checkScreenEdges();
         }
     }
 
@@ -160,7 +172,7 @@ public class Cursor {
         }
         g.fillOval(mouseX - radius, mouseY - radius, radius * 2, radius * 2);
         //Temporary killmetre indicator
-        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*44,(int)TILE_SIZE*25);
+//        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*44,(int)TILE_SIZE*25);
 
         if(hitboxToggle) {
             g.drawRect(mouseX+cursorHitbox.x, mouseY+cursorHitbox.y, cursorHitbox.width,cursorHitbox.height);

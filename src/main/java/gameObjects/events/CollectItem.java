@@ -1,6 +1,6 @@
 package gameObjects.events;
 
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.entities.player.Player;
 import gameObjects.events.generic.Event;
 
@@ -13,7 +13,7 @@ public class CollectItem implements Event {
     }
 
     @Override
-    public void runEvent(Cursor cursor) {
+    public void runEvent(GameCursor cursor) {
         System.out.println("Cursor over item :OO");
     }
 }

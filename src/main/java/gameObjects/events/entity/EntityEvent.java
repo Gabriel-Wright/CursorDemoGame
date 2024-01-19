@@ -1,7 +1,7 @@
 package gameObjects.events.entity;
 
 import gameObjects.entities.Entity;
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.entities.player.Player;
 
 public interface EntityEvent {
@@ -12,6 +12,6 @@ public interface EntityEvent {
     //
     public void RunEntityPlayerCollideEvent(Entity entity, Player player);
 
-    public void RunEntityCursorCollideEvent(Entity entity, Cursor cursor);
+    public void RunEntityCursorCollideEvent(Entity entity, GameCursor cursor);
 
 }

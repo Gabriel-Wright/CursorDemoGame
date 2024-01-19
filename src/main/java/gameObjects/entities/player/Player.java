@@ -1,7 +1,6 @@
 package gameObjects.entities.player;
 
 import gameObjects.entities.Entity;
-import gameObjects.entities.constants.EntityConstants;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.handler.Cell;
 import gameObjects.handler.GameObjectGrid;
@@ -19,11 +18,11 @@ import static main.GamePanel.TILE_SIZE;
 public class Player extends Entity {
 
 //    private Inventory playerInventory = new Inventory();
-    private Cursor cursor;
+    private GameCursor cursor;
     private double rotationAngle=0;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
-        cursor = new Cursor(TILE_SIZE/4);
+        cursor = new GameCursor(TILE_SIZE/4, TILE_SIZE/4);
         bounds.x -= entityWidth/2;
         bounds.y -= entityHeight/2;
     }

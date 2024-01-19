@@ -1,7 +1,7 @@
 package gameObjects.events.generic;
 
 import gameObjects.entities.player.Player;
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.handler.GameObjectHandler;
 import states.GameState;
 import tasks.TaskRunner;
@@ -29,7 +29,7 @@ public class RoomChange extends PositionalEvent {
     }
 
     @Override
-    public void runEvent(Cursor cursor) {
+    public void runEvent(GameCursor cursor) {
         System.out.println("Event collides with cursor");
     }
 

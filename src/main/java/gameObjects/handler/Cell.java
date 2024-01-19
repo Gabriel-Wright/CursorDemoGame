@@ -2,7 +2,7 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.events.generic.PositionalEvent;
 import levels.Level;
 import gameObjects.objects.SuperObject;
@@ -90,7 +90,7 @@ public class Cell {
         }
     }
     //Run cursor events
-    public void runEvents(Cursor cursor) {
+    public void runEvents(GameCursor cursor) {
         for(PositionalEvent event: positionalEvents) {
             if(!event.isComplete()) {
                 event.runEvent(cursor);

@@ -2,7 +2,7 @@ package gameObjects.handler;
 
 import gameObjects.entities.Entity;
 import gameObjects.entities.player.Player;
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import gameObjects.events.generic.PositionalEvent;
 import gameObjects.objects.SuperObject;
 import levels.Level;
@@ -243,7 +243,7 @@ public class GameObjectGrid {
         return assignedCells;
     }
 
-    public List<Point> getAssignedCells(Cursor cursor) {
+    public List<Point> getAssignedCells(GameCursor cursor) {
         List<Point> assignedCells = new ArrayList<>();
 
         Point[] cellIndexes = FindOverlapTiles(cursor);
@@ -258,7 +258,7 @@ public class GameObjectGrid {
     }
 
 //    xOffset and yOffset represent the camera offset, as cursor position is screen based not level based
-    public List<Point> getAssignedCells(Cursor cursor, float xOffset, float yOffset) {
+    public List<Point> getAssignedCells(GameCursor cursor, float xOffset, float yOffset) {
         List<Point> assignedCells = new ArrayList<>();
         Point[] cellIndexes = FindOverlapTiles(cursor, xOffset, yOffset);
         for (Point cellIndex : cellIndexes) {

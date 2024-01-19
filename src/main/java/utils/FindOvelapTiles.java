@@ -1,7 +1,7 @@
 package utils;
 
 import gameObjects.entities.Entity;
-import gameObjects.entities.player.Cursor;
+import gameObjects.entities.player.GameCursor;
 import java.awt.*;
 
 import static main.GamePanel.TILE_SIZE;
@@ -28,7 +28,7 @@ public class FindOvelapTiles {
 
 
 //    Probably better to add a small hitbox for the cursor
-    public static Point[] FindOverlapTiles(Cursor cursor, float xOffset, float yOffset) {
+    public static Point[] FindOverlapTiles(GameCursor cursor, float xOffset, float yOffset) {
         int startX = (int) (cursor.getMouseX() + cursor.getCursorHitbox().x + xOffset)/TILE_SIZE;
         int startY = (int) (cursor.getMouseY() + cursor.getCursorHitbox().y +yOffset)/TILE_SIZE;
         int endX = (int) (cursor.getMouseX() + cursor.getCursorHitbox().width + cursor.getCursorHitbox().x + xOffset)/TILE_SIZE;
@@ -46,7 +46,7 @@ public class FindOvelapTiles {
         return tileIndexes;
     }
 
-    public static Point[] FindOverlapTiles(Cursor cursor) {
+    public static Point[] FindOverlapTiles(GameCursor cursor) {
         int startX = (int) (cursor.getMouseX() + cursor.getCursorHitbox().x)/TILE_SIZE;
         int startY = (int) (cursor.getMouseY() + cursor.getCursorHitbox().y)/TILE_SIZE;
         int endX =  (int) (cursor.getMouseX() + cursor.getCursorHitbox().width + cursor.getCursorHitbox().x)/TILE_SIZE;
