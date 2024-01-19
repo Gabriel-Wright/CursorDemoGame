@@ -1,10 +1,11 @@
 package states;
 
+import options.sound.SoundSettings;
 import sound.SoundManager;
 
-import static inputs.KeyHandler.isPaused;
+import static inputs.KeyHandler.*;
 import static main.GamePanel.*;
-import static sound.SoundConstants.PAUSE_RESUME;
+import static options.sound.SoundConstants.PAUSE_RESUME;
 import java.awt.*;
 
 public class PauseState extends State{
@@ -12,8 +13,10 @@ public class PauseState extends State{
     private GameState gameState;
     private SoundManager pauseSounds;
     private int[] soundConstants = {PAUSE_RESUME};
-    public PauseState(GameState gameState) {
+    private SoundSettings soundSettings;
+    public PauseState(GameState gameState, SoundSettings soundSettings) {
         this.gameState = gameState;
+        this.soundSettings = soundSettings;
         pauseSounds = new SoundManager(soundConstants);
     }
 
@@ -46,7 +49,16 @@ public class PauseState extends State{
 
     @Override
     public void update() {
+        checkSettings();
         checkResume();
+    }
+
+    private void checkSettings() {
+        if(upPressed) {
+            soundSettings.incrementVolumeUP(0.01f);
+        } else if (downPressed) {
+            soundSettings.incrementVolumeDOWN(0.01f);
+        }
     }
 
     //This renders the background image expected from the gameData that we have, this image will not update as there

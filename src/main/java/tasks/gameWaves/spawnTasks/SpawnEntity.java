@@ -8,7 +8,7 @@ import ui.*;
 import java.awt.*;
 
 import static gameObjects.handler.GameObjectHandler.entityQueue;
-import static sound.SoundConstants.ENTITY_SPAWN;
+import static options.sound.SoundConstants.ENTITY_SPAWN;
 
 public class SpawnEntity extends SpawnTask{
 

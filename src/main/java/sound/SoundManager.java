@@ -5,7 +5,7 @@ import javax.sound.sampled.Clip;
 import java.util.HashMap;
 import java.util.Map;
 
-import static sound.SoundConstants.getSoundFilePath;
+import static options.sound.SoundConstants.getSoundFilePath;
 import static utils.LoadFiles.importSound;
 public class SoundManager {
 

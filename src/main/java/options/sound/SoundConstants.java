@@ -1,6 +1,7 @@
-package sound;
+package options.sound;
 
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import static utils.LoadFiles.importSound;
 
@@ -10,11 +11,9 @@ public class SoundConstants {
     public final static int OBTAIN = 1;
     public final static int ENTITY_SPAWN = 2;
 
-    private static Clip[] preLoadedAudioClips;
+    public final static int numAudioClips = 3;
 
-    public SoundConstants() {
-        loadAudioClips();
-    }
+    private static Clip[] preLoadedAudioClips;
 
     public static String getSoundFilePath(int i) {
         switch(i) {
@@ -28,9 +27,9 @@ public class SoundConstants {
         return "";
     }
 
-    private void loadAudioClips() {
+    public void loadAudioClips() {
         //Have to manually set this for the number of clips unfortunately
-        int numAudioClips = 3;
+
         preLoadedAudioClips = new Clip[numAudioClips];
         int i;
         for(i = 0; i<numAudioClips; i++) {
@@ -43,7 +42,25 @@ public class SoundConstants {
         return preLoadedAudioClips[index];
     }
 
-    public static void adjustAudioClipVolume(int index) {
-        //This will change the volume of the preloaded audio clips here.
+    //Adjusting volume
+
+    public void adjustVolume(float volume) {
+        int i;
+        if(preLoadedAudioClips.length != numAudioClips) {
+            System.out.println("Could not adjust volume, mismatch of number of clips");
+            return;
+        }
+        for(i=0; i<numAudioClips; i++) {
+            adjustAudioClipVolume(preLoadedAudioClips[i], volume);
+        }
+    }
+
+    private static void adjustAudioClipVolume(Clip clip, float volume) {
+        if (clip != null && clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float range = gainControl.getMaximum() - gainControl.getMinimum();
+            float gain = (range * volume) + gainControl.getMinimum();
+            gainControl.setValue(gain);
+        }
     }
 }

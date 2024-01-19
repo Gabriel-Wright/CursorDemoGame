@@ -2,13 +2,14 @@ package main;
 
 import inputs.KeyHandler;
 import inputs.MouseHandler;
-import sound.SoundConstants;
+import options.Settings;
+import options.sound.SoundConstants;
+import options.sound.SoundSettings;
 import states.*;
 import ui.UI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowFocusListener;
 
 import static inputs.KeyHandler.fullScreenToggle;
 import static main.Main.*;
@@ -66,7 +67,8 @@ public class GamePanel extends JPanel implements Runnable {
     private static MenuState menuState;
     private static State currentState;
 
-    private SoundConstants soundConstants;
+    private Settings settings;
+    private static SoundSettings soundSettings;
 
     public static Color backGroundColor = Color.black;
 
@@ -86,15 +88,18 @@ public class GamePanel extends JPanel implements Runnable {
         this.addMouseMotionListener(mouseH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
 
-        soundConstants = new SoundConstants();
-
+        settings = new Settings();
+        soundSettings = new SoundSettings(settings);
+        soundSettings.loadSoundConstants();
+        soundSettings.adjustSoundConstants();
+        soundSettings.setVolume(0.9f);
         //Initial menu gameStates - other gameStates are loaded at gameStart
         menuState = new MenuState();
-        soundConstants = new SoundConstants();
         setCurrentState(menuState);
 
         //Initial display mode
         originalDisplayMode = graphicsDevice.getDisplayMode();
+
     }
 
     private void initialiseWindowDimensions() {
@@ -112,7 +117,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static void startGame() {
         gameState = new GameState();
         gameState.initialiseState();
-        pauseState = new PauseState(gameState);
+        pauseState = new PauseState(gameState, soundSettings);
         gameOverState = new GameOverState(gameState);
         gameActive = true;
         setCurrentState(gameState);

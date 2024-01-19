@@ -5,8 +5,8 @@ import tasks.Task;
 import javax.sound.sampled.Clip;
 
 import static main.GamePanel.gameActive;
-import static sound.SoundConstants.getAudioClip;
-import static sound.SoundConstants.getSoundFilePath;
+import static options.sound.SoundConstants.getAudioClip;
+import static options.sound.SoundConstants.getSoundFilePath;
 import static utils.LoadFiles.importSound;
 
 public class PlaySoundEffect extends Task {
