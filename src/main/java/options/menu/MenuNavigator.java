@@ -29,4 +29,13 @@ public class MenuNavigator {
     public ArrayList<MenuNode> getCurrentMenuOptions() {
         return displayNode.getChildren();
     }
+
+    public void setDisplayNode(MenuNode displayNode) {
+        if(displayNode.getChildren().isEmpty()) {
+            //If there are no children then execute command
+        } else {
+            //Otherwise continue
+            this.displayNode = displayNode;
+        }
+    }
 }

@@ -4,14 +4,17 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import static options.menu.MenuRenderer.resetOptionClickedFlag;
+
 public class MouseHandler implements MouseListener, MouseMotionListener {
 
     //We lock the real mouse to the centre of the screen, and use a fake software mouse for
     //in screen calculations
     public static boolean mouseClickHeld = false;
+    public static boolean mouseClicked = false;
      @Override
     public void mouseClicked(MouseEvent e) {
-//        System.out.println("Mouse click");
+        mouseClicked = true;
     }
 
     @Override
@@ -24,6 +27,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
 //        System.out.println("Mouse released");
         mouseClickHeld = false;
+        mouseClicked = false;
+        resetOptionClickedFlag();
     }
 
     @Override

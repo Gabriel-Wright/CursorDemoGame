@@ -8,10 +8,12 @@ import gameObjects.objects.SuperObject;
 import inputs.MouseHandler;
 import levels.Level;
 import levels.LevelCamera;
+import options.menu.MenuNode;
 
 import java.awt.*;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,7 +70,7 @@ public class GameCursor {
         }
     }
 
-    public void menuUpdate() {
+    public void menuUpdate(ArrayList<MenuNode> menuNodes) {
         if(WINDOW_IN_FOCUS) {
             //Handle mouse's position
             displaceSoftwareMouse();
@@ -76,6 +78,18 @@ public class GameCursor {
             mouseY += deltaY;
             mouseX += deltaX;
             checkScreenEdges();
+            checkMenuNodeCollision(menuNodes);
+
+        }
+    }
+
+    private void checkMenuNodeCollision(ArrayList<MenuNode> menuNodes) {
+        for (MenuNode menuNode: menuNodes) {
+            if(menuNode.getTriggerBox().contains(mouseX, mouseY)) {
+                menuNode.setFocused();
+            } else {
+                menuNode.setUnfocused();
+            }
         }
     }
 

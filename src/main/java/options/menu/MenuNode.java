@@ -3,8 +3,6 @@ package options.menu;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static main.GamePanel.TILE_SIZE;
-
 public class MenuNode {
 
     //Name of the node
@@ -12,6 +10,7 @@ public class MenuNode {
     private MenuNode parent;
     private ArrayList<MenuNode> children;
     private Rectangle triggerBox;
+    private boolean focused = false;
     public MenuNode(String label) {
         this.label = label;
         children = new ArrayList<>();
@@ -43,8 +42,29 @@ public class MenuNode {
     }
 
     public void renderNode(Graphics g) {
+        if(isFocused()) {
+            g.setColor(Color.GREEN);
+            g.fillRect(triggerBox.x, triggerBox.y, triggerBox.width, triggerBox.height);
+        }
+
+        g.setColor(Color.WHITE);
         g.drawString(label,triggerBox.x, triggerBox.y+triggerBox.height);
         g.drawRect(triggerBox.x, triggerBox.y, triggerBox.width, triggerBox.height);
+    }
 
+    public Rectangle getTriggerBox() {
+        return triggerBox;
+    }
+
+    public void setUnfocused() {
+        focused = false;
+    }
+
+    public void setFocused() {
+        focused = true;
+    }
+
+    public boolean isFocused() {
+        return focused;
     }
 }

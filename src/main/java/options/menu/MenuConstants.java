@@ -11,10 +11,13 @@ public class MenuConstants {
     private void loadMainMenu() {
         rootMain = new MenuNode("ROOT");
         MenuNode playNode = new MenuNode("PLAY");
+        MenuNode levelOneNode = new MenuNode("LEVEL 1");
+        MenuNode levelTwoNode = new MenuNode("Level 2");
         MenuNode scoreNode = new MenuNode("SCORE");
         MenuNode optionNode = new MenuNode("OPTIONS");
         MenuNode quitNode = new MenuNode("QUIT");
-
+        playNode.addChildNode(levelOneNode);
+        playNode.addChildNode(levelTwoNode);
         rootMain.addChildNode(playNode);
         rootMain.addChildNode(scoreNode);
         rootMain.addChildNode(optionNode);

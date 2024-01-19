@@ -31,6 +31,7 @@ public class MenuState extends State{
         menuConstants.loadMenus();
         menuNavigator = new MenuNavigator("TEST", menuConstants.getRootMain());
         menuRenderer = new MenuRenderer(menuNavigator);
+        menuRenderer.loadMenuScaling();
         lockCursor();
     }
 
