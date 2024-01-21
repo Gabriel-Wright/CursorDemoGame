@@ -30,6 +30,10 @@ public class MenuNavigator {
         return displayNode.getChildren();
     }
 
+    public MenuNode getDisplayNode() {
+        return displayNode;
+    }
+
     public void setDisplayNode(MenuNode displayNode) {
         if(displayNode.getChildren().isEmpty()) {
             //If there are no children then execute command

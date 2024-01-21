@@ -13,6 +13,7 @@ import static main.GamePanel.*;
 public class MenuRenderer {
 
     private MenuNavigator menuNavigator;
+    private BackNode backNode;
 
     //Height first menu option is printed
     private int startX = TARGET_SCREEN_WIDTH / 6;
@@ -28,6 +29,7 @@ public class MenuRenderer {
 
     public MenuRenderer(MenuNavigator menuNavigator) {
         this.menuNavigator = menuNavigator;
+        backNode = new BackNode(this);
     }
 
     public void loadMenuScaling() {
@@ -90,10 +92,21 @@ public class MenuRenderer {
         }
     }
 
+    private void checkBackSelect() {
+        if(mouseClicked && !optionClicked) {
+            if(backNode.isFocused()) {
+                menuNavigator.goBack();
+                loadMenuScaling();
+                optionClicked = true;
+            }
+        }
+    }
+
     public void update() {
 //        loadMenuScaling();
-        cursor.menuUpdate(getCurrentMenuOptions());
+        cursor.menuUpdate(getCurrentMenuOptions(), backNode);
         checkSelect();
+        checkBackSelect();
     }
 
     public void renderMenu(Graphics g){
@@ -108,6 +121,9 @@ public class MenuRenderer {
             menuNode.renderNode(g);
         }
 
+        if(menuNavigator.getDisplayNode().getParent()!=null) {
+            backNode.renderBackButton(g);
+        }
         cursor.render(g);
     }
 

@@ -20,7 +20,7 @@ public class ChargingPort extends PositionalEvent {
 
     @Override
     public void runEvent(Player player) {
-        System.out.println("Nah");
+//        System.out.println("Nah");
     }
 
     @Override

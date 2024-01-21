@@ -8,6 +8,7 @@ import gameObjects.objects.SuperObject;
 import inputs.MouseHandler;
 import levels.Level;
 import levels.LevelCamera;
+import options.menu.BackNode;
 import options.menu.MenuNode;
 
 import java.awt.*;
@@ -70,7 +71,7 @@ public class GameCursor {
         }
     }
 
-    public void menuUpdate(ArrayList<MenuNode> menuNodes) {
+    public void menuUpdate(ArrayList<MenuNode> menuNodes, BackNode backNode) {
         if(WINDOW_IN_FOCUS) {
             //Handle mouse's position
             displaceSoftwareMouse();
@@ -79,7 +80,7 @@ public class GameCursor {
             mouseX += deltaX;
             checkScreenEdges();
             checkMenuNodeCollision(menuNodes);
-
+            checkBackNodeCollision(backNode);
         }
     }
 
@@ -93,12 +94,12 @@ public class GameCursor {
         }
     }
 
+    private void checkBackNodeCollision(BackNode backNode) {
+        backNode.setFocused(backNode.getTriggerBox().contains(mouseX, mouseY));
+    }
+
     private void checkKillState() {
-        if(MouseHandler.mouseClickHeld&&mouseKillMetre>0) {
-            mouseKillActive = true;
-        } else {
-            mouseKillActive = false;
-        }
+        mouseKillActive = MouseHandler.mouseClickHeld && mouseKillMetre > 0;
     }
 
     private void adjustKillMetre() {
