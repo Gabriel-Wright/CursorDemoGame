@@ -8,15 +8,15 @@ import static inputs.MouseHandler.mouseClicked;
 import static options.menu.MenuListRenderer.optionClicked;
 
 //Same as MenuNode but has some adjustable things
-public class OptionNode extends MenuNode {
+public class VolumeNode extends MenuNode {
 
     private SoundSettings soundSettings;
     private Rectangle sliderWidthBox;
     private Rectangle sliderHeightBox;
     private boolean withinZone;
 
-    public OptionNode(String label, SoundSettings soundSettings) {
-        super(label);
+    public VolumeNode(SoundSettings soundSettings) {
+        super("VOLUME");
         this.soundSettings = soundSettings;
     }
 
@@ -41,10 +41,10 @@ public class OptionNode extends MenuNode {
             g.setColor(Color.GREEN);
             g.fillRect(triggerBox.x, triggerBox.y, triggerBox.width, triggerBox.height);
             g.setColor(Color.WHITE);
-            g.drawString("Volume:" + volume , triggerBox.x, triggerBox.y+triggerBox.height);
+            g.drawString(getLabel()+":" + volume , triggerBox.x, triggerBox.y+triggerBox.height);
         } else {
             g.drawRect(triggerBox.x, triggerBox.y, triggerBox.width, triggerBox.height);
-            g.drawString("Volume:" + volume , triggerBox.x, triggerBox.y+triggerBox.height);
+            g.drawString(getLabel()+":" + volume , triggerBox.x, triggerBox.y+triggerBox.height);
         }
         g.fillRect(sliderWidthBox.x, sliderWidthBox.y, sliderWidthBox.width, sliderWidthBox.height);
         g.setColor(Color.BLUE);

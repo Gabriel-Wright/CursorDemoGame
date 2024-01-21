@@ -1,6 +1,7 @@
 package options.menu;
 
 import options.menu.execute.gameEnd.EndGame;
+import options.menu.execute.gameEnd.ReturnToMenu;
 import options.menu.execute.gameState.LevelOneExecute;
 import options.sound.SoundSettings;
 
@@ -9,9 +10,11 @@ import options.sound.SoundSettings;
 public class MenuConstants {
 
     private MenuNode rootMain;
+    private MenuNode rootPause;
 
     public void loadMenus(SoundSettings soundSettings) {
         loadMainMenu(soundSettings);
+        loadPauseMenu(soundSettings);
     }
 
     private void loadMainMenu(SoundSettings soundSettings) {
@@ -23,7 +26,7 @@ public class MenuConstants {
         MenuNode levelTwoNode = new MenuNode("Level 2");
         MenuNode scoreNode = new MenuNode("SCORE");
         MenuNode optionNode = new MenuNode("OPTIONS");
-        OptionNode volumeToggle = new OptionNode("slider", soundSettings);
+        VolumeNode volumeToggle = new VolumeNode(soundSettings);
         MenuNode controlNode = new MenuNode("CONTROL");
         MenuNode quitNode = new MenuNode("QUIT");
         EndGame endGame = new EndGame();
@@ -38,7 +41,24 @@ public class MenuConstants {
         rootMain.addChildNode(quitNode);
     }
 
+    private void loadPauseMenu(SoundSettings soundSettings) {
+        rootPause = new MenuNode("PAUSE");
+        MenuNode optionNode = new MenuNode("OPTIONS");
+        MenuNode exitNode = new MenuNode("MAIN MENU");
+        VolumeNode volumeNode = new VolumeNode(soundSettings);
+        ReturnToMenu returnToMenu = new ReturnToMenu();
+
+        optionNode.addChildNode(volumeNode);
+        rootPause.addChildNode(optionNode);
+        exitNode.setExecuteChoice(returnToMenu);
+        rootPause.addChildNode(exitNode);
+    }
+
     public MenuNode getRootMain() {
         return rootMain;
+    }
+
+    public MenuNode getRootPause() {
+        return rootPause;
     }
 }

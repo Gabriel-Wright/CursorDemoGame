@@ -11,10 +11,6 @@ import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.lockCursor;
 
 public class MenuState extends State{
-    private Font font;
-    private int fontSize;
-    private int xMessagePos;
-    private int yMessagePos;
     private SoundSettings soundSettings;
     private MenuConstants menuConstants = new MenuConstants();
     private MenuNavigator menuNavigator;
@@ -25,12 +21,6 @@ public class MenuState extends State{
     }
     @Override
     public void initialiseState() {
-
-        fontSize = 42;
-        font = new Font("Arial", Font.PLAIN, fontSize);
-        xMessagePos = TILE_SIZE*20;
-        yMessagePos = TILE_SIZE*10;
-
         menuConstants.loadMenus(soundSettings);
         menuNavigator = new MenuNavigator("TEST", menuConstants.getRootMain());
         menuRenderer = new MenuListRenderer(menuNavigator);

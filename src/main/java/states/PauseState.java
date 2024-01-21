@@ -1,5 +1,8 @@
 package states;
 
+import options.menu.MenuConstants;
+import options.menu.MenuListRenderer;
+import options.menu.MenuNavigator;
 import options.sound.SoundSettings;
 import sound.SoundManager;
 
@@ -14,6 +17,9 @@ public class PauseState extends State{
     private SoundManager pauseSounds;
     private int[] soundConstants = {PAUSE_RESUME};
     private SoundSettings soundSettings;
+    private MenuConstants menuConstants = new MenuConstants();
+    private MenuNavigator menuNavigator;
+    private MenuListRenderer menuRenderer;
     public PauseState(GameState gameState, SoundSettings soundSettings) {
         this.gameState = gameState;
         this.soundSettings = soundSettings;
@@ -22,12 +28,16 @@ public class PauseState extends State{
 
     //Unsure what is needed
     public void initialiseState() {
-
+        menuConstants.loadMenus(soundSettings);
+        menuNavigator = new MenuNavigator("Pause", menuConstants.getRootPause());
+        menuRenderer = new MenuListRenderer(menuNavigator);
+        menuRenderer.loadMenuScaling();
     }
 
     @Override
     public void reloadState() {
-        unlockCursor();
+        menuNavigator.setDisplayNode(menuConstants.getRootPause());
+        menuRenderer.loadMenuScaling();
         //play sound - load menus?
         playPauseSound(PAUSE_RESUME);
     }
@@ -49,16 +59,8 @@ public class PauseState extends State{
 
     @Override
     public void update() {
-        checkSettings();
+        menuRenderer.update();
         checkResume();
-    }
-
-    private void checkSettings() {
-        if(upPressed) {
-            soundSettings.incrementVolumeUP(0.01f);
-        } else if (downPressed) {
-            soundSettings.incrementVolumeDOWN(0.01f);
-        }
     }
 
     //This renders the background image expected from the gameData that we have, this image will not update as there
@@ -68,6 +70,7 @@ public class PauseState extends State{
     public void render(Graphics g) {
         renderGameStateBackground(g);
         applyPauseFilter(g);
+        menuRenderer.renderMenu(g);
     }
 
     private void renderGameStateBackground(Graphics g) {

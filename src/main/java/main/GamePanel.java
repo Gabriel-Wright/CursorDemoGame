@@ -119,6 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = new GameState();
         gameState.initialiseState();
         pauseState = new PauseState(gameState, soundSettings);
+        pauseState.initialiseState();
         gameOverState = new GameOverState(gameState);
         gameActive = true;
         setCurrentState(gameState);
