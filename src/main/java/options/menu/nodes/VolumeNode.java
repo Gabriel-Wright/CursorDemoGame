@@ -1,5 +1,6 @@
-package options.menu;
+package options.menu.nodes;
 
+import options.menu.nodes.MenuNode;
 import options.sound.SoundSettings;
 
 import java.awt.*;
@@ -51,6 +52,7 @@ public class VolumeNode extends MenuNode {
         g.fillRect(sliderHeightBox.x, sliderHeightBox.y, sliderHeightBox.width, sliderHeightBox.height);
     }
 
+    @Override
     public void checkCursorCollision(int mouseX, int mouseY) {
         if (sliderWidthBox.contains(mouseX, mouseY)) {
             if (mouseClicked && !optionClicked) {

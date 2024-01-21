@@ -1,4 +1,6 @@
-package options.menu;
+package options.menu.nodes;
+
+import options.menu.MenuListRenderer;
 
 import java.awt.*;
 

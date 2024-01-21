@@ -8,8 +8,8 @@ import gameObjects.objects.SuperObject;
 import inputs.MouseHandler;
 import levels.Level;
 import levels.LevelCamera;
-import options.menu.BackNode;
-import options.menu.MenuNode;
+import options.menu.nodes.BackNode;
+import options.menu.nodes.MenuNode;
 
 import java.awt.*;
 import java.awt.MouseInfo;

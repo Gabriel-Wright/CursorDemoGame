@@ -24,7 +24,7 @@ public class GameOverState extends State{
 
     @Override
     public void initialiseState() {
-        fontSize = 100;
+        fontSize = TILE_SIZE;
         font = new Font("Arial", Font.PLAIN, fontSize);
         xMessagePos = TILE_SIZE*20;
         yMessagePos = TILE_SIZE*10;

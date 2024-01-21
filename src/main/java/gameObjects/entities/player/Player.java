@@ -20,6 +20,7 @@ public class Player extends Entity {
 //    private Inventory playerInventory = new Inventory();
     private GameCursor cursor;
     private double rotationAngle=0;
+    public static int SCORE;
     public Player(int x, int y, PlayerConstants playerConstants) {
         super(x, y, playerConstants);
         cursor = new GameCursor(TILE_SIZE/4, TILE_SIZE/4);

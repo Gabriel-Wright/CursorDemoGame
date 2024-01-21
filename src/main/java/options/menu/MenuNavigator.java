@@ -1,5 +1,7 @@
 package options.menu;
 
+import options.menu.nodes.MenuNode;
+
 import java.util.ArrayList;
 
 public class MenuNavigator {

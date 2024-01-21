@@ -1,4 +1,4 @@
-package options.menu;
+package options.menu.nodes;
 
 import options.menu.execute.Executes;
 

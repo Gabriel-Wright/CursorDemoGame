@@ -1,6 +1,8 @@
 package options.menu;
 
 import gameObjects.entities.player.GameCursor;
+import options.menu.nodes.BackNode;
+import options.menu.nodes.MenuNode;
 
 import java.awt.*;
 import java.util.ArrayList;

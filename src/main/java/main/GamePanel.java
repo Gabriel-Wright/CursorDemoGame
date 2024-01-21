@@ -3,6 +3,9 @@ package main;
 import inputs.KeyHandler;
 import inputs.MouseHandler;
 import options.Settings;
+import options.score.ScoreEntry;
+import options.score.ScoreReader;
+import options.score.ScoreWriter;
 import options.sound.SoundConstants;
 import options.sound.SoundSettings;
 import states.*;
@@ -100,7 +103,15 @@ public class GamePanel extends JPanel implements Runnable {
 
         //Initial display mode
         originalDisplayMode = graphicsDevice.getDisplayMode();
+        scores();
+    }
 
+    private void scores() {
+        ScoreWriter scoreWriter= new ScoreWriter();
+        scoreWriter.saveScore(new ScoreEntry("Mark", 35));
+        scoreWriter.saveScore(new ScoreEntry("Billy69", 32));
+        ScoreReader scoreReader = new ScoreReader();
+        scoreReader.readScores();
     }
 
     private void initialiseWindowDimensions() {
