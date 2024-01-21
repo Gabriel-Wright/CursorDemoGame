@@ -38,20 +38,14 @@ public class MenuState extends State{
     @Override
     public void reloadState() {
         GameState.updateGameBackground(Color.BLACK);
+        menuNavigator.setDisplayNode(menuConstants.getRootMain());
+        menuRenderer.loadMenuScaling();
         lockCursor();
     }
 
     @Override
     public void update() {
         menuRenderer.update();
-        if(spacePressed) {
-            GamePanel.startGame();
-        }
-        if(qPressed) {
-            System.out.println("Program closing from main menu");
-            System.exit(0);
-
-        }
     }
 
     @Override

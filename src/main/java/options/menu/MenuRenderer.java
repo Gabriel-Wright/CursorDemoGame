@@ -3,10 +3,8 @@ package options.menu;
 import gameObjects.entities.player.GameCursor;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import static inputs.MouseHandler.mouseClickHeld;
 import static inputs.MouseHandler.mouseClicked;
 import static main.GamePanel.*;
 
@@ -90,6 +88,10 @@ public class MenuRenderer {
                 }
             }
         }
+
+        if(optionClicked) {
+            checkExecute();
+        }
     }
 
     private void checkBackSelect() {
@@ -102,9 +104,16 @@ public class MenuRenderer {
         }
     }
 
+    private void checkExecute() {
+        MenuNode displayNode = menuNavigator.getDisplayNode();
+        if(displayNode.isExecutable()) {
+            displayNode.executeChoice();
+        }
+    }
     public void update() {
 //        loadMenuScaling();
         cursor.menuUpdate(getCurrentMenuOptions(), backNode);
+
         checkSelect();
         checkBackSelect();
     }

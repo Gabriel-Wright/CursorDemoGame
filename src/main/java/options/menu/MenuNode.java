@@ -1,5 +1,7 @@
 package options.menu;
 
+import options.menu.execute.Executes;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -11,9 +13,20 @@ public class MenuNode {
     private ArrayList<MenuNode> children;
     private Rectangle triggerBox;
     private boolean focused = false;
+
+    private Executes executeChoice;
+
     public MenuNode(String label) {
         this.label = label;
         children = new ArrayList<>();
+    }
+
+    public void setExecuteChoice(Executes executeChoice) {
+        this.executeChoice = executeChoice;
+    }
+
+    public void executeChoice() {
+        executeChoice.executeChoice();
     }
 
     public void setParent(MenuNode parentNode) {
@@ -66,5 +79,9 @@ public class MenuNode {
 
     public boolean isFocused() {
         return focused;
+    }
+
+    public boolean isExecutable() {
+        return executeChoice != null;
     }
 }
