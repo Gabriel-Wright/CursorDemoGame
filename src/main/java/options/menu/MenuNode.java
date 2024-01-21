@@ -11,7 +11,7 @@ public class MenuNode {
     private String label;
     private MenuNode parent;
     private ArrayList<MenuNode> children;
-    private Rectangle triggerBox;
+    protected Rectangle triggerBox;
     private boolean focused = false;
 
     private Executes executeChoice;
@@ -67,6 +67,15 @@ public class MenuNode {
 
     public Rectangle getTriggerBox() {
         return triggerBox;
+    }
+
+    public void checkCursorCollision(int mouseX, int mouseY) {
+        if(triggerBox.contains(mouseX, mouseY)) {
+            setFocused();
+        } else {
+            setUnfocused();
+        }
+
     }
 
     public void setUnfocused() {

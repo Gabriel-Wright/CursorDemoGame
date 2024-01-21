@@ -8,9 +8,9 @@ public class BackNode {
 
     private Rectangle triggerBox;
     private boolean focused = false; //whether the mouse is hovering over
-    private MenuRenderer menuRenderer;
+    private MenuListRenderer menuRenderer;
 
-    public BackNode(MenuRenderer menuRenderer) {
+    public BackNode(MenuListRenderer menuRenderer) {
         this.menuRenderer = menuRenderer;
         loadTriggerBox();
     }

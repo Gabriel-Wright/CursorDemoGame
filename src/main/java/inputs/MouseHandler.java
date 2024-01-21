@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import static options.menu.MenuRenderer.resetOptionClickedFlag;
+import static options.menu.MenuListRenderer.resetOptionClickedFlag;
 
 public class MouseHandler implements MouseListener, MouseMotionListener {
 

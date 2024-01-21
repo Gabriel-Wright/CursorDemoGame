@@ -86,11 +86,7 @@ public class GameCursor {
 
     private void checkMenuNodeCollision(ArrayList<MenuNode> menuNodes) {
         for (MenuNode menuNode: menuNodes) {
-            if(menuNode.getTriggerBox().contains(mouseX, mouseY)) {
-                menuNode.setFocused();
-            } else {
-                menuNode.setUnfocused();
-            }
+            menuNode.checkCursorCollision(mouseX, mouseY);
         }
     }
 

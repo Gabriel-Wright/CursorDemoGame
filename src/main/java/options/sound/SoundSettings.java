@@ -44,6 +44,4 @@ public class SoundSettings {
         System.out.println("Volume at: " + newVolume);
     }
 
-
-
 }

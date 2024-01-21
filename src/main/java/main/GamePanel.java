@@ -94,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable {
         soundSettings.adjustSoundConstants();
         soundSettings.setVolume(0.9f);
         //Initial menu gameStates - other gameStates are loaded at gameStart
-        menuState = new MenuState();
+        menuState = new MenuState(soundSettings);
         menuState.initialiseState();
         setCurrentState(menuState);
 

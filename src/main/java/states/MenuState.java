@@ -1,13 +1,12 @@
 package states;
 
-import main.GamePanel;
 import options.menu.MenuConstants;
 import options.menu.MenuNavigator;
-import options.menu.MenuRenderer;
+import options.menu.MenuListRenderer;
+import options.sound.SoundSettings;
 
 import java.awt.*;
 
-import static inputs.KeyHandler.*;
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.lockCursor;
 
@@ -16,10 +15,14 @@ public class MenuState extends State{
     private int fontSize;
     private int xMessagePos;
     private int yMessagePos;
-
+    private SoundSettings soundSettings;
     private MenuConstants menuConstants = new MenuConstants();
     private MenuNavigator menuNavigator;
-    private MenuRenderer menuRenderer;
+    private MenuListRenderer menuRenderer;
+
+    public MenuState(SoundSettings soundSettings) {
+        this.soundSettings = soundSettings;
+    }
     @Override
     public void initialiseState() {
 
@@ -28,9 +31,9 @@ public class MenuState extends State{
         xMessagePos = TILE_SIZE*20;
         yMessagePos = TILE_SIZE*10;
 
-        menuConstants.loadMenus();
+        menuConstants.loadMenus(soundSettings);
         menuNavigator = new MenuNavigator("TEST", menuConstants.getRootMain());
-        menuRenderer = new MenuRenderer(menuNavigator);
+        menuRenderer = new MenuListRenderer(menuNavigator);
         menuRenderer.loadMenuScaling();
         lockCursor();
     }
