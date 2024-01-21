@@ -28,7 +28,7 @@ public class PauseState extends State{
 
     //Unsure what is needed
     public void initialiseState() {
-        menuConstants.loadMenus(soundSettings);
+        menuConstants.loadPauseMenu(soundSettings);
         menuNavigator = new MenuNavigator("Pause", menuConstants.getRootPause());
         menuRenderer = new MenuListRenderer(menuNavigator);
         menuRenderer.loadMenuScaling();

@@ -17,4 +17,8 @@ public class ScoreEntry {
     public int getScore() {
         return score;
     }
+
+    public String getScoreDisplay() {
+        return name +":"+score;
+    }
 }

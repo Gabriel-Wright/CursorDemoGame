@@ -73,6 +73,9 @@ public class GamePanel extends JPanel implements Runnable {
     private Settings settings;
     private static SoundSettings soundSettings;
 
+    private ScoreWriter scoreWriter;
+    private ScoreReader scoreReader;
+
     public static Color backGroundColor = Color.black;
 
     public GamePanel() {
@@ -96,21 +99,21 @@ public class GamePanel extends JPanel implements Runnable {
         soundSettings.loadSoundConstants();
         soundSettings.adjustSoundConstants();
         soundSettings.setVolume(0.9f);
+        loadScores();
         //Initial menu gameStates - other gameStates are loaded at gameStart
-        menuState = new MenuState(soundSettings);
+        menuState = new MenuState(soundSettings, scoreReader);
         menuState.initialiseState();
         setCurrentState(menuState);
 
         //Initial display mode
         originalDisplayMode = graphicsDevice.getDisplayMode();
-        scores();
     }
 
-    private void scores() {
-        ScoreWriter scoreWriter= new ScoreWriter();
+    private void loadScores() {
+        scoreWriter= new ScoreWriter();
         scoreWriter.saveScore(new ScoreEntry("Mark", 35));
         scoreWriter.saveScore(new ScoreEntry("Billy69", 32));
-        ScoreReader scoreReader = new ScoreReader();
+        scoreReader = new ScoreReader();
         scoreReader.readScores();
     }
 
