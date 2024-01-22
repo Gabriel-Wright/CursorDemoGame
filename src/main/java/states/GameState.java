@@ -79,6 +79,7 @@ public class GameState extends State{
     @Override
     public void initialiseState() {
         loadTestGame();
+        isPaused = false;
     }
 
     @Override

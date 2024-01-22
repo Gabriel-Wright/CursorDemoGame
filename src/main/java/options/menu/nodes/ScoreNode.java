@@ -28,6 +28,11 @@ public class ScoreNode extends MenuNode {
         loadFont();
     }
 
+    public void reloadScores() {
+        loadScoreEntries();;
+        loadFont();;
+    }
+
     private void loadScoreEntries() {
         scores = scoreReader.readScores();
         int numScoreEntires = scores.size();

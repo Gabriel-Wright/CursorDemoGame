@@ -87,6 +87,7 @@ public class MenuListRenderer {
                     menuNavigator.pickOption(menuNode);
                     loadMenuScaling();
                     optionClicked = true;
+                    menuNode.setUnfocused();
                 }
             }
         }

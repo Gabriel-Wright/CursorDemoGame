@@ -1,13 +1,17 @@
 package states;
 
 import main.GamePanel;
+import options.menu.MenuListRenderer;
+import options.menu.MenuNodeRenderer;
+import options.menu.nodes.ScoreNode;
+import options.score.ScoreReader;
 
 import java.awt.*;
 
 import static inputs.KeyHandler.escapePressed;
 import static inputs.KeyHandler.spacePressed;
-import static main.GamePanel.TILE_SIZE;
-import static main.GamePanel.unlockCursor;
+import static main.GamePanel.*;
+import static main.GamePanel.TARGET_SCREEN_HEIGHT;
 
 public class GameOverState extends State{
 
@@ -15,30 +19,28 @@ public class GameOverState extends State{
 
     private Font font;
     private int fontSize;
-    private int xMessagePos;
-    private int yMessagePos;
 
-    public GameOverState(GameState gameState) {
+     final Color gameOverColor = new Color(255,0,0,128);
+    private ScoreNode scoreDisplay;
+    public GameOverState(GameState gameState, ScoreReader scoreReader) {
         this.gameState = gameState;
+        scoreDisplay = new ScoreNode(scoreReader);
     }
 
     @Override
     public void initialiseState() {
-        fontSize = TILE_SIZE;
-        font = new Font("Arial", Font.PLAIN, fontSize);
-        xMessagePos = TILE_SIZE*20;
-        yMessagePos = TILE_SIZE*10;
+
     }
 
     @Override
     public void reloadState() {
+        scoreDisplay.reloadScores();
         GameState.updateGameBackground(Color.BLACK);
         unlockCursor();
     }
 
     @Override
     public void update() {
-//        gameState.update();
         if(escapePressed) {
             GamePanel.returnMenu();
         }
@@ -47,7 +49,12 @@ public class GameOverState extends State{
     @Override
     public void render(Graphics g) {
         gameState.render(g);
-        g.setFont(font);
-        g.drawString("GAME OVER",xMessagePos,yMessagePos);
+        applyGameOverFilter(g);
+        scoreDisplay.renderNode(g);
+    }
+
+    private void applyGameOverFilter(Graphics g) {
+        g.setColor(gameOverColor);
+        g.fillRect(0, 0, TARGET_SCREEN_WIDTH, TARGET_SCREEN_HEIGHT);
     }
 }
