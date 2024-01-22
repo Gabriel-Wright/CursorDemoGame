@@ -140,6 +140,7 @@ public class GameObjectHandler {
         return player;
     }
 
+    //Iterate through all cells within the camera's range - and then render them all
     public void render(Graphics g, Level level) {
         int xStart = (int) Math.max(0, level.getLevelCamera().getxOffset() / TILE_SIZE);
         int yStart = (int) Math.max(0, level.getLevelCamera().getyOffset() / TILE_SIZE);
@@ -148,9 +149,15 @@ public class GameObjectHandler {
         for (int y = yStart; y < yEnd; y++) {
             for (int x = xStart; x < xEnd; x++) {
                 if (gameObjectGrid.getCell(x, y) != null) {
-                    gameObjectGrid.renderEntities(x, y, g, level);
-                    gameObjectGrid.renderObjects(x, y, g, level);
                     gameObjectGrid.renderEvents(x, y, g, level);
+                }
+            }
+        }
+        for (int y = yStart; y < yEnd; y++) {
+            for (int x = xStart; x < xEnd; x++) {
+                if (gameObjectGrid.getCell(x, y) != null) {
+                    gameObjectGrid.renderObjects(x, y, g, level);
+                    gameObjectGrid.renderEntities(x, y, g, level);
                 }
             }
         }

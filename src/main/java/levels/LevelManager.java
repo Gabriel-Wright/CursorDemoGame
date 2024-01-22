@@ -18,7 +18,7 @@ public class LevelManager {
 
     //Load new level from LevelConstants class
     public void loadNewLevel(int i) {
-        //Create new instance here - unsure whether is better to avoid this. But we want to reset the value of levelConstants.
+        //Create new instance here - maybe could be ideal to load constants at top level of GamePanel - But we want to reset the value of levelConstants.
         levelRef = i;
         levelConstants = new LevelConstants();
         levelConstants.loadLevelConstants(i);

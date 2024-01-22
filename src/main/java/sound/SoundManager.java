@@ -9,6 +9,8 @@ import static options.sound.SoundConstants.getSoundFilePath;
 import static utils.LoadFiles.importSound;
 public class SoundManager {
 
+    //This class is used for playing one off sounds
+
     //Use constants class to choose clips
     private Map<Integer, Clip> soundClips;
     private int[] soundConstants;

@@ -36,13 +36,15 @@ public class Cell {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
+
     public void addObject(SuperObject object) {
         objects.add(object);
-        System.out.println("Added object" + object.getX() + object.getY());
     }
+
     public void addPositionalEvent(PositionalEvent positionalEvent) {
         positionalEvents.add(positionalEvent);
     }
@@ -58,6 +60,7 @@ public class Cell {
     public void removePositionalEvent(PositionalEvent positionalEvent){
         positionalEvents.remove(positionalEvent);
     }
+
     public void removeObject(SuperObject object) {
         objects.remove(object);
     }
@@ -74,29 +77,6 @@ public class Cell {
         return positionalEvents;
     }
 
-//    public void runEvents() {
-//        for(PositionalEvent event: positionalEvents) {
-//            if(!event.isComplete()) {
-//                event.runEvent();
-//            }
-//        }
-//    }
-    //Run Player events
-    public void runEvents(Player player) {
-        for(PositionalEvent event: positionalEvents) {
-            if(!event.isComplete()) {
-                event.runEvent(player);
-            }
-        }
-    }
-    //Run cursor events
-    public void runEvents(GameCursor cursor) {
-        for(PositionalEvent event: positionalEvents) {
-            if(!event.isComplete()) {
-                event.runEvent(cursor);
-            }
-        }
-    }
 
     public void renderEntities(Graphics g, Level level) {
         for(Entity entity: entities) {
@@ -104,7 +84,7 @@ public class Cell {
                 entity.render(g, level);
             }
         }
-        //Won't work with camera - temporary for now
+        //Won't work if camera can move
         if(pathFindingDisplay && agroPath!=null) {
             for(Point pathPoint: agroPath) {
                 g.setColor(new Color(255,0,0,70));

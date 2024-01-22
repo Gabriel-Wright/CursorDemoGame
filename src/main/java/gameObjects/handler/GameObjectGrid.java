@@ -327,16 +327,10 @@ public class GameObjectGrid {
                         cell.setNextAgroPathPoint(cell.getCellIndexes());
                         continue;
                     }
-//                    if(outerKey==15&& (innerKey==13)) {
-//                        System.out.println("Whatsup");
-//                    }
                     //Find path to desired point --> add that path to the cell
                     pathfinder.findPath(cell.getCellIndexes(), goalIndex);
                     cell.setAgroPath(pathfinder.getPath());
                     cell.setNextAgroPathPoint(cell.getAgroPath().get(1));
-//                    if(cell.getAgroPath().get(1)==null) {
-//                        System.out.println("stop");
-//                    }
                 }
             }
         }

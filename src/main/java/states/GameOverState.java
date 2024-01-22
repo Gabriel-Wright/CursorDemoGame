@@ -17,11 +17,10 @@ public class GameOverState extends State{
 
     private GameState gameState;
 
-    private Font font;
-    private int fontSize;
 
-     final Color gameOverColor = new Color(255,0,0,128);
+    private final Color gameOverColor = new Color(255,0,0,128);
     private ScoreNode scoreDisplay;
+
     public GameOverState(GameState gameState, ScoreReader scoreReader) {
         this.gameState = gameState;
         scoreDisplay = new ScoreNode(scoreReader);

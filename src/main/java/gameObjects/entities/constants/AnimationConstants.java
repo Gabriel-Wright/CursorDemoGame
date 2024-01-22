@@ -6,7 +6,6 @@ public interface AnimationConstants {
 
     public String getAnimationPath();
 
-//    public EntityAnimations getAnimations();
 
     public int[] getAnimationFlags();
 

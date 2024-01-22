@@ -20,12 +20,6 @@ public class CursorTimedBomb extends PositionalEvent{
 
     private TimedExplosion continuousAlarm;
 
-//    public CursorTimedBomb(Color[] transitionColors, int x, int y, int width, int height) {
-//        super(x,y,width,height);
-//        triggerBox = new Rectangle(x, y, width, height);
-//        continuousAlarm = new TimedExplosion(UPS*10, UPS*2, GameState.getBackgroundColor(), transitionColors);
-//    }
-
     public CursorTimedBomb(Color[] transitionColors, PositionalEventSpawnInfo positionalEventSpawnInfo) {
         super(positionalEventSpawnInfo.x(), positionalEventSpawnInfo.y(), positionalEventSpawnInfo.width(), positionalEventSpawnInfo.height());
         //Need to make these non floating variables

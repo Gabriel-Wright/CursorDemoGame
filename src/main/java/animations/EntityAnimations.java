@@ -49,7 +49,6 @@ public class EntityAnimations {
             BufferedImage[] animationFrames = new BufferedImage[numAnimationFrames];
             for(int j=0; j<numAnimationFrames;j++) {
                 int xSpriteStartDim = j+startXDim+(width)*j;
-//                animationFrames[i][j] = spriteSheet.getSubimage(xSpriteStartDim,startYDim,width,height);
                 animationFrames[j] = spriteSheet.getSubimage(xSpriteStartDim, startYDim, width, height);
             }
             animationFramesMap.put(action,animationFrames);

@@ -13,12 +13,27 @@ public class Main {
     public static void main(String[] args) {
         startX = 100;
         startY = 100;
+
         JFrame window = new JFrame();
-        //Can close window
+        loadWindowDimensionSettings(window);
+
+        GamePanel gamePanel = new GamePanel();
+        attachGamePanelToWindow(window, gamePanel);
+
+        setWindowCursorToBlank(window);
+
+        //Set window visible and start gameThread
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        gamePanel.startGameThread();
+    }
+
+    private static void loadWindowDimensionSettings(JFrame window) {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Cannot resize window
-        window.setTitle("2D Adventure");
+        window.setTitle("Cursor DEMO");
         window.setLocation(startX,startY);
         window.addWindowFocusListener(new WindowFocusListener() {
             @Override
@@ -34,11 +49,15 @@ public class Main {
             }
         });
 
-        GamePanel gamePanel = new GamePanel();
+    }
+
+    private static void attachGamePanelToWindow(JFrame window, GamePanel gamePanel) {
         window.add(gamePanel);
         window.setResizable(false);
         window.pack();
+    }
 
+    private static void setWindowCursorToBlank(JFrame window) {
         // Create a blank image for a custom cursor
         BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
 
@@ -46,11 +65,5 @@ public class Main {
 
         // Set the cursor to the blank cursor
         window.getContentPane().setCursor(blankCursor);
-
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-
-        gamePanel.startGameThread();
     }
-
 }

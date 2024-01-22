@@ -19,13 +19,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        System.out.println("Mouse pressed");
         mouseClickHeld = true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-//        System.out.println("Mouse released");
         mouseClickHeld = false;
         mouseClicked = false;
         resetOptionClickedFlag();
@@ -33,12 +31,12 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-//        System.out.println("Mouse entered?");
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-//        System.out.println("mouse exit");
+
     }
 
     @Override
@@ -48,21 +46,6 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+
     }
-
-//    @Override
-//    public void mouseDragged(MouseEvent e) {
-////        System.out.println("mouse drag");
-//        MOUSE_X = e.getX(); // Update mouse X position
-//        MOUSE_Y = e.getY(); // Update mouse Y position
-////        System.out.println(MOUSE_X +","+ MOUSE_Y);
-//    }
-
-//    @Override
-//    public void mouseMoved(MouseEvent e) {
-////        System.out.println("mouse move");
-//        MOUSE_X = e.getX(); // Update mouse X position
-//        MOUSE_Y = e.getY(); // Update mouse Y position
-//        System.out.println(MOUSE_X +","+ MOUSE_Y);
-//    }
 }

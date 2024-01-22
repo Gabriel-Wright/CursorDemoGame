@@ -26,13 +26,14 @@ public class GamePanel extends JPanel implements Runnable {
     private double scaleX = 1;
     private double scaleY = 1;
 
-    //Base level camera
+    //Number of frames per seconds and in game updates per second
     public final static int FPS = 60;
     public final static int UPS = 120;
 
     //Maximum number of tiles to be displayed on screen for each dimension
     final static int maxScreenCol = 48;
     final static int maxScreenRow = 27;
+
     //Hence target width and height with initial tile size -this is used to calculate scale X and scale Y
     public static int TARGET_SCREEN_WIDTH = TILE_SIZE * maxScreenCol;
     public static int TARGET_SCREEN_HEIGHT = TILE_SIZE * maxScreenRow;
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
     //NumUpdates per toggle check - how many updates have to pass for toggle check
     private int numUpdatesPerToggleCheck = 1;
     Thread gameThread;
+
     //GameStates
     public static boolean gameActive;
     private static GameState gameState;
@@ -70,15 +72,37 @@ public class GamePanel extends JPanel implements Runnable {
     private static MenuState menuState;
     private static State currentState;
 
+    //Settings objects
     private Settings settings;
     private static SoundSettings soundSettings;
 
+    //Score writer and reader objects
     private ScoreWriter scoreWriter;
     private static ScoreReader scoreReader;
 
     public static Color backGroundColor = Color.black;
 
     public GamePanel() {
+        loadWindow();
+
+        //Initialising input handlers
+        initialiseInputHandlers();
+
+        //Initialising settings - checking if settings have been assigned
+        loadSettings();
+
+        //Reloading saved score config
+        loadScores();
+
+        //Initial menu gameStates - other gameStates are loaded at gameStart
+        initialiseMenuState();
+        setCurrentState(menuState);
+
+        //Initial display mode
+        originalDisplayMode = graphicsDevice.getDisplayMode();
+    }
+
+    private void loadWindow() {
         initialiseWindowDimensions();
         //Set size of window to preferred size
         this.setPreferredSize(new Dimension(TARGET_SCREEN_WIDTH, TARGET_SCREEN_HEIGHT));
@@ -86,27 +110,37 @@ public class GamePanel extends JPanel implements Runnable {
         this.setBackground(Color.black);
         //Can improve game rendering performance
         this.setDoubleBuffered(true);
+    }
 
-        //Initialising input handlers
+    private void initialiseWindowDimensions() {
+        screenEdgeX = startX + TARGET_SCREEN_WIDTH;
+        screenEdgeY = startY + TARGET_SCREEN_HEIGHT;
+        centreX = startX + TARGET_SCREEN_WIDTH / 2;
+        centreY = startY + TARGET_SCREEN_HEIGHT / 2;
+    }
+
+    private void initialiseInputHandlers() {
         initialiseRobot();
         this.addKeyListener(keyH);
         this.addMouseListener(mouseH);
         this.addMouseMotionListener(mouseH);
         this.setFocusable(true); //sets KeyListener to be focusable within gamePanel
+    }
 
+    private void initialiseRobot() {
+        try {
+            mouseLocker = new Robot();
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadSettings() {
         settings = new Settings();
         soundSettings = new SoundSettings(settings);
         soundSettings.loadSoundConstants();
         soundSettings.adjustSoundConstants();
         soundSettings.setVolume(0.9f);
-        loadScores();
-        //Initial menu gameStates - other gameStates are loaded at gameStart
-        menuState = new MenuState(soundSettings, scoreReader);
-        menuState.initialiseState();
-        setCurrentState(menuState);
-
-        //Initial display mode
-        originalDisplayMode = graphicsDevice.getDisplayMode();
     }
 
     private void loadScores() {
@@ -117,18 +151,15 @@ public class GamePanel extends JPanel implements Runnable {
         scoreReader.readScores();
     }
 
-    private void initialiseWindowDimensions() {
-        screenEdgeX = startX + TARGET_SCREEN_WIDTH;
-        screenEdgeY = startY + TARGET_SCREEN_HEIGHT;
-        centreX = startX + TARGET_SCREEN_WIDTH / 2;
-        centreY = startY + TARGET_SCREEN_HEIGHT / 2;
+    private void initialiseMenuState() {
+        menuState = new MenuState(soundSettings, scoreReader);
+        menuState.initialiseState();
     }
 
-    private void updateScale() {
-        scaleX = (double) getWidth() / TARGET_SCREEN_WIDTH;
-        scaleY = (double) getHeight() / TARGET_SCREEN_HEIGHT;
-    }
 
+    /*
+    * These methods below are used for toggling different game states, e.g. starting the game - pausing, gameOver etc.
+     */
     public static void startGame() {
         gameState = new GameState();
         gameState.initialiseState();
@@ -142,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static void returnMenu() {
         setCurrentState(menuState);
     }
+
     public static void togglePause() {
         if(currentState == gameState) {
             gameActive = false;
@@ -159,6 +191,14 @@ public class GamePanel extends JPanel implements Runnable {
         setCurrentState(gameOverState);
     }
 
+    public static void setCurrentState(State state) {
+        currentState = state;
+        currentState.reloadState();
+    }
+
+    /*
+    * These methods are used for adjusting in game tile dimensions based on the size of the window
+     */
     private void enterFullscreen() {
         if (graphicsDevice.isFullScreenSupported()) {
             // Set full screen mode
@@ -185,17 +225,9 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public static void setCurrentState(State state) {
-        currentState = state;
-        currentState.reloadState();
-    }
-
-    private void initialiseRobot() {
-        try {
-            mouseLocker = new Robot();
-        } catch (AWTException e) {
-            throw new RuntimeException(e);
-        }
+    private void updateScale() {
+        scaleX = (double) getWidth() / TARGET_SCREEN_WIDTH;
+        scaleY = (double) getHeight() / TARGET_SCREEN_HEIGHT;
     }
 
     private void checkPanelDimension() {
@@ -207,6 +239,21 @@ public class GamePanel extends JPanel implements Runnable {
             screenEdgeY = panelLocation.y + TARGET_SCREEN_HEIGHT;
         }
     }
+
+    private void checkFullScreenToggle() {
+        if (isFullScreen != fullScreenToggle) {
+            toggleFullScreen();
+        }
+    }
+
+    public static void lockCursor() {
+        LOCK_CURSOR = true;
+    }
+
+    public static void unlockCursor() {
+        LOCK_CURSOR = false;
+    }
+
 
     private void lockCursorToCentre() {
         if (WINDOW_IN_FOCUS) {
@@ -304,17 +351,4 @@ public class GamePanel extends JPanel implements Runnable {
         currentState.render(g);
     }
 
-    private void checkFullScreenToggle() {
-        if (isFullScreen != fullScreenToggle) {
-            toggleFullScreen();
-        }
-    }
-
-    public static void lockCursor() {
-        LOCK_CURSOR = true;
-    }
-
-    public static void unlockCursor() {
-        LOCK_CURSOR = false;
-    }
 }

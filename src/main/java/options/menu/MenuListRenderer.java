@@ -29,7 +29,7 @@ public class MenuListRenderer {
 
     public MenuListRenderer(MenuNavigator menuNavigator) {
         this.menuNavigator = menuNavigator;
-        backNode = new BackNode(this);
+        backNode = new BackNode();
     }
 
     public void loadMenuScaling() {

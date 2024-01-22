@@ -32,7 +32,7 @@ public class Player extends Entity {
     @Override
     public void update(Level level, GameObjectGrid gameObjectGrid) {
         //Update position calculations
-            updatePos();
+        updatePos();
         //Verify states/positions based on collisions within level post movement
         move(level);
         //Handle local event triggers
@@ -55,8 +55,6 @@ public class Player extends Entity {
             // Do something when xMove or yMove is not close to 0
             gameObjectGrid.reassignPlayerCells(this, -xMove, -yMove);
         }
-
-
         cursor.update(x, y, level, gameObjectGrid);
     }
 
@@ -65,8 +63,6 @@ public class Player extends Entity {
     @Override
     protected void handleEntityCollision(Entity entity) {
         if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-//            die();
-//            //Run entity - player collision event from entity's event list
             entity.getEntityCollideEvents().RunEntityPlayerCollideEvent(entity,this);
         }
     }
@@ -85,7 +81,6 @@ public class Player extends Entity {
             //Check entity is not itself
             handleLocalCollision(cellObject);
         }
-
     }
     private void updatePlayerRotation(Level level) {
         rotationAngle = cursor.calculateAngle(x,y,level.getLevelCamera()) + Math.PI/2;
@@ -94,6 +89,7 @@ public class Player extends Entity {
     private void handleLocalCollision(SuperObject cellObject) {
         cellObject.getEvent().runEvent(this);
     }
+
     //This is intended for only single trigger in a small space
     private void handleLocalEventTriggers(GameObjectGrid gameObjectGrid) {
         Point[] cellIndexes = gameObjectGrid.getAssignedCells(this).toArray(new Point[0]);
@@ -138,9 +134,6 @@ public class Player extends Entity {
             moving = true;
             yMove -= speed;
         }
-
-        //move();
-        //checkObjectCollide();
     }
 
 
@@ -164,11 +157,6 @@ public class Player extends Entity {
 
         // Cast Graphics to Graphics2D to enable transformations
         Graphics2D g2d = (Graphics2D) g.create();
-
-        // Save the original transform state
-        AffineTransform originalTransform = g2d.getTransform();
-
-        g2d.rotate(rotationAngle, entityXPos, entityYPos);
 
         animations.drawImage(g2d, action, aniIndex, displacedXPos, displacedYPos, entityWidth, entityHeight);
 

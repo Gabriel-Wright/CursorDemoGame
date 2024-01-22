@@ -15,21 +15,7 @@ public class GreenDeath extends Entity {
     private int moveTick = 0;
     private int direction = 0;
 
-    //Need to refactor this whole thing once wave basics are done
-
-    public GreenDeath(int x, int y, GreenDeathConstants greenDeathConstants) {
-        super(x, y ,greenDeathConstants);
-    }
-    public GreenDeath(GreenDeathConstants greenDeathConstants) {super(greenDeathConstants);}
-
     public GreenDeath(EntityConstants entityConstants) {super(entityConstants);}
-
-//    @Override
-//    protected void handleEntityCollision(Entity entity) {
-//        if(getCollisionBounds().intersects(entity.getCollisionBounds())) {
-//            getEntityCollideEvents().RunEntityEntityCollideEvent(entity,this);
-//        }
-//    }
 
     @Override
     protected void updatePos() {
@@ -78,6 +64,7 @@ public class GreenDeath extends Entity {
                 break;
         }
     }
+
     @Override
     protected void updateAction() {
 

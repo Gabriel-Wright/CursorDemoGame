@@ -27,7 +27,6 @@ public abstract class Entity {
 
     //Entity Position related variables
     protected float x, y;
-    protected int newWorldX, newWorldY;
 
     protected float speed;
     protected float xMove;
@@ -48,7 +47,6 @@ public abstract class Entity {
             loadEntityValuesFromConstants();
             loadAnimations();
         }
-        //Default bounds
     }
 
     public Entity(EntityConstants entityConstants) {
@@ -141,8 +139,6 @@ public abstract class Entity {
 
     public void update(Level level, GameObjectGrid gameObjectGrid) {
         //Update position calculations- xMove and yMove values (what values the entity will be displaced by in this update)
-//        System.out.println(getEntityCellIndexes());
-
         if(onPath&&getEntityNextAgroIndex(gameObjectGrid)!=null) {
             moveTowardsTile(getEntityNextAgroIndex(gameObjectGrid), level);
         } else {
@@ -166,9 +162,6 @@ public abstract class Entity {
 
     private void moveTowardsTile(Point nextTileIndex, Level level) {
 
-//        if(nextTileIndex ==null) {
-//            System.out.println("Stop");
-//        }
         int nextX = nextTileIndex.x * TILE_SIZE;
         int nextY = nextTileIndex.y * TILE_SIZE;
 
@@ -300,6 +293,7 @@ public abstract class Entity {
     public float getY() {
         return y;
     }
+
     public Rectangle getBounds() {
         return bounds;
     }
@@ -307,6 +301,7 @@ public abstract class Entity {
     public void setX(float x) {
         this. x = x;
     }
+
     public void setY(float y) {
         this.y = y;
     }
@@ -347,7 +342,6 @@ public abstract class Entity {
         Point entityCellIndexes = getEntityCellIndexes();
         Cell gameObjectGridCell = gameObjectGrid.getCell(getEntityCellIndexes().x,getEntityCellIndexes().y);
         if(gameObjectGridCell==null || gameObjectGridCell.getNextAgroPathPoint() ==null) {
-            //Null next point?
             return null;
         }
         return gameObjectGrid.getCell(entityCellIndexes.x,entityCellIndexes.y).getNextAgroPathPoint();

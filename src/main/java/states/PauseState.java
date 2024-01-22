@@ -14,12 +14,16 @@ import java.awt.*;
 public class PauseState extends State{
 
     private GameState gameState;
-    private SoundManager pauseSounds;
-    private int[] soundConstants = {PAUSE_RESUME};
-    private SoundSettings soundSettings;
+
     private MenuConstants menuConstants = new MenuConstants();
     private MenuNavigator menuNavigator;
     private MenuListRenderer menuRenderer;
+
+    private SoundManager pauseSounds;
+    private int[] soundConstants = {PAUSE_RESUME};
+    private SoundSettings soundSettings;
+
+
     public PauseState(GameState gameState, SoundSettings soundSettings) {
         this.gameState = gameState;
         this.soundSettings = soundSettings;
@@ -38,7 +42,7 @@ public class PauseState extends State{
     public void reloadState() {
         menuNavigator.setDisplayNode(menuConstants.getRootPause());
         menuRenderer.loadMenuScaling();
-        //play sound - load menus?
+
         playPauseSound(PAUSE_RESUME);
     }
     public void endState() {

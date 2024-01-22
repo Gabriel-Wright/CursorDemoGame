@@ -44,11 +44,6 @@ public class ScoreNode extends MenuNode {
     private void loadFont() {
         int intervalHeight = scoreBox.height/numDisplayedScores;
         int fontSize = intervalHeight / 2;
-//        switch (numDisplayedScores) {
-//            case 5,4  -> fontSize = 3*intervalHeight/8;
-//            case 3,2 -> fontSize = intervalHeight/3;
-//            case 1 -> fontSize = intervalHeight / 2;
-//        }
         scoreFont = new Font("Arial", Font.ITALIC,fontSize);
     }
 

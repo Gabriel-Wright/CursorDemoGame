@@ -46,11 +46,6 @@ public class MenuState extends State{
 
     @Override
     public void render(Graphics g) {
-//        g.setFont(font);
-//        g.setColor(Color.WHITE);
-//        g.drawString("PRESS SPACE TO START GAME OR Q TO QUIT",
-//                TILE_SIZE*24,
-//                TILE_SIZE*15);
         menuRenderer.renderMenu(g);
     }
 }
