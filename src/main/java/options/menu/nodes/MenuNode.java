@@ -21,6 +21,10 @@ public class MenuNode {
         children = new ArrayList<>();
     }
 
+    public void reloadNode() {
+
+    }
+
     public void setExecuteChoice(Executes executeChoice) {
         this.executeChoice = executeChoice;
     }

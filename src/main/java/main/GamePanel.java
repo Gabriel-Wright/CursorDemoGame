@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
     private static SoundSettings soundSettings;
 
     //Score writer and reader objects
-    private ScoreWriter scoreWriter;
+    private static ScoreWriter scoreWriter;
     private static ScoreReader scoreReader;
 
     public static Color backGroundColor = Color.black;
@@ -165,7 +165,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState.initialiseState();
         pauseState = new PauseState(gameState, soundSettings);
         pauseState.initialiseState();
-        gameOverState = new GameOverState(gameState, scoreReader);
+        gameOverState = new GameOverState(gameState, scoreWriter, scoreReader);
         gameActive = true;
         setCurrentState(gameState);
     }

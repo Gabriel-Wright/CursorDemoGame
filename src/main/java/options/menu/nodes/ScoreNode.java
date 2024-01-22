@@ -30,7 +30,12 @@ public class ScoreNode extends MenuNode {
 
     public void reloadScores() {
         loadScoreEntries();;
-        loadFont();;
+        loadFont();
+    }
+    @Override
+    public void reloadNode() {
+        loadScoreEntries();;
+        loadFont();
     }
 
     private void loadScoreEntries() {

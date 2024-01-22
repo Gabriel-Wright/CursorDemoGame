@@ -45,7 +45,7 @@ public class MenuListRenderer {
         intervalY = menuHeight/numMenuOptions;
         adjustFontSize(numMenuOptions);
 
-        assignTriggerBoxes();
+        reloadNodes();
     }
 
     private void adjustFontSize(int numMenuOptions) {
@@ -55,11 +55,12 @@ public class MenuListRenderer {
         }
     }
 
-    private void assignTriggerBoxes() {
+    private void reloadNodes() {
         ArrayList<MenuNode> currentMenuOptions = menuNavigator.getCurrentMenuOptions();
         int index = 0;
         for(MenuNode menuNode: currentMenuOptions) {
             int optionHeight = startY + index * intervalY;
+            menuNode.reloadNode();
             menuNode.setTriggerBox(new Rectangle(startX, optionHeight, width, intervalY));
             index++;
         }

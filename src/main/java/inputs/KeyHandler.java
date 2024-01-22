@@ -16,9 +16,34 @@ public class KeyHandler implements KeyListener {
     performanceInfo = false, pathFindingDisplay = false;
     public static boolean fullScreenToggle = false;
 
+    public static StringBuilder typedText;
+    public static boolean nameInputted = true;
+
+
+    public static void reloadTypedText() {
+        typedText = new StringBuilder();
+        nameInputted = false;
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
-
+        //This process won't be checked when nameInputted isnt set to false -i.e. only when in gameOver state
+        if(!nameInputted) {
+            char inputChar = e.getKeyChar();
+            int typedTextLength = typedText.length();
+            if (inputChar == '\n') {
+                nameInputted = true;
+            } else if (inputChar == '\b') {
+                if (typedTextLength > 0) {
+                    typedText.deleteCharAt(typedTextLength - 1);
+                }
+            } else {
+                if (typedTextLength < 6) {
+                    typedText.append(inputChar);
+                    System.out.println(typedText.toString());
+                }
+            }
+        }
     }
 
     @Override
@@ -45,7 +70,7 @@ public class KeyHandler implements KeyListener {
                 qPressed = true;
                 break;
             //Pause the game
-            case KeyEvent.VK_P, KeyEvent.VK_ESCAPE:
+            case KeyEvent.VK_ESCAPE:
 //                GamePanel.togglePause();
                 isPaused = !isPaused;
                 escapePressed = true;
