@@ -40,7 +40,7 @@ public class KeyHandler implements KeyListener {
             } else {
                 if (typedTextLength < 6) {
                     typedText.append(inputChar);
-                    System.out.println(typedText.toString());
+//                    System.out.println(typedText.toString());
                 }
             }
         }

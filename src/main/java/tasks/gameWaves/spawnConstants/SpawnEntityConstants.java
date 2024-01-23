@@ -54,7 +54,7 @@ public class SpawnEntityConstants{
                     new PointPair(new Point(25*TILE_SIZE, 29*TILE_SIZE), new Point(22*TILE_SIZE, 25*TILE_SIZE))};
             case EASY_LEVEL -> new PointPair[]{new PointPair(new Point(2*TILE_SIZE, 15*TILE_SIZE), new Point(4*TILE_SIZE, 17*TILE_SIZE)),
                     new PointPair(new Point(31*TILE_SIZE, 3*TILE_SIZE), new Point(31*TILE_SIZE, 5*TILE_SIZE)),
-                    new PointPair(new Point(25*TILE_SIZE,31*TILE_SIZE), new Point(25*TILE_SIZE, 28*TILE_SIZE))};
+                    new PointPair(new Point(25*TILE_SIZE,31*TILE_SIZE), new Point(25*TILE_SIZE, 23*TILE_SIZE))};
             default -> new PointPair[] {new PointPair(new Point(0,0), new Point(1,1))};
         };
     }

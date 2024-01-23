@@ -41,7 +41,7 @@ public class ScoreReader {
         // Sort scores in descending order
         scores.sort(Comparator.comparingInt(ScoreEntry::getScore).reversed());
 
-        printScores(scores);
+//        printScores(scores);
         return scores;
     }
 

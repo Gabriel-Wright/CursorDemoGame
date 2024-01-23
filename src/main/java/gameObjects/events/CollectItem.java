@@ -9,11 +9,11 @@ public class CollectItem implements Event {
 
     @Override
     public void runEvent(Player player) {
-        System.out.println("Got item :))");
+//        System.out.println("Got item :))");
     }
 
     @Override
     public void runEvent(GameCursor cursor) {
-        System.out.println("Cursor over item :OO");
+//        System.out.println("Cursor over item :OO");
     }
 }

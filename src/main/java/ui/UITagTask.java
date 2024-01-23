@@ -69,4 +69,7 @@ public class UITagTask extends Task {
         g2d.drawString(message, x, y);
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

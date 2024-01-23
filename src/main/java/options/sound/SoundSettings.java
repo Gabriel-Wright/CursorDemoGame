@@ -34,14 +34,14 @@ public class SoundSettings {
         float currentVolume = getVolume();
         float newVolume = Math.min(currentVolume + percentage, 1.0f);
         setVolume(newVolume);
-        System.out.println("Volume at: " + newVolume);
+//        System.out.println("Volume at: " + newVolume);
     }
 
     public void incrementVolumeDOWN(float percentage) {
         float currentVolume = getVolume();
         float newVolume = Math.max(currentVolume - percentage, 0.0f);
         setVolume(newVolume);
-        System.out.println("Volume at: " + newVolume);
+//        System.out.println("Volume at: " + newVolume);
     }
 
 }

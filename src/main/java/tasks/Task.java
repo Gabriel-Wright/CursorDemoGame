@@ -21,6 +21,8 @@ public abstract class Task {
     public void setComplete() {
         complete = true;
     }
+    public void reset() {complete=false;
+    tick = 0;}
 
     public boolean isComplete() {
         return complete;

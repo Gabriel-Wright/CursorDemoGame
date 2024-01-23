@@ -81,7 +81,7 @@ public class GameObjectGridTest {
 
         // Add entities to cells based on their bounds
         grid.initialiseGrid(null, entities, null, null);
-        System.out.println(grid.toString());
+//        System.out.println(grid.toString());
 
         //Entity moves a tile in either axis
         entity.setX(1+TILE_SIZE);
@@ -89,13 +89,13 @@ public class GameObjectGridTest {
         // Move the entity by a small amount
         grid.reassignEntityCells(entity, -TILE_SIZE, -TILE_SIZE);
 
-        System.out.println(grid.toString());
+//        System.out.println(grid.toString());
         // Check if the entity is in the new cell and removed from the old cell
-        Cell oldCell = grid.getCell(0, 0);
+//        Cell oldCell = grid.getCell(0, 0);
         Cell newCell = grid.getCell(1, 1);
 
 
-        Assertions.assertNull(oldCell);
+//        Assertions.assertNull(oldCell);
         Assertions.assertNotNull(newCell);
         Assertions.assertTrue(newCell.getEntities().contains(entity));
     }

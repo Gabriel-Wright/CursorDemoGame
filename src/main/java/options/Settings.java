@@ -33,7 +33,7 @@ public class Settings {
         // Clear all preferences
         try {
             userRoot.clear();
-            System.out.println("Preferences cleared successfully.");
+//            System.out.println("Preferences cleared successfully.");
         } catch (Exception e) {
             System.err.println("Error clearing preferences: " + e.getMessage());
         }

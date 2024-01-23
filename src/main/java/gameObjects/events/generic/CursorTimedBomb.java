@@ -34,7 +34,7 @@ public class CursorTimedBomb extends PositionalEvent{
 
     @Override
     public void runEvent(Player player) {
-        System.out.println("Player cant disable it");
+//        System.out.println("Player cant disable it");
     }
 
     @Override

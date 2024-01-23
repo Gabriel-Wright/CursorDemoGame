@@ -38,13 +38,13 @@ public class Main {
         window.addWindowFocusListener(new WindowFocusListener() {
             @Override
             public void windowGainedFocus(WindowEvent e) {
-                System.out.println("IN FOCUS");
+//                System.out.println("IN FOCUS");
                 WINDOW_IN_FOCUS = true;
             }
 
             @Override
             public void windowLostFocus(WindowEvent e) {
-                System.out.println("LOST FOCUS");
+//                System.out.println("LOST FOCUS");
                 WINDOW_IN_FOCUS = false;
             }
         });
