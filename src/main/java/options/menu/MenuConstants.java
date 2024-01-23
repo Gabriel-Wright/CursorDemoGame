@@ -19,10 +19,10 @@ public class MenuConstants {
     public void loadMainMenu(SoundSettings soundSettings, ScoreReader scoreReader) {
         rootMain = new MenuNode("ROOT");
         MenuNode playNode = new MenuNode("PLAY");
-        MenuNode levelOneNode = new MenuNode("LEVEL 1");
+        MenuNode levelOneNode = new MenuNode("BASE LEVEL");
         LevelOneExecute levelOneExecute = new LevelOneExecute();
         levelOneNode.setExecuteChoice(levelOneExecute);
-        MenuNode levelTwoNode = new MenuNode("Level 2");
+        MenuNode levelTwoNode = new MenuNode("TEST LEVEL");
         MenuNode scores = new MenuNode("SCORES");
         ScoreNode leaderBoard = new ScoreNode(scoreReader);
         MenuNode optionNode = new MenuNode("OPTIONS");
@@ -49,8 +49,8 @@ public class MenuConstants {
 
         optionNode.addChildNode(volumeNode);
         rootPause.addChildNode(optionNode);
-        exitNode.setExecuteChoice(returnToMenu);
-        rootPause.addChildNode(exitNode);
+//        exitNode.setExecuteChoice(returnToMenu);
+//        rootPause.addChildNode(exitNode);
     }
 
     public MenuNode getRootMain() {

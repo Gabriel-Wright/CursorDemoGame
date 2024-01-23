@@ -4,11 +4,13 @@ import gameObjects.events.generic.*;
 import tasks.gameWaves.spawnTasks.SpawnPositionEvents;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static levels.LevelConstants.EASY_LEVEL;
 import static levels.LevelConstants.TEST_DEMICHROME;
 import static main.GamePanel.TILE_SIZE;
 import static main.GamePanel.UPS;
@@ -37,7 +39,7 @@ public class SpawnPositionalEventConstants{
 
     private int[] findPositionalEventIndexes(int id) {
         return switch(id) {
-            case TEST_DEMICHROME -> new int[] {RED_ZONE, CHARGE_ZONE, CURSOR_TIMER, PLAYER_TIMER};
+            case TEST_DEMICHROME, EASY_LEVEL -> new int[] {RED_ZONE, CHARGE_ZONE, CURSOR_TIMER, PLAYER_TIMER};
             default -> new int[]{CHARGE_ZONE};
         };
     }
@@ -85,6 +87,19 @@ public class SpawnPositionalEventConstants{
                 map.put(2,tempList2);
                 yield map;
             }
+            case EASY_LEVEL -> {
+                Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                tempList2.add(new PositionalEventSpawnInfo(12*TILE_SIZE, 6*TILE_SIZE, 3*TILE_SIZE, 3*TILE_SIZE));
+                map.put(1, tempList2);
+                ArrayList<PositionalEventSpawnInfo> tempList3 = new ArrayList<>();
+                tempList3.add(new PositionalEventSpawnInfo(29*TILE_SIZE, 6*TILE_SIZE, TILE_SIZE, 3*TILE_SIZE));
+                map.put(2, tempList3);
+                ArrayList<PositionalEventSpawnInfo> tempList4 = new ArrayList<>();
+                tempList4.add(new PositionalEventSpawnInfo(34*TILE_SIZE, 8*TILE_SIZE, 2*TILE_SIZE, TILE_SIZE));
+                map.put(3, tempList4);
+                yield map;
+            }
             default -> throw new IllegalStateException("Unexpected value: " + id);
         };
     }
@@ -102,6 +117,23 @@ public class SpawnPositionalEventConstants{
                 ArrayList<PositionalEventSpawnInfo> tempList3 = new ArrayList<>();
                 tempList3.add(new PositionalEventSpawnInfo(7*TILE_SIZE, 23*TILE_SIZE, 2*TILE_SIZE, 3*TILE_SIZE));
                 map.put(3,tempList3);
+                yield map;
+            }
+            case EASY_LEVEL -> {
+                Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
+                ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
+                tempList1.add(new PositionalEventSpawnInfo(27*TILE_SIZE, 18*TILE_SIZE, TILE_SIZE, 2*TILE_SIZE));
+                map.put(1, tempList1);
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                map.put(1,tempList1);
+                tempList2.add(new PositionalEventSpawnInfo(4*TILE_SIZE, 26*TILE_SIZE, 2*TILE_SIZE, TILE_SIZE));
+                map.put(2,tempList2);
+                ArrayList<PositionalEventSpawnInfo> tempList3 = new ArrayList<>();
+                tempList3.add(new PositionalEventSpawnInfo(49*TILE_SIZE, 22*TILE_SIZE, TILE_SIZE, 3*TILE_SIZE));
+                map.put(3,tempList3);
+                ArrayList<PositionalEventSpawnInfo> tempList4 = new ArrayList<>();
+                tempList4.add(new PositionalEventSpawnInfo(27*TILE_SIZE,4*TILE_SIZE,TILE_SIZE,TILE_SIZE));
+                map.put(4,tempList4);
                 yield map;
             }
             default -> throw new IllegalStateException("Unexpected value: " + id);
@@ -124,6 +156,40 @@ public class SpawnPositionalEventConstants{
                 map.put(2,tempList2);
                 yield map;
             }
+            case EASY_LEVEL -> {
+                Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
+                ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
+                //First combo of positions - around the spiral
+                tempList1.add(new PositionalEventSpawnInfo(24*TILE_SIZE,13*TILE_SIZE +4*TILE_SIZE/5, 6*TILE_SIZE, 2*TILE_SIZE/5));
+                tempList1.add(new PositionalEventSpawnInfo(24*TILE_SIZE,14*TILE_SIZE +4*TILE_SIZE/5, 5*TILE_SIZE, 2*TILE_SIZE/5));
+                tempList1.add(new PositionalEventSpawnInfo(29*TILE_SIZE+4*TILE_SIZE/5,14*TILE_SIZE, 2*TILE_SIZE/5,8*TILE_SIZE));
+                tempList1.add(new PositionalEventSpawnInfo(28*TILE_SIZE+4*TILE_SIZE/5,15*TILE_SIZE, 2*TILE_SIZE/5,6*TILE_SIZE));
+                tempList1.add(new PositionalEventSpawnInfo(25*TILE_SIZE, 21*TILE_SIZE+4*TILE_SIZE/5,5*TILE_SIZE, 2*TILE_SIZE/5));
+                tempList1.add(new PositionalEventSpawnInfo(26*TILE_SIZE, 20*TILE_SIZE+4*TILE_SIZE/5, 3*TILE_SIZE, 2*TILE_SIZE/5));
+                tempList1.add(new PositionalEventSpawnInfo(24*TILE_SIZE+4*TILE_SIZE/5, 16*TILE_SIZE, 2*TILE_SIZE/5, 6*TILE_SIZE));
+                tempList1.add(new PositionalEventSpawnInfo(25*TILE_SIZE + 4*TILE_SIZE/5, 17*TILE_SIZE, 2*TILE_SIZE/5, 4*TILE_SIZE));
+                map.put(1,tempList1);
+
+                //Second combo of positions
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                tempList2.add(new PositionalEventSpawnInfo(18*TILE_SIZE, 23*TILE_SIZE,7*TILE_SIZE, 2*TILE_SIZE));
+                tempList2.add(new PositionalEventSpawnInfo(29*TILE_SIZE, 23*TILE_SIZE, 2*TILE_SIZE, 6*TILE_SIZE));
+                map.put(2, tempList2);
+
+                ArrayList<PositionalEventSpawnInfo> tempList3 = new ArrayList<>();
+                tempList3.add(new PositionalEventSpawnInfo(8*TILE_SIZE,23*TILE_SIZE+4*TILE_SIZE/5,9*TILE_SIZE,2*TILE_SIZE/5));
+                tempList3.add(new PositionalEventSpawnInfo(15*TILE_SIZE + 4*TILE_SIZE/5,25*TILE_SIZE, 2*TILE_SIZE/5, 3*TILE_SIZE));
+                tempList3.add(new PositionalEventSpawnInfo(8*TILE_SIZE + 4*TILE_SIZE/5,26*TILE_SIZE, 2*TILE_SIZE/5, 2*TILE_SIZE));
+                tempList3.add(new PositionalEventSpawnInfo(9*TILE_SIZE+4*TILE_SIZE/5, 26*TILE_SIZE, 2*TILE_SIZE/5, 2*TILE_SIZE));
+                map.put(3, tempList3);
+
+                ArrayList<PositionalEventSpawnInfo> tempList4 = new ArrayList<>();
+                tempList4.add(new PositionalEventSpawnInfo(44*TILE_SIZE, 25*TILE_SIZE+4*TILE_SIZE/5, 3*TILE_SIZE, 2*TILE_SIZE/5));
+                tempList4.add(new PositionalEventSpawnInfo(47*TILE_SIZE + 4*TILE_SIZE/5, 23*TILE_SIZE,2*TILE_SIZE/5, 3*TILE_SIZE));
+                map.put(4, tempList4);
+
+                yield map;
+            }
             default -> throw new IllegalStateException("Unexpected value: " + id);
         };
     }
@@ -138,6 +204,20 @@ public class SpawnPositionalEventConstants{
                 ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
                 tempList2.add(new PositionalEventSpawnInfo(14*TILE_SIZE,23*TILE_SIZE,2*TILE_SIZE,2*TILE_SIZE));
                 map.put(2, tempList2);
+                yield map;
+            }
+            case EASY_LEVEL -> {
+                Map<Integer, ArrayList<PositionalEventSpawnInfo>> map = new HashMap<>();
+                ArrayList<PositionalEventSpawnInfo> tempList1 = new ArrayList<>();
+                tempList1.add(new PositionalEventSpawnInfo(44*TILE_SIZE, 21*TILE_SIZE, 2*TILE_SIZE, 2*TILE_SIZE));
+                map.put(1,tempList1);
+
+                ArrayList<PositionalEventSpawnInfo> tempList2 = new ArrayList<>();
+                tempList2.add(new PositionalEventSpawnInfo(24*TILE_SIZE, 6*TILE_SIZE, 2*TILE_SIZE, 2*TILE_SIZE));
+                map.put(2, tempList2);
+
+                ArrayList<PositionalEventSpawnInfo> tempList3 = new ArrayList<>();
+                tempList3.add(new PositionalEventSpawnInfo(18*TILE_SIZE, 26*TILE_SIZE, 2*TILE_SIZE, 2*TILE_SIZE));
                 yield map;
             }
             default -> throw new IllegalStateException("Unexpected value:" + id);

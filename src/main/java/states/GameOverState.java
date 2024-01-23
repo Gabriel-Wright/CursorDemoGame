@@ -2,8 +2,6 @@ package states;
 
 import gameObjects.entities.player.Player;
 import main.GamePanel;
-import options.menu.MenuListRenderer;
-import options.menu.MenuNodeRenderer;
 import options.menu.nodes.ScoreNode;
 import options.score.ScoreEntry;
 import options.score.ScoreReader;
@@ -20,7 +18,7 @@ public class GameOverState extends State{
     private GameState gameState;
 
 
-    private final Color gameOverColor = new Color(255,0,0,128);
+    private final Color gameOverColor = new Color(188,0,0,128);
     private ScoreNode scoreDisplay;
     private ScoreWriter scoreWriter;
     private String nameString ="";
@@ -69,7 +67,7 @@ public class GameOverState extends State{
 
     private void renderNameInput(Graphics g) {
         g.setFont(new Font("Arial",Font.PLAIN, TILE_SIZE*2));
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
         g.drawString("Please enter your name. SCORE: "+Player.SCORE,TILE_SIZE*4, (TARGET_SCREEN_HEIGHT/2)- TILE_SIZE*3);
         g.drawString(nameString, (TARGET_SCREEN_WIDTH/2) - TILE_SIZE*4, TARGET_SCREEN_HEIGHT/2);
     }

@@ -4,13 +4,15 @@ import main.GamePanel;
 import options.menu.execute.Executes;
 import states.GameState;
 
-import static levels.LevelConstants.EASY_LEVEL;
+import static levels.LevelConstants.TEST_DEMICHROME;
 
-public class LevelOneExecute implements Executes {
+public class TestLevelExecute implements Executes {
+
     @Override
     public void executeChoice() {
-        GameState.setLevelID(EASY_LEVEL);
-        GameState.setWavePoints(50);
+        GameState.setLevelID(TEST_DEMICHROME);
+        GameState.setWavePoints(100);
         GamePanel.startGame();
     }
+
 }

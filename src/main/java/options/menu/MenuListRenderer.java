@@ -52,6 +52,7 @@ public class MenuListRenderer {
         switch(numMenuOptions) {
             case 5,4  -> fontSize = 3*intervalY/4;
             case 3,2 -> fontSize = intervalY/3;
+            case 1 -> fontSize = intervalY/5;
         }
     }
 

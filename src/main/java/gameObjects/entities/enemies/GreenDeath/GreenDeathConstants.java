@@ -68,7 +68,7 @@ public class GreenDeathConstants extends EntityConstants {
 
     @Override
     public float getSpeed() {
-        float originalSpeed = (float) TILE_SIZE/32;
+        float originalSpeed = (float) TILE_SIZE/40;
         return Math.round(originalSpeed * 10.0) / 10.0f;
     }
 

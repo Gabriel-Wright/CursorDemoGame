@@ -12,14 +12,13 @@ public class WaveEntityManager extends WaveSpawnManager{
 
     private SpawnEntityConstants spawnEntityConstants;
     private int[] entityIndexes;
-    private Point[] entitySpawnLocations;
+    //Point pair passed to flag warning of new entities
     private PointPair[] entitySpawnLocationsPair;
 
     public WaveEntityManager(SpawnEntityConstants spawnEntityConstants, Random entityRandom) {
         super(entityRandom);
         this.spawnEntityConstants = spawnEntityConstants;
         this.entityIndexes = spawnEntityConstants.getSavedEntityIndexes();
-        this.entitySpawnLocations = spawnEntityConstants.getLoadedEntitySpawnPositions();
         this.entitySpawnLocationsPair = spawnEntityConstants.getLoadedPointPairs();
     }
 

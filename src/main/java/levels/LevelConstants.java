@@ -16,10 +16,10 @@ public class LevelConstants {
     private static final String MATRIX_ARRAY_NAME = "Tiles";
     public static final int TEST_LEVEL=0;
     public static final int TEST_DEMICHROME=1;
-
+    public static final int EASY_LEVEL = 2;
     public int[] getObjectReferences(int i) {
         switch(i) {
-            case TEST_LEVEL, TEST_DEMICHROME:
+            case TEST_LEVEL, TEST_DEMICHROME, EASY_LEVEL:
                 int[] objectReferences = {ObjectConstants.GUN};
                 return objectReferences;
         }
@@ -33,7 +33,7 @@ public class LevelConstants {
                 tileReferences = new TileConstants.TileType[]{TileConstants.TileType.LIGHT_BLUE, TileConstants.TileType.GREY, TileConstants.TileType.PURPLE, TileConstants.TileType.TRANSPARENT};
                 yield tileReferences;
             }
-            case TEST_DEMICHROME -> {
+            case TEST_DEMICHROME, EASY_LEVEL -> {
                 tileReferences = new TileConstants.TileType[]{TileConstants.TileType.DEMITRANSPARENT, TileConstants.TileType.SOLID_WALL,
                         TileConstants.TileType.SOLID_WALL_EXPOSED_LEFT, TileConstants.TileType.SOLID_WALL_EXPOSED_RIGHT, TileConstants.TileType.SOLID_WALL_EXPOSED_BOTTOM, TileConstants.TileType.SOLID_WALL_EXPOSED_TOP,
                         TileConstants.TileType.SOLID_WALL_EXPOSED_TOP_LEFT, TileConstants.TileType.SOLID_WALL_EXPOSED_TOP_RIGHT, TileConstants.TileType.SOLID_WALL_EXPOSED_BOTTOM_RIGHT, TileConstants.TileType.SOLID_WALL_EXPOSED_BOTTOM_LEFT,
@@ -65,7 +65,8 @@ public class LevelConstants {
 //                return "/levelMaps/testmap.csv";
 //                return "/levelMaps/mazeTest.csv";
                 return "/levelMaps/enemySpawns.csv";
-
+            case EASY_LEVEL:
+                return "/levelMaps/easyMap.csv";
         }
         return null;
     }
@@ -73,7 +74,7 @@ public class LevelConstants {
     public int[][] getLevelData(int i) {
         return switch(i) {
             case TEST_LEVEL -> getLevelJsonData(i);
-            case TEST_DEMICHROME -> getCSVData(i);
+            case TEST_DEMICHROME, EASY_LEVEL -> getCSVData(i);
             default -> getLevelJsonData(TEST_LEVEL);
         };
     }
