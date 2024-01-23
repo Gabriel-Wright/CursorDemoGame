@@ -9,6 +9,7 @@ import options.score.ScoreWriter;
 
 import java.awt.*;
 
+import static gameObjects.entities.player.Player.getSCORE;
 import static inputs.KeyHandler.*;
 import static main.GamePanel.*;
 import static main.GamePanel.TARGET_SCREEN_HEIGHT;
@@ -42,7 +43,6 @@ public class GameOverState extends State{
         reloadTypedText();
         GameState.updateGameBackground(Color.BLACK);
         unlockCursor();
-        Player.SCORE = 2000;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class GameOverState extends State{
     private void retrieveName() {
         nameString = String.valueOf(typedText);
         if(nameInputted) {
-            scoreWriter.saveScore(new ScoreEntry(nameString, Player.SCORE));
+            scoreWriter.saveScore(new ScoreEntry(nameString, getSCORE()));
             scoreDisplay.reloadScores();
             localNameInputted = true;
         }
@@ -68,7 +68,7 @@ public class GameOverState extends State{
     private void renderNameInput(Graphics g) {
         g.setFont(new Font("Arial",Font.PLAIN, TILE_SIZE*2));
         g.setColor(Color.WHITE);
-        g.drawString("Please enter your name. SCORE: "+Player.SCORE,TILE_SIZE*4, (TARGET_SCREEN_HEIGHT/2)- TILE_SIZE*3);
+        g.drawString("Please enter your name. SCORE: "+getSCORE(),TILE_SIZE*4, (TARGET_SCREEN_HEIGHT/2)- TILE_SIZE*3);
         g.drawString(nameString, (TARGET_SCREEN_WIDTH/2) - TILE_SIZE*4, TARGET_SCREEN_HEIGHT/2);
     }
 

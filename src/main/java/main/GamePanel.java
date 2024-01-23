@@ -145,8 +145,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void loadScores() {
         scoreWriter= new ScoreWriter();
-        scoreWriter.saveScore(new ScoreEntry("Mark", 35));
-        scoreWriter.saveScore(new ScoreEntry("Billy69", 32));
         scoreReader = new ScoreReader();
         scoreReader.readScores();
     }

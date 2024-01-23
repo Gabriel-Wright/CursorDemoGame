@@ -10,6 +10,7 @@ import ui.UI;
 import java.awt.*;
 import java.util.Random;
 
+import static gameObjects.entities.player.Player.resetSCORE;
 import static inputs.KeyHandler.isPaused;
 import static main.GamePanel.lockCursor;
 import static main.GamePanel.togglePause;
@@ -32,6 +33,7 @@ public class GameState extends State{
     public void initialiseState() {
         loadTestGame();
         isPaused = false;
+        resetSCORE();
     }
 
     @Override

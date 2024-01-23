@@ -3,6 +3,7 @@ package options.menu;
 import options.menu.execute.gameEnd.EndGame;
 import options.menu.execute.gameEnd.ReturnToMenu;
 import options.menu.execute.gameState.LevelOneExecute;
+import options.menu.execute.gameState.TestLevelExecute;
 import options.menu.nodes.MenuNode;
 import options.menu.nodes.ScoreNode;
 import options.menu.nodes.VolumeNode;
@@ -22,7 +23,9 @@ public class MenuConstants {
         MenuNode levelOneNode = new MenuNode("BASE LEVEL");
         LevelOneExecute levelOneExecute = new LevelOneExecute();
         levelOneNode.setExecuteChoice(levelOneExecute);
-        MenuNode levelTwoNode = new MenuNode("TEST LEVEL");
+        MenuNode testLevelNode = new MenuNode("TEST LEVEL");
+        TestLevelExecute testLevelExecute = new TestLevelExecute();
+        testLevelNode.setExecuteChoice(testLevelExecute);
         MenuNode scores = new MenuNode("SCORES");
         ScoreNode leaderBoard = new ScoreNode(scoreReader);
         MenuNode optionNode = new MenuNode("OPTIONS");
@@ -31,7 +34,7 @@ public class MenuConstants {
         EndGame endGame = new EndGame();
         quitNode.setExecuteChoice(endGame);
         playNode.addChildNode(levelOneNode);
-        playNode.addChildNode(levelTwoNode);
+        playNode.addChildNode(testLevelNode);
         optionNode.addChildNode(volumeToggle);
         scores.addChildNode(leaderBoard);
         rootMain.addChildNode(playNode);

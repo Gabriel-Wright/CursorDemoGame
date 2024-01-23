@@ -7,6 +7,7 @@ import ui.*;
 
 import java.awt.*;
 
+import static gameObjects.entities.player.Player.addSCORE;
 import static gameObjects.handler.GameObjectHandler.entityQueue;
 import static options.sound.SoundConstants.ENTITY_SPAWN;
 
@@ -25,6 +26,7 @@ public class SpawnEntity extends SpawnTask{
     }
 
     public void initialiseEntitySpawn(PointPair spawnPoint) {
+        addSCORE(getTaskValue());
         Point entitySpawn = spawnPoint.getPoint1();
         Point warningSpawn = spawnPoint.getPoint2();
         entity.setX(entitySpawn.x);
@@ -37,6 +39,7 @@ public class SpawnEntity extends SpawnTask{
         entityQueue.add(entity);
         TaskRunner.addTask(spawnSound);
     }
+
 
     @Override
     public void runTask() {

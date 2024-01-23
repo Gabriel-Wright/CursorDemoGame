@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static gameObjects.entities.player.Player.addSCORE;
 import static gameObjects.handler.GameObjectHandler.eventQueue;
 import static gameObjects.handler.GameObjectHandler.eventRemoveQueue;
 
@@ -29,6 +30,7 @@ public class SpawnPositionEvents extends SpawnTask{
     }
 
     public void initialiseEventSpawn(Point spawnIndexes) {
+        addSCORE(getTaskValue());
         complete = false;
         activeEventFlags = loadEventFlags(positionalEvents.size());
         this.spawnIndexes = spawnIndexes;

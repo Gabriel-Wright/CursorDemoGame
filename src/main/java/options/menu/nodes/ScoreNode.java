@@ -19,7 +19,8 @@ public class ScoreNode extends MenuNode {
     private int startY = TARGET_SCREEN_HEIGHT/8;
 
     private Rectangle scoreBox = new Rectangle(startX, startY, 2*TARGET_SCREEN_WIDTH/3, 3*TARGET_SCREEN_HEIGHT/4);
-    private int numDisplayedScores = 4;
+    private final int maxDisplayedScores = 4;
+    private int numDisplayedScores;
 
     public ScoreNode(ScoreReader scoreReader) {
         super("SCORE");
@@ -41,9 +42,7 @@ public class ScoreNode extends MenuNode {
     private void loadScoreEntries() {
         scores = scoreReader.readScores();
         int numScoreEntires = scores.size();
-        if(numScoreEntires<numDisplayedScores) {
-            numDisplayedScores = numScoreEntires;
-        }
+        numDisplayedScores = Math.min(numScoreEntires, maxDisplayedScores);
     }
 
     private void loadFont() {
