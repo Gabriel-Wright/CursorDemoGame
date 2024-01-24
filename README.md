@@ -16,10 +16,12 @@ This repository showcases a Java 20 game demo built with Maven, featuring graphi
 ## Usage
 - Use your mouse by holding left mouse button to attack enemies 
 ![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/ef640cb5-f9ec-48fd-bf7f-352c7e2fdaba)
-- Complete tasks with your mouse and player character. A purple block must be turned off by a player, and a pink by the cursor.
+- Complete tasks with your mouse and player character. 
 ![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/de3e43f5-9b5e-40d8-94c0-faf7d5fca1b5)
+A purple block must be turned off by a player, and a pink by the cursor.
 ![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/17d74ab9-e209-43a2-9343-7572bca1d687)
 - Avoid hitting red zones with your cursor, this causes you to lose charge needed to kill threatening entities
+![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/6cd25b19-be39-4436-b4c8-fe90390d7127)
 ## License
 
 ## Acknowledgements
