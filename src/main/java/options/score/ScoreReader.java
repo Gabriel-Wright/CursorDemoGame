@@ -48,7 +48,7 @@ public class ScoreReader {
     private void printScores(ArrayList<ScoreEntry> scores) {
         int index = 1;
         for(ScoreEntry score: scores) {
-            System.out.println(index + ")" + score.getName() +":"+score.getScore());
+//            System.out.println(index + ")" + score.getName() +":"+score.getScore());
             index++;
         }
     }

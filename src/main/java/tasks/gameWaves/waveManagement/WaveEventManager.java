@@ -29,7 +29,7 @@ public class WaveEventManager extends WaveSpawnManager{
         eventIndexes = spawnPositionalEventConstants.getEventIndexes();
         spawnPositionalEventsMap = spawnPositionalEventConstants.getSpawnPositionsEventsMap();
         loadAvailablEvents();
-        System.out.println("Available events.size:" + availableKeys.size());
+//        System.out.println("Available events.size:" + availableKeys.size());
     }
 
     private void loadAvailablEvents() {

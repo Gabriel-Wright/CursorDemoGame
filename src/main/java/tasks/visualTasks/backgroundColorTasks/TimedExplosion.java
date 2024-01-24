@@ -48,7 +48,7 @@ public class TimedExplosion extends Task{
     public void checkComplete() {
         if(tick == explosionRate) {
             complete = true;
-            System.out.println("GAME OVER");
+//            System.out.println("GAME OVER");
             GamePanel.gameOver();
         }
     }

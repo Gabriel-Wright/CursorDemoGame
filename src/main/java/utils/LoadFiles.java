@@ -27,14 +27,14 @@ public class LoadFiles {
             spriteSheet = ImageIO.read(is);
         } catch (IOException e) {
             //Switch this to logs?
-            System.out.println("Failed to load sprite ");
+//            System.out.println("Failed to load sprite ");
             e.printStackTrace();
         } finally {
             try {
                 is.close();
             } catch(IOException e) {
                 //Switch this to logs
-                System.out.println("Failed to close inputStream");
+//                System.out.println("Failed to close inputStream");
                 e.printStackTrace();
             }
         }

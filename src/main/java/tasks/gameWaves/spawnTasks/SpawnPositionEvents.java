@@ -35,7 +35,7 @@ public class SpawnPositionEvents extends SpawnTask{
         activeEventFlags = loadEventFlags(positionalEvents.size());
         this.spawnIndexes = spawnIndexes;
         loadInitialEvents();
-        System.out.println("Adding positionalEvents:" + positionalEvents.size());
+//        System.out.println("Adding positionalEvents:" + positionalEvents.size());
         eventQueue.addAll((positionalEvents));
     }
 

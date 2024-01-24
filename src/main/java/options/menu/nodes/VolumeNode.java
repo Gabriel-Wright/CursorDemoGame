@@ -26,13 +26,13 @@ public class VolumeNode extends MenuNode {
         this.triggerBox = triggerBox;
         sliderWidthBox = new Rectangle(triggerBox.x+triggerBox.width/4, triggerBox.y+triggerBox.height/2, triggerBox.width/2, triggerBox.height/8);
         float volume = soundSettings.getVolume();
-        System.out.println("Initial volume" + volume);
+//        System.out.println("Initial volume" + volume);
         sliderHeightBox = new Rectangle((int) (sliderWidthBox.x - sliderWidthBox.x/16 + volume * (float) sliderWidthBox.width),
                 sliderWidthBox.y-(sliderWidthBox.height)/2,
                 sliderWidthBox.width/8,
                 sliderWidthBox.height*2);
-        System.out.println("SliderWidthBox.x:" + sliderWidthBox.x);
-        System.out.println("SliderHeightBox.x:"+sliderHeightBox.x);
+//        System.out.println("SliderWidthBox.x:" + sliderWidthBox.x);
+//        System.out.println("SliderHeightBox.x:"+sliderHeightBox.x);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class VolumeNode extends MenuNode {
                 // Ensure the percentage is within the valid range [0.0, 1.0]
                 percentage = Math.max(0.0f, Math.min(1.0f, percentage));
 
-                System.out.println("Percentage: " + percentage);
+//                System.out.println("Percentage: " + percentage);
 
                 // Set the volume based on the percentage
                 soundSettings.setVolume(percentage);

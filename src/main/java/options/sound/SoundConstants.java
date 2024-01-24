@@ -47,7 +47,7 @@ public class SoundConstants {
     public void adjustVolume(float volume) {
         int i;
         if(preLoadedAudioClips.length != numAudioClips) {
-            System.out.println("Could not adjust volume, mismatch of number of clips");
+//            System.out.println("Could not adjust volume, mismatch of number of clips");
             return;
         }
         for(i=0; i<numAudioClips; i++) {
