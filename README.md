@@ -5,23 +5,39 @@ This repository showcases a Java 20 game demo built with Maven, featuring graphi
 
 ## Current Features
 - Cursor and entity collision! The cursor is your weapon, use it to protect the player from other entities! The cursor cannot pass through walls, so you must multitask to control both the player object (the square) and the player cursor (the circle) to survive.
-![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/87e94bdb-1e7f-4967-a7e3-654dc0e9d4db)
 - Entity pathfinding, using A* search algorithm
-![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/0f181012-5e82-4b3b-8414-8731c0a8aae1)
 - Spawn events occur in waves, with a score based system based on how long you survive.
-![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/7ab0883e-16a7-4eac-bce6-a3a750176094)
 
 ## Milestones 🎯
+- Display and control player character ✅
+- Display map ✅
+- Add collisions between gameObjects and level tiles ✅
+- Create GameObjectHandler to resolve all gameObject updates, including collisions between gameObjects ✅
+- Display objects ✅
+- Add background Task events, including ui and sound ✅
+- Add cursor "shooting" ✅
+- Add cursor tile and gameObject collision ✅
+- Handle loading of gameStates and switching between gameStates ✅
+- Menu and options settings ✅
+- Add scoring system ✅
+- WaveManager system to trigger spawning of events and entities ✅
+- Improved UI, and sound indicators for when trigger events need to be completed i.e. a countdown effect
+- Balancing and more custom events
+- Better level loading system - refactor main game loop to inject constants instead of instantiating within manager classes for tiles, level etc.
+- Game Objects that change player stats, give boost or kill multiple enemies
+- Random object spawning
+- Improved visuals, better assets
+- Multiple entities
+- Have the camera move the game to a new part of the level
 
 ## Getting started
-- Clone the repository:
-git clone https://github.com/your-username/your-repo.git
+- Clone the repository
 
 - Build the project using Maven:
 mvn clean install
 
-- Run the game:
-java -jar target/your-game.jar
+- Run the created jar using java
+java -jar (inputted jar name).jar
 
 ## Usage
 - Use your mouse by holding left mouse button to attack enemies.
@@ -40,7 +56,7 @@ A purple block must be turned off by a player, and a pink by the cursor.
 ![image](https://github.com/Gabriel-Wright/CursorDemoGame/assets/54595455/6cd25b19-be39-4436-b4c8-fe90390d7127)
 
 ## License
-
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/#)
 ## Acknowledgements
 - [RyiSnow's Java Game Development Youtube Series](https://www.youtube.com/playlist?list=PL_QPQmz5C6WUF-pOQDsbsKbaBZqXj4qSq) followed at the start for initial gameLoop
 
