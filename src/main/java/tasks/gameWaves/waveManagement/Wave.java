@@ -2,8 +2,6 @@ package tasks.gameWaves.waveManagement;
 
 import gameObjects.entities.player.Player;
 import tasks.Task;
-import tasks.TaskRunner;
-import tasks.gameWaves.spawnConstants.PositionalEventSpawnInfo;
 import tasks.gameWaves.spawnConstants.SpawnConstants;
 import ui.UITagManager;
 import ui.UITagTask;
@@ -11,9 +9,8 @@ import ui.UITagTask;
 import java.util.*;
 
 import static main.GamePanel.UPS;
-import static main.GamePanel.setCurrentState;
 
-public class WaveManager extends Task {
+public class Wave extends Task {
 
     //Wave round value and random seed value
     private int waveRound;
@@ -49,7 +46,7 @@ public class WaveManager extends Task {
     private UITagTask roundStart;
     private UITagTask roundEnd;
 
-    public WaveManager(int waveRound, int wavePoints, int seed) {
+    public Wave(int waveRound, int wavePoints, int seed) {
         this.waveRound = waveRound;
         this.wavePointsStart = wavePoints;
         this.wavePoints = wavePoints;

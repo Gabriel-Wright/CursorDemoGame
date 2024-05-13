@@ -1,10 +1,9 @@
 package states;
 
-import levels.LevelConstants;
 import levels.LevelManager;
 import main.GamePanel;
 import tasks.TaskRunner;
-import tasks.gameWaves.waveManagement.WaveManager;
+import tasks.gameWaves.waveManagement.Wave;
 import ui.UI;
 
 import java.awt.*;
@@ -19,7 +18,7 @@ public class GameState extends State{
 
     private TaskRunner taskHandler;
     private LevelManager levelManager;
-    private WaveManager waveManager;
+    private Wave waveManager;
     private UI gameUI;
     private int level;
     private int gameSeed = 1;
@@ -68,7 +67,7 @@ public class GameState extends State{
     }
 
     private void loadWaveManager(int waveRound, int wavePoints) {
-        waveManager = new WaveManager(waveRound, wavePoints, gameSeed);
+        waveManager = new Wave(waveRound, wavePoints, gameSeed);
         waveManager.loadRandomGenerators();
         waveManager.loadSpawnConstants(level);
         TaskRunner.addTask(waveManager);

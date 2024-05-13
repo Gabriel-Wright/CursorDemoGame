@@ -183,7 +183,7 @@ public class GameCursor {
         }
         g.fillOval(mouseX - radius, mouseY - radius, radius * 2, radius * 2);
         //Temporary killmetre indicator
-//        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*44,(int)TILE_SIZE*25);
+        g.drawString(mouseKillMetre+"",(int)TILE_SIZE*44,(int)TILE_SIZE*25);
 
         if(hitboxToggle) {
             g.drawRect(mouseX+cursorHitbox.x, mouseY+cursorHitbox.y, cursorHitbox.width,cursorHitbox.height);

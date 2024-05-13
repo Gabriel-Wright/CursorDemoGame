@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 
+import static inputs.KeyHandler.playerPosInfo;
 import static main.GamePanel.*;
 import static main.GamePanel.TILE_SIZE;
 
@@ -82,6 +83,11 @@ public class Level {
                         (int) (x * TILE_SIZE - levelCamera.getxOffset()),
                         (int) (y * TILE_SIZE - levelCamera.getyOffset()),
                         TILE_SIZE, TILE_SIZE, null);
+                if(playerPosInfo) {
+                    g.drawRect((int) (x * TILE_SIZE - levelCamera.getxOffset()),
+                            (int) (y * TILE_SIZE - levelCamera.getyOffset()),
+                            TILE_SIZE, TILE_SIZE);
+                }
             }
         }
 
